@@ -1,0 +1,792 @@
+<!DOCTYPE doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+   <title>
+    GRADE REPORT
+   </title>
+   <!-- <link rel="stylesheet" href="style.css"> -->
+   <style>
+    nav, header, section, footer {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			width: 100%;
+		}
+
+		.two_column {
+			-webkit-column-count: 2; /* Chrome, Safari, Opera */
+		    -moz-column-count: 2; /* Firefox */
+		    column-count: 2;
+		}
+
+		.result {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			width: 60%;
+			padding-top: 10%;
+			padding-bottom: 10%;
+		}
+
+		.pass {
+			color: green;
+		}
+		
+		.fail {
+			color: red;
+		}
+
+		.hidden {
+			display: none;
+		}
+		.visible {
+			display: visible;
+			-webkit-animation: fadein 2s; /* Chrome, Safari, Opera */
+		}
+   </style>
+  </meta>
+ </head>
+ <body onhashchange="load();">
+  <!-- Navigation -->
+  <nav>
+   <button onclick="incrementResults(-1)">
+    Previous Results
+   </button>
+   <!-- Selector gets populated by Beautiful Soup 4 -->
+   <select id="selector" onchange="changeResults(this.value)">
+    <option selected="selected" value="Chart">
+     Chart
+    </option>
+    <option value="0">
+     2015-03-22 01:05:29.217692
+    </option>
+    <option value="1">
+     2015-03-22 16:17:15.945363
+    </option>
+    <option value="2">
+     2015-03-23 21:09:15.302669
+    </option>
+   </select>
+   <button onclick="incrementResults(1)">
+    Next Results
+   </button>
+  </nav>
+  <!-- Results -->
+  <section id="results">
+   <div id="carousel">
+    <h1>
+     Results
+    </h1>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 0
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-03-22 01:05:29.217692
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue63
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 1:
+Test 1 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: naive_producer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 2:
+Test 2, waiting on producer...
+Test 2, waiting on consumer...
+Test 2 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue_dequeue64
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 3:
+Test 3, enqueueing 64 tasks...
+Test 3, dequeing 64 tasks...
+Test 3, enqueueing 'poison-pill' NULL task
+Test 3, dequeueing NULL task (should never block)
+Test 3 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: produer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 4:
+Producer starting
+Producer starting
+Test4, consumer starting up
+Test 4, waiting on producer 1...
+Test4, consumer starting up
+Test 4, producer quiting
+Test 4, consumer got 11052 values
+Test 4, producer quiting
+Test 4, consumer: NULL value-&gt; quitting
+Test 4, waiting on producer 2...
+Test 4, waiting on consumer 1...
+Test 4, waiting on consumer 2...
+Test 4, total consumed  11052 values
+Test 4, total sum 100010000 values
+Test 4 passed
+Test 4, consumer got
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: queue_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       ==9329== Memcheck, a memory error detector
+==9329== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==9329== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==9329== Command: ./mpmerge/test_svn/nunni2/mpmerge/runtestqueue 1 --leak-check=full
+==9329== 
+==9329== 
+==9329== HEAP SUMMARY:
+==9329==     in use at exit: 0 bytes in 0 blocks
+==9329==   total heap usage: 1 allocs, 1 frees, 272 bytes allocated
+==9329== 
+==9329== All heap blocks were freed -- no leaks are possible
+==9329== 
+==9329== For counts of detected and suppressed errors, rerun with: -v
+==9329== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: small_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       NICE !
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: medium_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       NICE !!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: large_data_merge
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       FAILED TO BEAT THE BASELINE
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: merge_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       ==9452== Memcheck, a memory error detector
+==9452== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==9452== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==9452== Command: ./mpmerge/test_svn/nunni2/mpmerge/mpsort -4 mpmerge/test_svn/nunni2/mpmerge/data/rnd8192.txt --leak-check=full
+==9452== 
+==9452== 
+==9452== HEAP SUMMARY:
+==9452==     in use at exit: 0 bytes in 0 blocks
+==9452==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==9452== 
+==9452== All heap blocks were freed -- no leaks are possible
+==9452== 
+==9452== For counts of detected and suppressed errors, rerun with: -v
+==9452== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 0
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-03-22 16:17:15.945363
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue63
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 1:
+Test 1 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: naive_producer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 2:
+Test 2, waiting on producer...
+Test 2, waiting on consumer...
+Test 2 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue_dequeue64
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 3:
+Test 3, enqueueing 64 tasks...
+Test 3, dequeing 64 tasks...
+Test 3, enqueueing 'poison-pill' NULL task
+Test 3, dequeueing NULL task (should never block)
+Test 3 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: produer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Test 4:
+Producer starting
+Producer starting
+Test4, consumer starting up
+Test 4, waiting on producer 1...
+Test4, consumer starting up
+Test 4, producer quiting
+Test 4, consumer got 10720 values
+Test 4, consumer: NULL value-&gt; quitting
+Test 4, consumer got 9280 values
+Test 4, consumer: NULL value-&gt; quitting
+Test 4, producer quiting
+Test 4, waiting on producer 2...
+Test 4, waiting on consumer 1...
+Test 4, waiting on consumer 2...
+Test 4, total consumed  20000 values
+Test 4, total sum 100010000 values
+Test 4 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: queue_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       ==27263== Memcheck, a memory error detector
+==27263== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==27263== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==27263== Command: ./mpmerge/test_svn2/nunni2/mpmerge/runtestqueue 1 --leak-check=full
+==27263== 
+==27263== 
+==27263== HEAP SUMMARY:
+==27263==     in use at exit: 0 bytes in 0 blocks
+==27263==   total heap usage: 1 allocs, 1 frees, 272 bytes allocated
+==27263== 
+==27263== All heap blocks were freed -- no leaks are possible
+==27263== 
+==27263== For counts of detected and suppressed errors, rerun with: -v
+==27263== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: small_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       NICE !
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: medium_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       NICE !!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: large_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 12.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       BEAT THE BASELINE!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: merge_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       ==27386== Memcheck, a memory error detector
+==27386== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==27386== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==27386== Command: ./mpmerge/test_svn2/nunni2/mpmerge/mpsort -4 mpmerge/test_svn2/nunni2/mpmerge/data/rnd8192.txt --leak-check=full
+==27386== 
+==27386== 
+==27386== HEAP SUMMARY:
+==27386==     in use at exit: 0 bytes in 0 blocks
+==27386==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==27386== 
+==27386== All heap blocks were freed -- no leaks are possible
+==27386== 
+==27386== For counts of detected and suppressed errors, rerun with: -v
+==27386== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 9878
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-03-23 21:09:15.302669
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue63
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Enqueueing 63 numbers
+Test 1:
+Test 1 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: naive_producer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Trys to create buffer under or over flow
+Test 2:
+Test 2, waiting on producer...
+Test 2, waiting on consumer...
+Test 2 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: enqueue_dequeue64
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Enqueueing 64 numbers, then Dequeing 64 numbers
+Test 3:
+Test 3, enqueueing 64 tasks...
+Test 3, dequeing 64 tasks...
+Test 3, enqueueing 'poison-pill' NULL task
+Test 3, dequeueing NULL task (should never block)
+Test 3 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: produer_consumer
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Trys hard to create buffer under or over flow
+Test 4:
+Producer starting
+Producer starting
+Test4, consumer starting up
+Test 4, waiting on producer 1...
+Test4, consumer starting up
+Test 4, producer quiting
+Test 4, producer quiting
+Test 4, consumer got 10347 values
+Test 4, consumer: NULL value-&gt; quitting
+Test 4, consumer got 9653 values
+Test 4, consumer: NULL value-&gt; quitting
+Test 4, waiting on producer 2...
+Test 4, waiting on consumer 1...
+Test 4, waiting on consumer 2...
+Test 4, total consumed  20000 values
+Test 4, total sum 100010000 values
+Test 4 passed
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: queue_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing queue memomery management
+==18861== Memcheck, a memory error detector
+==18861== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==18861== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==18861== Command: ./mpmerge/test_svn/nunni2/mpmerge/runtestqueue 1 --leak-check=full
+==18861== 
+==18861== 
+==18861== HEAP SUMMARY:
+==18861==     in use at exit: 0 bytes in 0 blocks
+==18861==   total heap usage: 1 allocs, 1 frees, 272 bytes allocated
+==18861== 
+==18861== All heap blocks were freed -- no leaks are possible
+==18861== 
+==18861== For counts of detected and suppressed errors, rerun with: -v
+==18861== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: small_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing multithreaded mergesort with 8192 random integers
+PASSED !!!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: medium_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing multithreaded mergesort with 1 million random integers
+PASSED !!!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: large_data_merge
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 12
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing multithreaded mergesort with 1 million random integers
+BEAT THE BASELINE!!!
+PASSED !!!
+      </textarea>
+     </div>
+     <div id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: merge_memory_check
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 6.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing merge memomery management
+==18926== Memcheck, a memory error detector
+==18926== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==18926== Using Valgrind-3.9.0 and LibVEX; rerun with -h for copyright info
+==18926== Command: ./mpmerge/test_svn/nunni2/mpmerge/mpsort -4 mpmerge/shared_data/8192.txt --leak-check=full
+==18926== 
+==18926== 
+==18926== HEAP SUMMARY:
+==18926==     in use at exit: 0 bytes in 0 blocks
+==18926==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+==18926== 
+==18926== All heap blocks were freed -- no leaks are possible
+==18926== 
+==18926== For counts of detected and suppressed errors, rerun with: -v
+==18926== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 3 from 3)
+      </textarea>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- // <script src="script.js"></script> -->
+  <script type="text/javascript">
+   function getDirectChildren(){
+			var carousel = document.getElementById('carousel');
+			var child_divs = carousel.getElementsByTagName('div');
+			var direct_children = [];
+			for (i=0; i<child_divs.length;i++){
+				var className = child_divs[i].getAttribute("class")
+				if (className == "visible result" || className == "hidden result"){
+					direct_children.push(child_divs[i]);
+				}
+			}
+			return direct_children;
+		}
+
+		function getCurrentResultIndex(){
+			var direct_children = getDirectChildren();
+			var current_index = -1;
+			// alert("number of results: "+direct_children.length)
+			for (i=0; i<direct_children.length;i++){
+				var div = direct_children[i];
+				if(div.getAttribute("class") == "visible result"){
+					current_index = i;
+					break;
+				}
+			}
+			return current_index;
+		}
+
+		function incrementResults(amount){
+			// alert("hi");
+			var direct_children = getDirectChildren();
+			var current_index = getCurrentResultIndex();
+			// alert("current_index: "+current_index)
+			var next_index = ((current_index+amount)%direct_children.length+direct_children.length)%direct_children.length;
+			// alert("next_index: " + next_index)
+			change_page(next_index);
+		}
+
+		function changeResults(destination){
+			var direct_children = getDirectChildren();
+			var current_index = getCurrentResultIndex();
+			var diff = destination - current_index;
+			incrementResults(diff);
+		}
+
+		function load(){
+			var page_number = location.hash.split("#")[1];
+			if(page_number == null){
+				change_page(0);
+			}
+			if(!isNaN(page_number)){
+				change_page(parseInt(page_number));
+			}
+		}
+
+		function change_page(page_number){
+			if(page_number == "Chart"){
+				window.location.replace("thumbs.html");
+				return;
+			}
+			direct_children = getDirectChildren();
+			for (i=0; i<direct_children.length;i++){
+				var div = direct_children[i];
+				div.className = "hidden result";
+			}
+			next_div = direct_children[page_number];
+			next_div.className = "visible result";
+			document.getElementById('selector').value = page_number.toString();
+			location.hash = "#"+page_number.toString();
+		}
+  </script>
+ </body>
+</html>

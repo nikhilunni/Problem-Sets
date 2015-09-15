@@ -1,0 +1,4 @@
+nunni2 total : 60/60
+mandelbrot test	60/60	Achived 3.009449x+ speedup	
+
+SUBMITTED ON TIME

@@ -1,0 +1,6 @@
+xori	
+Xor Immediate
+I-type
+opcode: 0x0e
+
+R[rd] = R[rs] ^ SignExtendedImmediate

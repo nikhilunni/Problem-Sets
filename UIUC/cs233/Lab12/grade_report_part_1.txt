@@ -1,0 +1,8 @@
+Grades for version committed on time
+	move_correctly: 10 / 10
+		Passed movement test
+	updates_correctly: 10 / 10
+		Passed
+Total: 20.0 / 20
+
+Final Score: 20.0 / 20

@@ -1,0 +1,19 @@
+Grades for version committed on time
+	unit_tests: 16 / 16
+		unit tests: 16/16
+		
+		
+	four_caches: 64 / 64
+		write-back, write-around tests	16/16
+		
+		write-through, write-allocate tests	16/16
+		
+		write-back, write-allocate tests	16/16
+		
+		write-through, write-around tests	16/16
+		
+		
+		
+Total: 80.0 / 80
+
+Final Score: 80.0 / 80

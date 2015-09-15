@@ -1,0 +1,11 @@
+Grades for version committed on time
+	compute_stats: 45.0 / 60.0
+		Passed Test: NULL
+		Passed Test: small tree
+		Passed Test: giant tree
+		Passed Test: small tree (evil)
+		Failed Test: giant tree (evil)
+		
+Total: 45.0 / 60.0
+
+Final Score: 45.0 / 60.0

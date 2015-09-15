@@ -1,0 +1,20 @@
+nunni2
+
+Attendance:				015/015
+	Meeting 1:			006/006
+	Meeting 2:			006/006
+	Meeting 3:			003/003
+
+Parallel Sort:			030/035
+	Passing Tests:		020/020
+	Beating Baseline:	010/010
+	Top 5?:				000/005
+
+Data Structure:			050/050
+	Check In:			010/010
+	Dictionary:			100/100
+	Priority Queue:		018/100
+	Maximum (Scaled):	020/020
+	Presentation:		020/020
+
+Total:					095/100

@@ -1,0 +1,68 @@
+Monad Autograder
+Testing lab_dict at 2014-04-01 14:29:01
+
+"A computer will do what you tell it to do, but that may be much different from what you had in mind" ~ Joseph Weizenbaum
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+test_get_anagrams . . . [15 pts] - passed
+test_get_all_anagrams . [15 pts] - passed
+test_fib  . . . . . . . [5 pts]  - passed
+test_memoized_fib . . . [10 pts] - passed
+test_homophones . . . . [10 pts] - passed
+test_cartalk_puzzle . . [10 pts] - passed
+test_delete_users . . . [5 pts]  - passed
+test_login_logout_users [5 pts]  - passed
+test_make_party . . . . [5 pts]  - FAILED: unit_tests.cpp:143: Assertion ("" != g.make_party(team)) failed
+test_make_match . . . . [5 pts]  - FAILED: unit_tests.cpp:165: Assertion (NULL_MATCH_ID != match_id1) failed
+test_get_user_stats . . [5 pts]  - FAILED: unit_tests.cpp:176: Assertion (INVALID_USERNAME == g.get_user_stats("mjoras", us)) failed
+test_find_match . . . . [10 pts] - FAILED: unit_tests.cpp:201: Assertion (party1 != "" && party2 != "") failed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 75
+
+
+
+Detailed test output...
+================================================================
+----------------------------------------------------------------
+test_make_party [5 points]
+Result: FAILED: unit_tests.cpp:143: Assertion ("" != g.make_party(team)) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_make_match [5 points]
+Result: FAILED: unit_tests.cpp:165: Assertion (NULL_MATCH_ID != match_id1) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_get_user_stats [5 points]
+Result: FAILED: unit_tests.cpp:176: Assertion (INVALID_USERNAME == g.get_user_stats("mjoras", us)) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_find_match [10 points]
+Result: FAILED: unit_tests.cpp:201: Assertion (party1 != "" && party2 != "") failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+Total score...
+================================================================
+TOTAL SCORE: 75
+

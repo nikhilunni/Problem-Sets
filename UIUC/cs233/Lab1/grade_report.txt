@@ -1,0 +1,7 @@
+Grades for version committed on time
+	sc2_block: 8 / 8
+	blackbox: 8 / 8
+	Total: 16.0 / 16
+
+
+Final Score: 16.0

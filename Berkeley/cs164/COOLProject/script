@@ -1,0 +1,2 @@
+pbpaste > stack.cl;
+scp stack.cl cs164-es@cory.eecs.berkeley.edu:PA1/stack.cl

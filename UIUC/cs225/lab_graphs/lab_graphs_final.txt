@@ -1,0 +1,65 @@
+Monad Autograder
+Testing lab_graphs at 2014-05-05 10:53:35
+
+"Measuring programming progress by lines of code is like measuring aircraft building progress by weight." ~ Bill Gates
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+minWeight_OneEdge_ReturnValue . [10 pts] - passed
+minWeight_OneEdge_EdgeLabel . . [10 pts] - passed
+minWeight_MultiEdge_ReturnValue [10 pts] - passed
+minWeight_MultiEdge_EdgeLabels  [15 pts] - passed
+minPath_OneEdge_ReturnValue . . [10 pts] - passed
+minPath_OneEdge_EdgeLabel . . . [10 pts] - passed
+minPath_MultiEdge_ReturnValue . [10 pts] - FAILED: unit_tests.cpp:82: Assertion (GraphTools::findShortestPath(graph, 6, 4) == 4) failed
+minPath_MultiEdge_EdgeLabels  . [10 pts] - FAILED: unit_tests.cpp:102: Assertion (edge->label != "MINPATH") failed
+kruskal_all . . . . . . . . . . [15 pts] - passed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 80
+
+
+
+Detailed test output...
+================================================================
+----------------------------------------------------------------
+minPath_MultiEdge_ReturnValue [10 points]
+Result: FAILED: unit_tests.cpp:82: Assertion (GraphTools::findShortestPath(graph, 6, 4) == 4) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+From:  (VISITED) to  (UNVISITED) is : 10234433
+From:  (VISITED) to  (UNVISITED) is : 2
+From:  (VISITED) to  (UNVISITED) is : 3
+From:  (VISITED) to  (UNVISITED) is : 2
+From:  (VISITED) to  (UNVISITED) is : 3
+From:  (VISITED) to  (UNVISITED) is : 4
+From:  (VISITED) to  (UNVISITED) is : 5
+
+----------------------------------------------------------------
+minPath_MultiEdge_EdgeLabels [10 points]
+Result: FAILED: unit_tests.cpp:102: Assertion (edge->label != "MINPATH") failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+From:  (VISITED) to  (UNVISITED) is : 10234433
+From:  (VISITED) to  (UNVISITED) is : 10234433
+From:  (VISITED) to  (UNVISITED) is : 10234433
+From:  (VISITED) to  (UNVISITED) is : 10234433
+From:  (VISITED) to  (UNVISITED) is : 2
+From:  (VISITED) to  (UNVISITED) is : 3
+From:  (VISITED) to  (UNVISITED) is : 2
+
+
+----------------------------------------------------------------
+Total score...
+================================================================
+TOTAL SCORE: 80
+

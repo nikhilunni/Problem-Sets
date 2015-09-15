@@ -1,0 +1,6 @@
+nunni2 total : 80/80
+filter	80/80	filter_prefetch: achieved the target speedup
+filter_fusion: achieved the target speedup
+filter_all: achieved the target speedup	
+
+SUBMITTED ON TIME

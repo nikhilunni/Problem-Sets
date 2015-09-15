@@ -1,0 +1,29 @@
+lwsin   rt, imm16(rs)
+Load word and skip if negative
+I-type
+opcode: 6'h3b
+
+`define OP_LWSIN    6'h3b
+
+R[rt] = M[R[rs] + SignExtend(imm16)]
+if M[R[rs] + SignExtend(imm16)] < 0:
+   PC = PC + 8
+
+
+RegDst = 0
+ALUSrc = 1
+MemToReg = 1
+MemRead = 1(, MemWrite = 0)
+
+
+module mips_decode(ALUOp, RegWrite, BEQ, ALUSrc, MemRead, MemWrite, MemToReg, RegDst, 
+		   opcode, funct);
+
+   output [2:0] ALUOp;
+   output 	RegWrite, BEQ, ALUSrc, MemRead, MemWrite, MemToReg, RegDst;
+   input  [5:0] opcode, funct;
+
+   given_decode given(ALUOp, RegWrite, BEQ, ALUSrc, MemRead, MemWrite, MemToReg, RegDst, 
+		opcode, funct);
+   
+endmodule // mips_decode

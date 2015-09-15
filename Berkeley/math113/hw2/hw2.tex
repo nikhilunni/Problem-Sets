@@ -1,0 +1,172 @@
+\input{../math113.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Homework \#2}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+\item Let V denote the set of vectors $\langle x,y,z\rangle$ in $\mathds{R}^3$
+, with the operations of addition and subtraction.
+(Though vectors also have scalar multiplication, you can ignore that for this problem.)
+Consider the relation\\
+$\langle x_1, y_1, z_i\rangle \sim \langle x_2,y_2,z_2 \rangle$ if and only if $x_1-x_2 = y_1 - y_2 + k = z_1 - z_2 + 2k$ for some $k \in \mathds{R}$.
+
+\begin{enumerate}
+\item Show that $\sim$ is an equivalence relation on V.\\
+
+To show that $\sim$ is an equivalence relation, we have to show that the operation is reflexive, symmetric, and transitive.\\\\
+\textbf{Reflexive}:\\
+For any $\langle x,y,z \rangle \in \mathds{R}^3$,\\
+$$x-x \? y-y+k \? z-z+2k$$
+$$0 \? k \? 2k$$
+Which is always true if we select $k=0$.\\
+
+\textbf{Symmetric}:\\
+For any $\langle x_1,y_1,z_1 \rangle, \langle x_2,y_2,z_2 \rangle \in \mathds{R}^3$,\\
+If $x_1-x_2=y_1-y_2+k_1=z_1-z_2+2k_1$, then we have to show that $x_2 - x_1 \? y_2 - y_1 + k_2 \? z_2 - z_1 + 2k_2$, which is the result of commuting our two vectors.
+$$x_2 - x_1 \? y_2 - y_1 + k_2 \? z_2 - z_1 + 2k_2$$
+$$= -x_2 + x_1 \? -y_2 + y_1 - k_2 \? -z_2 + z_1 - 2k_2$$
+If we choose $k_2 = -k_1$, then we get back our original equation, which we know is true.
+$$= -x_2 + x_1 = -y_2 + y_1 + k_1 = -z_2 + z_1 + 2k_2$$
+
+\textbf{Transitive}:\\
+For any $\langle x_1,y_1,z_1 \rangle, \langle x_2,y_2,z_2 \rangle, \langle x_3,y_3,z_3 \rangle \in \mathds{R}^3$,\\
+If $$x_1-x_2=y_1-y_2+k_1=z_1-z_2+2k_1$$ and $$x_2-x_3=y_2-y_3+k_2=z_2-z_3+2k_2$$
+then we have to show that
+$$x_1-x_3 \? y_1-y_3+k_3 \? z_1-z_3+2k_3$$
+(if $a \sim b, b \sim c$, then $a \sim c$).\\
+
+If we simply add our first two equations we get:
+$$x_1 - x_3 = y_1 - y_3 + k_1 + k_2 = z_1 - z_3 + 2k_1 + 2k_2$$
+So if we simply let $k_3 = k_1 + k_2$, our unknown equation becomes true.
+
+\item Describe the equivalence classes of $\sim$, giving a complete list. (Note: there are infinitely
+many equivalence classes, so you will need set-building notation or something similar.)
+Your explanation should make it clear that each vector of V belongs to exactly one
+equivalence class from your list; or in other words, your alleged equivalence classes do
+indeed partition V. Can you give both algebraic and geometric descriptions of the
+equivalence classes?\\\\
+
+Each of the equivalence classes are planes of the form $x - 2y + z = d$, for some $d \in \mathds{R}$. Because they all have the same normal to the plane, they are all parallel, and across the entire range of $d$ span the entire space of $\mathds{R}^3$. For this reason, points in $R^3$ are only part of a single class (plane), since all the planes are parallel, and the same point cannot fall on two parallel planes. Formally, the set of classes is:
+$$\{\text{Planes of the form}\ x - 2y + z = d, d \in \mathds{R}\}$$
+\end{enumerate}
+
+\item
+Use polar/exponential form for complex numbers in this problem ($r^{ei\theta}$ form).
+
+\begin{enumerate}
+\item Write out the binary operation tables for $Z_6 = \langle Z_6, +_6 \rangle$ and $U_6 = \langle U_6, \cdot \rangle$. Order the
+rows and columns in a sensible way.\\
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      + & 0 & 1 & 2 & 3 & 4 & 5\\
+      \hline  
+      0 & 0 & 1 & 2 & 3 & 4 & 5\\
+      1 & 1 & 2 & 3 & 4 & 5 & 0\\
+      2 & 2 & 3 & 4 & 5 & 0 & 1\\
+      3 & 3 & 4 & 5 & 0 & 1 & 2\\
+      4 & 4 & 5 & 0 & 1 & 2 & 3\\
+      5 & 5 & 0 & 1 & 2 & 3 & 4\\
+      \hline
+    \end{tabular}
+    \caption{$\langle Z_6, +_6 \rangle$}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+      \hline
+      $\cdot$       & 1              & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$\\
+      \hline                  
+      1             & 1 & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$\\
+      $e^{2i(1\pi/6)}$ & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$ & 1\\
+      $e^{2i(2\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$ & 1 & $e^{2i(1\pi/6)}$\\
+      $e^{2i(3\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$ & 1 & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$\\
+      $e^{2i(4\pi/6)}$ & $e^{2i(4\pi/6)}$ & $e^{2i(5\pi/6)}$ & 1 & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$\\
+      $e^{2i(5\pi/6)}$ & $e^{2i(5\pi/6)}$ & 1 & $e^{2i(1\pi/6)}$ & $e^{2i(2\pi/6)}$ & $e^{2i(3\pi/6)}$ & $e^{2i(4\pi/6)}$\\
+      \hline
+    \end{tabular}
+    \caption{$U_6 = \langle U_6, \cdot \rangle$}
+  \end{center}
+\end{table}
+
+\item Prove that the map $f : \mathds{Z}_6 \rightarrow U_6$ given by $k \rightarrow (e^{\frac{2\pi}{6}i})^k$ is an isomorphism of binary structures.\\
+
+Following the mapping, we can easily verify that the function f is one-to-one and onto:
+$$\overline{0} \rightarrow 1$$
+$$\overline{1} \rightarrow (e^{\frac{2\pi}{6}i})^1$$
+$$\overline{2} \rightarrow (e^{\frac{2\pi}{6}i})^2$$
+$$\overline{3} \rightarrow (e^{\frac{2\pi}{6}i})^3$$
+$$\overline{4} \rightarrow (e^{\frac{2\pi}{6}i})^4$$
+$$\overline{5} \rightarrow (e^{\frac{2\pi}{6}i})^5$$
+
+To show isomorphism we have to verify $f(n+m) \? f(n) \cdot f(m)$.
+$$(e^{\frac{2\pi}{6}i})^{n+m} \? (e^{\frac{2\pi}{6}i})^n \cdot (e^{\frac{2\pi}{6}i})^m$$
+$$(e^{\frac{2\pi}{6}i})^{n+m} = (e^{\frac{2\pi}{6}i})^{n+m}$$
+As you said in class, I won't show the wrapping around (as it's not strictly addition on $\mathds{Z}$), but it would be easy to show.\\
+
+\item Find a different isomorphism of binary structures, $g : \mathds{Z}_6 \rightarrow U_6$, and prove your answer is an isomorphism.\\
+
+Let our mapping, $\phi(n) = (e^{\frac{2\pi}{6}i})^{-n}$. Again, we can exhaustively show one-to-one and onto by listing out the mapping:
+$$\overline{0} \rightarrow 1$$
+$$\overline{1} \rightarrow (e^{\frac{2\pi}{6}i})^5$$
+$$\overline{2} \rightarrow (e^{\frac{2\pi}{6}i})^4$$
+$$\overline{3} \rightarrow (e^{\frac{2\pi}{6}i})^3$$
+$$\overline{4} \rightarrow (e^{\frac{2\pi}{6}i})^2$$
+$$\overline{5} \rightarrow (e^{\frac{2\pi}{6}i})^1$$
+
+And we verify isomorphism with $f(n+m) \? f(n) \cdot f(m)$.
+$$(e^{\frac{2\pi}{6}i})^{-(n+m)} \? (e^{\frac{2\pi}{6}i})^{-n} \cdot (e^{\frac{2\pi}{6}i})^{-m}$$
+$$(e^{\frac{2\pi}{6}i})^{-n-m)} = (e^{\frac{2\pi}{6}i})^{-n-m}$$
+
+\end{enumerate}
+
+\item Let $\phi: \mathds{Z}_6 \rightarrow \mathds{Z}_6$ be defined by $\phi(n) = n - 3$ for all $n \in \mathds{Z}$. For each part below, construct a binary relation $*$ so that $\phi$ is an isomorphism of binary structures. Justify your answers.\\
+
+\begin{enumerate}
+\item $\phi: \langle \mathds{Z}, * \rangle \rightarrow \langle \mathds{Z}, + \rangle$\\
+
+Let $n * m = n + m - 3$.
+$$\phi(n*m) \? \phi(n) + \phi(m)$$
+$$\phi(n + m - 3) \? n - 3 + m - 3$$
+$$n + m - 6 = n + m - 6$$
+
+\item $\phi: \langle \mathds{Z}, + \rangle \rightarrow \langle \mathds{Z}, * \rangle$\\
+
+Let $n * m = n + m + 3$.
+$$\phi(n+m) \? \phi(n) * \phi(m)$$
+$$n + m - 3 \? (n-3) + (m-3) + 3$$
+$$n + m - 3 = n + m - 3$$
+
+\item $\phi: \langle \mathds{Z}, * \rangle \rightarrow \langle \mathds{Z}, \cdot \rangle$\\
+
+Let $n * m = (n-3) \cdot (m-3)$.
+$$\phi(n*m) \? \phi(n) \cdot \phi(m)$$
+$$(n-3) \cdot (m-3) = (n-3) \cdot (m-3)$$
+
+\item $\phi: \langle \mathds{Z}, \cdot \rangle \rightarrow \langle \mathds{Z}, * \rangle$\\
+
+Let $n * m = (n+3) \cdot (m+3) - 3$.
+$$\phi(n \cdot m) \? \phi(n) * \phi(m)$$
+$$n \cdot m - 3 \? (n-3) * (m-3)$$
+$$n \cdot m - 3 = n \cdot m - 3$$
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

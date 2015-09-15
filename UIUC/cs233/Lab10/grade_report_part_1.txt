@@ -1,0 +1,47 @@
+Grades for version committed on time
+	pipelined_adding_machine: 20.0 / 20.0
+		Passed Test
+			time=1 index=00000000 out=00000000
+		Passed Test
+			time=13 index=00000001 out=00000000
+		Passed Test
+			time=15 index=00000002 out=00000002
+		Passed Test
+			time=17 index=00000003 out=00000006
+		Passed Test
+			time=19 index=00000004 out=0000000e
+		Passed Test
+			time=21 index=00000005 out=00000016
+		Passed Test
+			time=23 index=00000006 out=00000026
+		Passed Test
+			time=25 index=00000007 out=00000046
+		Passed Test
+			time=27 index=00000008 out=00000086
+		Passed Test
+			time=29 index=00000009 out=00000106
+		Passed Test
+			time=31 index=0000000a out=00000106
+		Passed Test
+			time=33 index=0000000b out=00000106
+		Passed Test
+			time=35 index=0000000c out=00000107
+		Passed Test
+			time=37 index=0000000d out=00000107
+		Passed Test
+			time=39 index=0000000e out=00000107
+		Passed Test
+			time=41 index=0000000f out=00000107
+		Passed Test
+			time=43 index=00000010 out=00000107
+		Passed Test
+			time=45 index=00000011 out=00000107
+		Passed Test
+			time=47 index=00000012 out=00000107
+		Passed Test
+			time=48 index=00000012 out=00000107
+		Passed Test
+			time=49 index=00000000 out=00000000
+		
+Total: 20.0 / 20.0
+

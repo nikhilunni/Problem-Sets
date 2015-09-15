@@ -1,0 +1,9 @@
+nunni2 total : 40/40
+my_strcmp test	6/6	Passed	
+my_strcmp evil test	7/7	Passed	
+my_strcmp callee regs test	7/7	Passed	
+rotate_string_in_place test	6/6	Passed	
+rotate_string_in_place evil test	7/7	Passed	
+rotate_string_in_place callee regs test	7/7	Passed	
+
+SUBMITTED ON TIME

@@ -1,0 +1,20 @@
+Grades for version committed on time
+	extractMessage: 0 / 40.0
+		Failed test 1.
+		Failed test 2.
+		Failed test 3.
+		Failed test 4.
+		
+	countOnes: 40 / 40.0
+		Passed test 2
+		Passed test 62
+		Passed test 0x4B1D
+		Passed test 0xF0F0F0F0
+		Passed test 0xFFFFFFFF
+		Passed test 0xCAFEBABE
+		Passed test 0xFACEB00C
+		Passed test 0xDEADC0DE
+		
+Total: 40.0 / 80.0
+
+Final Score: 40.0 / 80.0

@@ -1,0 +1,5 @@
+nunni2 total : 20/20
+mux4 test	10/10	
+logicunit test	10/10	
+
+SUBMITTED ON TIME

@@ -1,0 +1,356 @@
+Monad Autograder
+Testing mp5 at 2014-04-05 03:17:02
+
+"The cheating sheet is key to success in CS 412 course." ~ CS 412 TA
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+test_default_ctor  . . . . . . [1 pts] - passed
+test_ctor_1  . . . . . . . . . [1 pts] - passed
+test_ctor_2  . . . . . . . . . [2 pts] - passed
+test_buildTree_1 . . . . . . . [2 pts] - passed
+test_buildTree_2 . . . . . . . [1 pts] - passed
+test_buildTree_3 . . . . . . . [2 pts] - passed
+test_cctor_1 . . . . . . . . . [1 pts] - FAILED: unit_tests.cpp:92: Assertion (first == second) failed
+test_cctor_2 . . . . . . . . . [1 pts] - passed
+test_cctor_3 . . . . . . . . . [1 pts] - passed
+test_cctor_4 . . . . . . . . . [1 pts] - passed
+test_assign_op_1 . . . . . . . [1 pts] - FAILED: unit_tests.cpp:130: Assertion (first == second) failed
+test_assign_op_2 . . . . . . . [1 pts] - passed
+test_assign_op_3 . . . . . . . [1 pts] - passed
+test_assign_op_4 . . . . . . . [1 pts] - passed
+test_getPixel_1  . . . . . . . [1 pts] - passed
+test_getPixel_2  . . . . . . . [2 pts] - passed
+test_getPixel_3  . . . . . . . [2 pts] - passed
+test_getPixel_4  . . . . . . . [2 pts] - passed
+test_decompress_unpruned_1 . . [1 pts] - passed
+test_decompress_unpruned_2 . . [1 pts] - passed
+test_decompress_unpruned_3 . . [1 pts] - passed
+test_decompress_unpruned_4 . . [1 pts] - passed
+time_getPixel_logn . . . . . . [4 pts] - passed
+time_decompress_n (valgrind) . [4 pts] - passed
+valgrind_big3 (valgrind) . . . [4 pts] - passed
+test_clockwiseRotate_1 . . . . [1 pts] - passed
+test_clockwiseRotate_2 . . . . [1 pts] - FAILED: unit_tests.cpp:333: Assertion (rVal == soln) failed
+test_clockwiseRotate_3 . . . . [2 pts] - FAILED: unit_tests.cpp:343: Assertion (rVal == soln) failed
+test_clockwiseRotate_4 . . . . [2 pts] - FAILED: unit_tests.cpp:354: Assertion (rVal == soln) failed
+test_prune_1 . . . . . . . . . [2 pts] - passed
+test_prune_2 . . . . . . . . . [3 pts] - FAILED: unit_tests.cpp:369: Assertion (output == readFile("prune_2.out")) failed
+test_prune_3 . . . . . . . . . [2 pts] - FAILED: unit_tests.cpp:377: Assertion (output == readFile("prune_3.out")) failed
+test_prune_4 . . . . . . . . . [5 pts] - FAILED: unit_tests.cpp:387: Assertion (rVal == soln) failed
+test_prune_copy  . . . . . . . [2 pts] - passed
+test_prune_rotate  . . . . . . [2 pts] - FAILED: unit_tests.cpp:407: Assertion (rVal == soln) failed
+test_prune_getPixel  . . . . . [3 pts] - FAILED: unit_tests.cpp:416: [first.getPixel(76, 204) => (143,67,2)] != [soln => (105,37,5)]
+test_pruneSize_1 . . . . . . . [2 pts] - passed
+test_pruneSize_2 . . . . . . . [2 pts] - FAILED: unit_tests.cpp:429: [first.pruneSize(1) => 0] != [4 => 4]
+test_pruneSize_3 . . . . . . . [2 pts] - FAILED: unit_tests.cpp:436: [first.pruneSize(200000) => 0] != [1 => 1]
+test_pruneSize_4 . . . . . . . [2 pts] - FAILED: unit_tests.cpp:443: [first.pruneSize(0) => 0] != [1 => 1]
+test_pruneSize_5 . . . . . . . [2 pts] - FAILED: unit_tests.cpp:450: [first.pruneSize(1000) => 0] != [37324 => 37324]
+test_idealPrune_1  . . . . . . [2 pts] - FAILED: unit_tests.cpp:457: [first.idealPrune(1) => 0] != [44802 => 44802]
+test_idealPrune_2  . . . . . . [3 pts] - FAILED: unit_tests.cpp:465: [first.idealPrune(3) => 0] != [44802 => 44802]
+test_idealPrune_3  . . . . . . [2 pts] - passed
+test_idealPrune_4  . . . . . . [5 pts] - FAILED: unit_tests.cpp:479: [first.idealPrune(10000) => 0] != [1011 => 1011]
+val_clockwiseRotate (valgrind) [2 pts] - FAILED: unit_tests.cpp:490: Assertion (rVal == soln) failed
+val_prune (valgrind) . . . . . [4 pts] - FAILED: ==25813==    by 0x405314: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==25813==    by 0x4052C5: proxy::RunTests
+val_idealPrune (valgrind)  . . [3 pts] - FAILED: unit_tests.cpp:509: [first->pruneSize(first->idealPrune(1000)) => 0] != [1000 => 1000]
+test_const_correctness . . . . [4 pts] - passed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 51
+
+
+
+Detailed test output...
+================================================================
+----------------------------------------------------------------
+test_cctor_1 [1 points]
+Result: FAILED: unit_tests.cpp:92: Assertion (first == second) failed
+Took 0ms (5000ms timeout)
+Output:
+----------------------------------------------------------------
+[EasyPNG]: Warning: attempted to access non-existent pixel (0, 0);
+            Truncating request to fit in the range [0,18446744073709551615] x [0,18446744073709551615].
+
+
+----------------------------------------------------------------
+test_assign_op_1 [1 points]
+Result: FAILED: unit_tests.cpp:130: Assertion (first == second) failed
+Took 0ms (5000ms timeout)
+Output:
+----------------------------------------------------------------
+[EasyPNG]: Warning: attempted to access non-existent pixel (0, 0);
+            Truncating request to fit in the range [0,18446744073709551615] x [0,18446744073709551615].
+
+
+----------------------------------------------------------------
+test_clockwiseRotate_2 [1 points]
+Result: FAILED: unit_tests.cpp:333: Assertion (rVal == soln) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_clockwiseRotate_3 [2 points]
+Result: FAILED: unit_tests.cpp:343: Assertion (rVal == soln) failed
+Took 143ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_clockwiseRotate_4 [2 points]
+Result: FAILED: unit_tests.cpp:354: Assertion (rVal == soln) failed
+Took 144ms (10000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_prune_2 [3 points]
+Result: FAILED: unit_tests.cpp:369: Assertion (output == readFile("prune_2.out")) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_prune_3 [2 points]
+Result: FAILED: unit_tests.cpp:377: Assertion (output == readFile("prune_3.out")) failed
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_prune_4 [5 points]
+Result: FAILED: unit_tests.cpp:387: Assertion (rVal == soln) failed
+Took 134ms (10000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_prune_rotate [2 points]
+Result: FAILED: unit_tests.cpp:407: Assertion (rVal == soln) failed
+Took 133ms (10000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_prune_getPixel [3 points]
+Result: FAILED: unit_tests.cpp:416: [first.getPixel(76, 204) => (143,67,2)] != [soln => (105,37,5)]
+Took 96ms (10000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_pruneSize_2 [2 points]
+Result: FAILED: unit_tests.cpp:429: [first.pruneSize(1) => 0] != [4 => 4]
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_pruneSize_3 [2 points]
+Result: FAILED: unit_tests.cpp:436: [first.pruneSize(200000) => 0] != [1 => 1]
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_pruneSize_4 [2 points]
+Result: FAILED: unit_tests.cpp:443: [first.pruneSize(0) => 0] != [1 => 1]
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_pruneSize_5 [2 points]
+Result: FAILED: unit_tests.cpp:450: [first.pruneSize(1000) => 0] != [37324 => 37324]
+Took 98ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_idealPrune_1 [2 points]
+Result: FAILED: unit_tests.cpp:457: [first.idealPrune(1) => 0] != [44802 => 44802]
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_idealPrune_2 [3 points]
+Result: FAILED: unit_tests.cpp:465: [first.idealPrune(3) => 0] != [44802 => 44802]
+Took 0ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_idealPrune_4 [5 points]
+Result: FAILED: unit_tests.cpp:479: [first.idealPrune(10000) => 0] != [1011 => 1011]
+Took 42ms (10000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+val_clockwiseRotate (run under valgrind) [2 points]
+Result: FAILED: unit_tests.cpp:490: Assertion (rVal == soln) failed
+Took unknown time (30000ms timeout)
+Output:
+----------------------------------------------------------------
+Running val_clockwiseRotate [worth 2 points, output below]
+==25810== 256 (16 direct, 240 indirect) bytes in 1 blocks are definitely lost in loss record 6 of 6
+==25810==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25810==    by 0x41E6D1: proxy_test::val_clockwiseRotate(util::sizedpipestream<512ul>&) (unit_tests.cpp:486)
+==25810==    by 0x407A61: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==25810==    by 0x40689B: proxy::test_execution::child_test() (proxy.cpp:549)
+==25810==    by 0x4062BA: proxy::test_execution::child() (proxy.cpp:434)
+==25810==    by 0x4094BC: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==25810==    by 0x40671F: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==25810==    by 0x4055A4: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==25810==    by 0x4054AC: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==25810==    by 0x405314: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==25810==    by 0x4052C5: proxy::RunTests::execute() (proxy.cpp:214)
+==25810==    by 0x404A60: main (proxy.cpp:104)
+==25810== 
+Result: FAILED:
+unit_tests.cpp:490: Assertion (rVal == soln) failed
+
+----------------------------------------------------------------
+val_prune (run under valgrind) [4 points]
+Result: FAILED: ==25813==    by 0x405314: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==25813==    by 0x4052C5: proxy::RunTests
+Took unknown time (45000ms timeout)
+Output:
+----------------------------------------------------------------
+Running val_prune [worth 4 points, output below]
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 1 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A9E: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:104)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813== 
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 2 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A9E: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:104)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813== 
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 3 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A9E: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:104)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813== 
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 4 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A9E: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:104)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813== 
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 5 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A10: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:98)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813==    by 0x4226BF: Quadtree::Quadtree(PNG const&, int) (quadtree.cpp:22)
+==25813== 
+==25813== 48 bytes in 1 blocks are possibly lost in loss record 6 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x422A9E: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:104)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x422979: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:95)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x4229B6: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:96)
+==25813==    by 0x422A02: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:97)
+==25813==    by 0x42293C: Quadtree::_buildTree(int, int, PNG const&, int) (quadtree.cpp:94)
+==25813==    by 0x4228D5: Quadtree::buildTree(PNG const&, int) (quadtree.cpp:87)
+==25813== 
+==25813== 16,776,928 (16 direct, 16,776,912 indirect) bytes in 1 blocks are definitely lost in loss record 349,526 of 349,526
+==25813==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25813==    by 0x41EA3A: proxy_test::val_prune(util::sizedpipestream<512ul>&) (unit_tests.cpp:497)
+==25813==    by 0x407A61: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==25813==    by 0x40689B: proxy::test_execution::child_test() (proxy.cpp:549)
+==25813==    by 0x4062BA: proxy::test_execution::child() (proxy.cpp:434)
+==25813==    by 0x4094BC: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==25813==    by 0x40671F: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==25813==    by 0x4055A4: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==25813==    by 0x4054AC: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==25813==    by 0x405314: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==25813==    by 0x4052C5: proxy::RunTests:
+
+----------------------------------------------------------------
+val_idealPrune (run under valgrind) [3 points]
+Result: FAILED: unit_tests.cpp:509: [first->pruneSize(first->idealPrune(1000)) => 0] != [1000 => 1000]
+Took unknown time (30000ms timeout)
+Output:
+----------------------------------------------------------------
+Running val_idealPrune [worth 3 points, output below]
+==25823== 1,048,576 (16 direct, 1,048,560 indirect) bytes in 1 blocks are definitely lost in loss record 21,846 of 21,846
+==25823==    at 0x4A06C8E: operator new(unsigned long) (vg_replace_malloc.c:261)
+==25823==    by 0x41EDA2: proxy_test::val_idealPrune(util::sizedpipestream<512ul>&) (unit_tests.cpp:508)
+==25823==    by 0x407A61: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==25823==    by 0x40689B: proxy::test_execution::child_test() (proxy.cpp:549)
+==25823==    by 0x4062BA: proxy::test_execution::child() (proxy.cpp:434)
+==25823==    by 0x4094BC: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==25823==    by 0x40671F: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==25823==    by 0x4055A4: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==25823==    by 0x4054AC: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==25823==    by 0x405314: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==25823==    by 0x4052C5: proxy::RunTests::execute() (proxy.cpp:214)
+==25823==    by 0x404A60: main (proxy.cpp:104)
+==25823== 
+Result: FAILED:
+unit_tests.cpp:509: [first->pruneSize(first->idealPrune(1000)) => 0] != [1000 => 1000]
+
+
+----------------------------------------------------------------
+Total score...
+================================================================
+TOTAL SCORE: 51
+

@@ -1,0 +1,96 @@
+From: timbl@info .cern.ch (Tim Berners-Lee)
+Newsgroups: alt.hypertext
+Subject: WorldWideWeb: Summary
+Keywords: heterogeneous hypertext, web, source, protocol, index, information retrieval
+Message-ID: <6487@cernvax.cern.ch>
+Date: 6 Aug 91 16:00:12 GMT
+References: <6484@cernvax.cern.ch>
+Sender: news@cernvax.cern.ch
+Lines: 84
+
+
+In article <6484@cernvax.cern.ch> I promised to post a short summary  of the  
+WorldWideWeb project.  Mail me with any queries.
+
+		WorldWideWeb - Executive Summary
+
+
+The WWW project merges the techniques of information retrieval and hypertext to  
+make an easy but powerful global information system.
+
+The project started with the philosophy that much academic information should  
+be freely available to anyone. It aims to allow information sharing within  
+internationally dispersed teams, and the dissemination of information by  
+support groups.
+
+     Reader view
+
+The WWW world consists of documents, and links.  Indexes are special documents  
+which, rather than being read, may be searched. The result of such a search is  
+another ("virtual") document containing links to the documents found.  A simple  
+protocol ("HTTP") is used to allow a browser program to request a keyword  
+search by a remote information server. 
+
+The web contains documents in many formats. Those documents which are  
+hypertext,  (real or virtual) contain links to other documents, or places  
+within documents. All documents, whether real, virtual or indexes, look similar  
+to the reader and are contained within the same addressing scheme.
+
+To follow a link,  a reader clicks with a mouse (or types in a number if he or  
+she has no mouse). To search and index, a reader gives keywords (or other  
+search criteria). These are the only operations  necessary to access the entire  
+world of data.
+
+     Information provider view
+
+The WWW browsers can access many existing data systems via existing protocols  
+(FTP, NNTP) or via HTTP and a gateway. In this way, the critical mass of data  
+is quickly exceeded, and the increasing use of the system by readers and  
+information suppliers encourage each other.
+
+Making a web is as simple as writing a few SGML files which point to your  
+existing data. Making it public involves running the FTP or HTTP daemon, and  
+making at least one link into your web from another. In fact,  any file  
+available by anonymous FTP can be immediately linked into a web. The very small  
+start-up effort is designed to allow small contributions.  At the other end of  
+the scale, large information providers may provide an HTTP server with full  
+text or keyword indexing.
+
+The WWW model gets over the frustrating incompatibilities of data format  
+between suppliers and reader by allowing negotiation of format between a smart  
+browser and a smart server. This should provide a basis for extension into  
+multimedia, and allow those who share application standards to make full use of  
+them across the web.
+
+This summary does not describe the many exciting possibilities opened up by the  
+WWW project, such as efficient document caching. the reduction of redundant  
+out-of-date copies, and the use of knowledge daemons.  There is more  
+information in the online project documentation, including some background on  
+hypertext and many technical notes. 
+
+     Try it
+
+A prototype (very alpha test) simple line mode browser is currently available  
+in source form from node  info.cern.ch [currently 128.141.201.74] as
+
+	/pub/WWW/WWWLineMode_0.9.tar.Z.
+
+Also available is a hypertext editor for the NeXT using the NeXTStep graphical  
+user interface, and a skeleton server daemon.
+
+Documentation is readable using www (Plain text of the instalation instructions  
+is included in the tar file!). Document
+
+         http://info.cern.ch/hypertext/WWW/TheProject.html
+
+is as good a place to start as any. Note these coordinates may change with  
+later releases.
+
+_________________________________________________________________
+
+Tim Berners-Lee			Tel:	+41(22)767 3755
+WorldWideWeb project		Fax:	+41(22)767 7155
+C.E.R.N.			email:	tbl@cernvax.cern.ch
+1211 Geneva 23
+Switzerland
+

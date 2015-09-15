@@ -1,0 +1,23 @@
+24/24 : PrairieLearn (12/12 questions correct)
+26/26 : Verilog (16/16 test cases correct)
+ 2/0  : Extra Credit (for signing up for exam by deadline)
+52/50 : Total
+
+Verilog Test Report:
+		Passed test: 1
+		Passed test: 2
+		Passed test: 3
+		Passed test: 4
+		Passed test: 5
+		Passed test: 6
+		Passed test: 7
+		Passed test: 8
+		Passed test: 9
+		Passed test: 10
+		Passed test: 11
+		Passed test: 12
+		Passed test: 13
+		Passed test: 14
+		Passed test: 15
+		Passed test: 16
+		

@@ -1,0 +1,5 @@
+Grades for version committed on time
+	planet_landing: 40.0 / 40.0
+		Passed test: Your bot took off from planet 4 and landed on planet 0
+Total: 40.0 / 40.0
+

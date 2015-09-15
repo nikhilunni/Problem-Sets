@@ -1,0 +1,11 @@
+Grades for version committed on time
+	puzzle_solving: 0.0 / 60.0
+		Failed Test: Your bot did not solve any puzzles
+Total: 0.0 / 60.0
+
+Grades for version committed as of 12 hours after deadline
+	puzzle_solving: 60.0 / 60.0
+		Passed Test: Your bot solved 16 puzzles
+	Late penalty: 10% (waivers are applied at the end of the semester)
+Total: 54.0 / 60.0
+

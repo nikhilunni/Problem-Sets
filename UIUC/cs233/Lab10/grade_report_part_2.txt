@@ -1,0 +1,13 @@
+Grades for version committed on time
+	no_deps_or_beq: 20.0 / 20.0
+		Passed
+	deps_but_no_beqs: 20.0 / 20.0
+		Passed
+	beqs_but_no_deps: 20.0 / 20.0
+		Passed
+	deps_and_beqs: 17.0 / 20.0
+		Failed: register 7 value is 268500992 and should be 200
+		Failed: register 15 value is 268500992 and should be 44
+		
+Total: 77.0 / 80.0
+

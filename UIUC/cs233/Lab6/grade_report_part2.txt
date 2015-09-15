@@ -1,0 +1,33 @@
+nunni2 total : 38/80
+decoder_addm test	20/20	
+	Passed all tests	
+full_machine test	18/60		Failed test la:
+	register[2]=0xdeadbeef	Expected=0x10010000
+Failed test addi:
+	register[16]=0x00000000	Expected=0x00000002
+Failed test lui:
+	register[17]=0x00000000	Expected=0xf00f0000
+Failed test addm:
+	register[18]=0x00000000	Expected=0x10bf0000
+Failed test add:
+	register[19]=0x00000000	Expected=0xdaffbabe
+Failed test sub:
+	register[20]=0x00000000	Expected=0xbafdbabe
+Failed test and:
+	register[21]=0x00000000	Expected=0x000000be
+Failed test or:
+	register[22]=0x00000000	Expected=0xdaffbabe
+Failed test xor:
+	register[23]=0x00000000	Expected=0xdaffbabe
+Failed test nor:
+	register[24]=0x00000000	Expected=0x25004541
+Failed test addi:
+	register[25]=0x00000000	Expected=0xcafebad2
+Failed test andi:
+	register[26]=0x00000000	Expected=0x00000826
+Failed test ori:
+	register[27]=0x00000000	Expected=0xcafebbff
+Failed test xori:
+	register[28]=0x00000000	Expected=0xcafebb41	
+
+SUBMITTED ON TIME

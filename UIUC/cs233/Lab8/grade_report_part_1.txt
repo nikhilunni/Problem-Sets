@@ -1,0 +1,10 @@
+Grades for version committed on time
+	find_longest_string: 40.0 / 40.0
+		Passed Test: NULL
+		Passed Test: single node
+		Passed Test: multiple nodes
+		Passed Test: single node (evil)
+		Passed Test: multiple nodes (evil)
+		
+Total: 40.0 / 40.0
+

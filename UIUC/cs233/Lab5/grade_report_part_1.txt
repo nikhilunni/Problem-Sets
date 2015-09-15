@@ -1,0 +1,31 @@
+Grades for version committed on time
+	decoder: 6.0 / 20.0
+		Passed test: invalid
+		Failed test: add
+			Your output: opcode=00 funct=20 alu_op=2 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Failed test: addi
+			Your output: opcode=08 funct=20 alu_op=0 rd_src=0 alu_src2=0 writeenable=1 except=1
+		Failed test: sub
+			Your output: opcode=00 funct=22 alu_op=3 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Passed test: invalid
+		Failed test: and
+			Your output: opcode=00 funct=24 alu_op=4 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Passed test: invalid
+		Failed test: andi
+			Your output: opcode=0c funct=24 alu_op=0 rd_src=0 alu_src2=0 writeenable=1 except=1
+		Failed test: or
+			Your output: opcode=00 funct=25 alu_op=5 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Failed test: ori
+			Your output: opcode=0d funct=25 alu_op=0 rd_src=0 alu_src2=0 writeenable=1 except=1
+		Passed test: invalid
+		Failed test: nor
+			Your output: opcode=00 funct=27 alu_op=6 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Passed test: invalid
+		Failed test: xor
+			Your output: opcode=00 funct=26 alu_op=7 rd_src=1 alu_src2=1 writeenable=1 except=0
+		Passed test: invalid
+		Failed test: xori
+			Your output: opcode=0e funct=26 alu_op=0 rd_src=0 alu_src2=0 writeenable=1 except=1
+		
+Total: 6.0 / 20.0
+

@@ -1,0 +1,12 @@
+max     rd, rs, rt
+Maximum.  Select the largest value from two sources and write it into the destination register.
+R-type
+opcode: 6'h00	funct: 6'h38
+
+`define OP0_MAX     6'h38
+
+if R[rs] > R[rt]:
+   R[rd] = R[rs]
+else:
+   R[rd] = R[rt]
+

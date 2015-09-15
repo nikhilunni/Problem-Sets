@@ -1,0 +1,22 @@
+Monad Autograder
+Testing lab_trees at 2014-03-10 07:52:42
+
+"A common mistake that people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools." ~ Douglas Adams
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+test_isOrdered  . [33 pts] - passed
+test_mirror . . . [33 pts] - passed
+test_printPaths . [34 pts] - passed
+test_sumDistances [25 pts] - passed
+
+
+Total score...
+================================================================
+TOTAL SCORE: 125
+

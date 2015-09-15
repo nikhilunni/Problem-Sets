@@ -1,0 +1,17 @@
+Grades for version committed on time
+	arith machine: 80 / 80.0
+		Passed test: PC=PC+4
+		Passed test:  add works
+		Passed test:  sub works
+		Passed test:  and works
+		Passed test:  or works
+		Passed test:  xor works
+		Passed test:  nor works
+		Passed test:  andi works
+		Passed test:  ori works
+		Passed test:  xori works
+		Passed test:  addi works
+		Passed test:  reset works
+		
+Total: 80.0 / 80.0
+

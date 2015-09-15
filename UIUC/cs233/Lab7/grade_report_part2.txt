@@ -1,0 +1,10 @@
+nunni2 total : 54/60
+puzzle_solve test	10/10	Passed	
+puzzle_solve s-regs test	10/10	Passed	
+puzzle_solve evil test	10/10	Passed	
+rotate_string_in_place_fast test	10/10	Passed	
+rotate_string_in_place_fast s-regs test	10/10	Passed	
+rotate_string_in_place_fast evil test	10/10	Passed	
+
+LATE PENATLY: 6.0 points
+	Grade if late waiver applied: 60 points

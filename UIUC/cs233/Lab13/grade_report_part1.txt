@@ -1,0 +1,4 @@
+nunni2 total : 20/20
+transpose	20/20	Achieved the target speedup	
+
+SUBMITTED ON TIME

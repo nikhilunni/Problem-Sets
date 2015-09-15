@@ -1,0 +1,37 @@
+Monad Autograder
+Testing lab_inheritance at 2014-02-17 01:19:09
+
+"There's no real reason for a lot of the things that I say." ~ Urvashi Khandelwal
+
+Setting up test environment...
+Compiling...
+================================================================
+unit_tests.cpp: In function 'void proxy_test::test_drawable_destructor(util::pipestream&)':
+unit_tests.cpp:77: error: cannot allocate an object of abstract type 'Truck'
+truck.h:17: note:   because the following virtual functions are pure within 'Truck':
+drawable.h:26: note: 	virtual void Drawable::draw(PNG*) const
+unit_tests.cpp: In function 'void proxy_test::test_truck_draw(util::pipestream&)':
+unit_tests.cpp:90: error: cannot allocate an object of abstract type 'Truck'
+truck.h:17: note:   since type 'Truck' has pure virtual functions
+unit_tests.cpp: In function 'void proxy_test::test_drawable_destructor(util::pipestream&)':
+unit_tests.cpp:77: error: cannot allocate an object of abstract type 'Truck'
+truck.h:17: note:   because the following virtual functions are pure within 'Truck':
+drawable.h:26: note: 	virtual void Drawable::draw(PNG*) const
+unit_tests.cpp: In function 'void proxy_test::test_truck_draw(util::pipestream&)':
+unit_tests.cpp:90: error: cannot allocate an object of abstract type 'Truck'
+truck.h:17: note:   since type 'Truck' has pure virtual functions
+ld: no input files
+g++: unit_tests.o: No such file or directory
+make: *** [proxy] Error 1
+
+
+exec("./proxy") failed: No such file or directory
+Running tests...
+================================================================
+Could not execute test cases
+
+
+Total score...
+================================================================
+TOTAL SCORE: 0
+

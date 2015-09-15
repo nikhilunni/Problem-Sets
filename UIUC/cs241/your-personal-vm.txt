@@ -1,0 +1,8 @@
+Hi nunni2, your personal VM is ready for you at sp15-cs241-137.cs.illinois.edu
+Example use: ssh nunni2@sp15-cs241-137.cs.illinois.edu
+Once logged in, you can use "sudo" to run a command as root
+The password for root and nunni2 account is the same and is NOT linked to your netid/AD account info.
+By tomorrow I will email you your password.
+You can change your account password using the passwd command.
+Note this VM wil likely be deleted without notice at the end of the semester. But in the meantime - have fun!
+ - Lawrence

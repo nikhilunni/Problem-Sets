@@ -1,0 +1,256 @@
+Monad Autograder
+Testing lab_btree at 2014-04-14 01:48:01
+
+"Should array indices start at 0 or 1? My compromise of 0.5 was rejected without, I thought, proper consideration." ~ Stan Kelly-Bootle
+
+Setting up test environment...
+Compiling...
+================================================================
+
+
+Running tests...
+================================================================
+test_insertion_idx_emp  . . . . . [10 pts] - passed
+test_insertion_idx_small  . . . . [10 pts] - passed
+test_insertion_idx_logn . . . . . [10 pts] - passed
+test_btree3_small (valgrind)  . . [10 pts] - FAILED: ==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (
+test_btree3_large_seq . . . . . . [10 pts] - FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 2]
+test_btree3_large_rand  . . . . . [10 pts] - FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 1804261410]
+test_btree64_large_seq  . . . . . [10 pts] - FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 4]
+test_btree64_large_rand . . . . . [10 pts] - FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 1844564273]
+test_btree128_med_rand (valgrind) [10 pts] - FAILED: ==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:
+test_btree5_strings . . . . . . . [10 pts] - FAILED: Segmentation fault
+
+
+Total score...
+================================================================
+TOTAL SCORE: 30
+
+
+
+Detailed test output...
+================================================================
+----------------------------------------------------------------
+test_btree3_small (run under valgrind) [10 points]
+Result: FAILED: ==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (
+Took unknown time (5000ms timeout)
+Output:
+----------------------------------------------------------------
+Running test_btree3_small [worth 10 points, output below]
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24752==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24752==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24752==    by 0x41CC44: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:104)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24752==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24752==    by 0x40AA40: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==24752== 
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x42286B: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:181)
+==24752==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24752==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24752==    by 0x41CC44: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:104)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24752==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24752==    by 0x40AA40: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==24752== 
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24752==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24752==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24752==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24752==    by 0x41CC44: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:104)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24752==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24752== 
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24752==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24752==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24752==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24752==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24752==    by 0x41CC44: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:104)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24752== 
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x420A7B: BTree<int, int>::find(BTree<int, int>::BTreeNode const*, int const&) const (btree.cpp:40)
+==24752==    by 0x41F6B3: BTree<int, int>::find(int const&) const (btree.cpp:21)
+==24752==    by 0x41F594: void verify_finds<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:47)
+==24752==    by 0x41CC5D: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:105)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24752==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24752==    by 0x40AA40: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==24752== 
+==24752== Conditional jump or move depends on uninitialised value(s)
+==24752==    at 0x420A7B: BTree<int, int>::find(BTree<int, int>::BTreeNode const*, int const&) const (btree.cpp:40)
+==24752==    by 0x420AD9: BTree<int, int>::find(BTree<int, int>::BTreeNode const*, int const&) const (btree.cpp:51)
+==24752==    by 0x41F6B3: BTree<int, int>::find(int const&) const (btree.cpp:21)
+==24752==    by 0x41F594: void verify_finds<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:47)
+==24752==    by 0x41CC5D: proxy_test::test_btree3_small(util::sizedpipestream<512ul>&) (unit_tests.cpp:105)
+==24752==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24752==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24752==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24752==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24752==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24752==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (p
+
+----------------------------------------------------------------
+test_btree3_large_seq [10 points]
+Result: FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 2]
+Took 38ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_btree3_large_rand [10 points]
+Result: FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 1804261410]
+Took 33ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_btree64_large_seq [10 points]
+Result: FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 4]
+Took 57ms (1500ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_btree64_large_rand [10 points]
+Result: FAILED: unit_tests.cpp:48: [ret => 0] != [key_val.second => 1844564273]
+Took 117ms (1500ms timeout)
+Output:
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+test_btree128_med_rand (run under valgrind) [10 points]
+Result: FAILED: ==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:
+Took unknown time (5500ms timeout)
+Output:
+----------------------------------------------------------------
+Running test_btree128_med_rand [worth 10 points, output below]
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24765==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24765==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24765==    by 0x41D5E1: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:165)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24765==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24765==    by 0x40AA40: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==24765== 
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24765==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24765==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24765==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24765==    by 0x41D5E1: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:165)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24765==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24765== 
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x42286B: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:181)
+==24765==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24765==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24765==    by 0x41D5E1: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:165)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24765==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24765==    by 0x40AA40: proxy::RunTests::execute_by_mode() (proxy.cpp:223)
+==24765== 
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x42286B: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:181)
+==24765==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24765==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24765==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24765==    by 0x41D5E1: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:165)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24765==    by 0x40ABBA: proxy::RunTests::run_single_test(char const*) (proxy.cpp:238)
+==24765== 
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x4227D3: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:176)
+==24765==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24765==    by 0x4228AE: BTree<int, int>::insert(BTree<int, int>::BTreeNode*, BTree<int, int>::DataPair const&) (btree.cpp:183)
+==24765==    by 0x420954: BTree<int, int>::insert(int const&, int const&) (btree.cpp:71)
+==24765==    by 0x41F502: void do_inserts<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:38)
+==24765==    by 0x41D5E1: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:165)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:250)
+==24765== 
+==24765== Conditional jump or move depends on uninitialised value(s)
+==24765==    at 0x420A7B: BTree<int, int>::find(BTree<int, int>::BTreeNode const*, int const&) const (btree.cpp:40)
+==24765==    by 0x41F6B3: BTree<int, int>::find(int const&) const (btree.cpp:21)
+==24765==    by 0x41F594: void verify_finds<int, int>(std::vector<std::pair<int, int>, std::allocator<std::pair<int, int> > >&, BTree<int, int>&) (unit_tests.cpp:47)
+==24765==    by 0x41D5F4: proxy_test::test_btree128_med_rand(util::sizedpipestream<512ul>&) (unit_tests.cpp:166)
+==24765==    by 0x40CFD9: monad_shared::unit_test_input::execute(util::sizedpipestream<512ul>&) const (monad_shared.h:72)
+==24765==    by 0x40BEBB: proxy::test_execution::child_test() (proxy.cpp:549)
+==24765==    by 0x40B916: proxy::test_execution::child() (proxy.cpp:434)
+==24765==    by 0x40E7C8: int proxy::fork_execute<proxy::test_execution>(proxy::test_execution&) (proxy.cpp:508)
+==24765==    by 0x40BD45: proxy::RunTests::execute_test(monad_shared::unit_test_input const&, bool) (proxy.cpp:489)
+==24765==    by 0x40ACB1: proxy::RunTests::run_single_test(monad_shared::unit_test_input const&) (proxy.cpp:2
+
+----------------------------------------------------------------
+test_btree5_strings [10 points]
+Result: FAILED: Segmentation fault
+Took 106397825994736ms (1000ms timeout)
+Output:
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+Total score...
+================================================================
+TOTAL SCORE: 30
+

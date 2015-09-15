@@ -1,0 +1,11 @@
+Grades for version committed on time
+	l_reader: 10.0 / 20.0
+		Passed test: L correctly detected
+		Failed test: L not detected
+		Passed test: L correctly detected
+		Failed test: L not detected
+		Passed test: L correctly detected
+		Failed test: L not detected
+		
+Total: 10.0 / 20.0
+

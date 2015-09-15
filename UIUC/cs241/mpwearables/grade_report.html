@@ -1,0 +1,1924 @@
+<!DOCTYPE doctype>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   GRADE REPORT
+  </title>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+   nav, header, section, footer, div {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			width: 100%;
+		}
+
+		textarea {
+			background-color: black;
+			color: white;
+			font-family: monospace;
+		}
+
+		.two_column {
+			-webkit-column-count: 2; /* Chrome, Safari, Opera */
+		    -moz-column-count: 2; /* Firefox */
+		    column-count: 2;
+		}
+
+		.result {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			width: 60%;
+		}
+		
+		.testcase {
+			padding-top: 2.5%;
+			padding-bottom: 2.5%;
+			border: 1px solid black;
+		}
+
+		.pass {
+			color: green;
+		}
+		
+		.fail {
+			color: red;
+		}
+
+		.hidden {
+			display: none;
+		}
+		
+		.visible {
+			display: visible;
+			-webkit-animation: fadein 2s; /* Chrome, Safari, Opera */
+		}
+  </style>
+ </head>
+ <body onhashchange="load();" onload="load();">
+  <!-- Navigation -->
+  <nav>
+   <button onclick="incrementResults(-1)">
+    Previous Results
+   </button>
+   <!-- Selector gets populated by Beautiful Soup 4 -->
+   <select id="selector" onchange="changeResults(this.value)">
+    <option selected="selected" value="Chart">
+     Chart
+    </option>
+    <option value="0">
+     2015-04-24 01:21:44.600508
+    </option>
+    <option value="1">
+     2015-04-24 17:05:28.027717
+    </option>
+    <option value="2">
+     2015-04-25 01:00:51.462842
+    </option>
+    <option value="3">
+     2015-04-25 13:50:31.148243
+    </option>
+    <option value="4">
+     2015-04-26 02:46:35.218636
+    </option>
+    <option value="5">
+     2015-04-26 12:25:48.007682
+    </option>
+    <option value="6">
+     2015-04-27 11:56:35.070954
+    </option>
+    <option value="7">
+     2015-04-27 18:29:51.420250
+    </option>
+    <option value="8">
+     2015-04-28 01:19:12.180525
+    </option>
+    <option value="9">
+     2015-04-28 12:06:44.287815
+    </option>
+    <option value="10">
+     2015-04-29 01:30:35.555263
+    </option>
+    <option value="11">
+     2015-04-29 13:28:36.789413
+    </option>
+   </select>
+   <button onclick="incrementResults(1)">
+    Next Results
+   </button>
+  </nav>
+  <div id="disclaimer" style="width:60%; text-align:left">
+   <h2>
+    <span style="color:red;">
+     Disclaimer:
+    </span>
+   </h2>
+   This autograder is a preliminary assessment of your program's correctness. Your grade may change UP OR DOWN based on the CORRECTNESS OF YOUR PROGRAM. We make every effort to ensure that our autograder is 'smart' enough to not count off for simple things like grammar but, in doing so, we may inadvertently allow for incorrect code to be counted as correct. If we have to change our script to better reflect the CORRECTNESS OF YOUR PROGRAM, we will run the script on EVERY TESTCASE and update EVERY STUDENT'S AUTOGRADER OUTPUT to ensure fairness to all students. Thanks for understanding!
+   <br/>
+   <br/>
+   <span style="color:red;">
+    Acedemic Integrity:
+   </span>
+   A reminder the University of Illinois and the department of computer science has a
+   <a href="https://cs.illinois.edu/current-students/undergraduates/policies-and-procedures-0/honor-code-and-academic-integrity" target="_blank">
+    policy
+   </a>
+   about what is allowed regarding collaboration and publishing of solutions. i.e. Your score should be based on your own work and you may not publish your solutions or leave them in 'plain view'. For this MP, the code you submit must be your own work i.e. entirely your own work product.
+   <br/>
+   <span style="color:green;">
+    Rule of Thumb
+   </span>
+   - If at any point you can not reproduce the code you have submitted, then you have cheated. We run an in house plagiarism detector (not MOSS) and we have caught students. The standard punishments are a 0 on the assignment and a letter grade reduced from your final grade for a first time offense and an F in the class with a permenant mark on your transcript that future instructors and employers can see for a second time offense.
+   <br/>
+   <br/>
+   - CS 241 Staff
+  </div>
+  <!-- Results -->
+  <section id="results">
+   <div id="carousel">
+    <h1>
+     Results
+    </h1>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-24 01:21:44.600508
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-24 17:05:28.027717
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-25 01:00:51.462842
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-25 13:50:31.148243
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-26 02:46:35.218636
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 17536
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-26 12:25:48.007682
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 21532
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-27 11:56:35.070954
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 21532
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-27 18:29:51.420250
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+==446== Memcheck, a memory error detector==446== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.==446== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info==446== Command: timeout -k 5 -s INT 15 ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765==446== ==448== Memcheck, a memory error detector==448== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.==448== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info==448== Command: ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765==448== ==448== Thread 2:==448== Conditional jump or move depends on uninitialised value(s)==448==    at 0x508A2B6: ____strtol_l_internal (in /usr/lib64/libc-2.17.so)==448==    by 0x401532: atoi (stdlib.h:280)==448==    by 0x401532: user_request_thread (wearable_server.c:149)==448==    by 0x4E3BDF2: start_thread (in /usr/lib64/libpthread-2.17.so)==448==    by 0x51461AC: clone (in /usr/lib64/libc-2.17.so)==448== ==448== ==448== HEAP SUMMARY:==448==     in use at exit: 128 bytes in 2 blocks==448==   total heap usage: 16 allocs, 14 frees, 1,056 bytes allocated==448== ==448== Thread 1:==448== 64 bytes in 1 blocks are definitely lost in loss record 1 of 2==448==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)==448==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)==448==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)==448==    by 0x401884: open_server_socket (wearable_server.c:195)==448==    by 0x400FB9: main (wearable_server.c:232)==448== ==448== 64 bytes in 1 blocks are definitely lost in loss record 2 of 2==448==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)==448==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)==448==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)==448==    by 0x401884: open_server_socket (wearable_server.c:195)==448==    by 0x400FC4: main (wearable_server.c:233)==448== ==448== LEAK SUMMARY:==448==    definitely lost: 128 bytes in 2 blocks==448==    indirectly lost: 0 bytes in 0 blocks==448==      possibly lost: 0 bytes in 0 blocks==448==    still reachable: 0 bytes in 0 blocks==448==         suppressed: 0 bytes in 0 blocks==448== ==448== For counts of detected and suppressed errors, rerun with: -v==448== Use --track-origins=yes to see where uninitialised values come from==448== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 1 from 1)==446== ==446== HEAP SUMMARY:==446==     in use at exit: 16 bytes in 2 blocks==446==   total heap usage: 33 allocs, 31 frees, 3,701 bytes allocated==446== ==446== 8 bytes in 1 blocks are definitely lost in loss record 1 of 2==446==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)==446==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)==446==    by 0x40262E: ??? (in /usr/bin/timeout)==446==    by 0x4022CF: ??? (in /usr/bin/timeout)==446==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)==446== ==446== 8 bytes in 1 blocks are definitely lost in loss record 2 of 2==446==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)==446==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)==446==    by 0x40262E: ??? (in /usr/bin/timeout)==446==    by 0x4027F7: ??? (in /usr/bin/timeout)==446==    by 0x504B12F: ??? (in /usr/lib64/libpthread-2.17.so)==446==    by 0x504AC99: waitpid (in /usr/lib64/libpthread-2.17.so)==446==    by 0x4022DF: ??? (in /usr/bin/timeout)==446==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)==446== ==446== LEAK SUMMARY:==446==    definitely lost: 16 bytes in 2 blocks==446==    indirectly lost: 0 bytes in 0 blocks==446==      possibly lost: 0 bytes in 0 blocks==446==    still reachable: 0 bytes in 0 blocks==446==         suppressed: 0 bytes in 0 blocks==446== ==446== For counts of detected and suppressed errors, rerun with: -v==446== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 2 from 2)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 21532
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-28 01:19:12.180525
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+==20429== Memcheck, a memory error detector
+==20429== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==20429== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==20429== Command: timeout -k 5 -s INT 15 ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==20429== 
+==20431== Memcheck, a memory error detector
+==20431== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==20431== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==20431== Command: ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==20431== 
+==20431== Thread 2:
+==20431== Conditional jump or move depends on uninitialised value(s)
+==20431==    at 0x508A2B6: ____strtol_l_internal (in /usr/lib64/libc-2.17.so)
+==20431==    by 0x401532: atoi (stdlib.h:280)
+==20431==    by 0x401532: user_request_thread (wearable_server.c:149)
+==20431==    by 0x4E3BDF2: start_thread (in /usr/lib64/libpthread-2.17.so)
+==20431==    by 0x51461AC: clone (in /usr/lib64/libc-2.17.so)
+==20431== 
+==20431== 
+==20431== HEAP SUMMARY:
+==20431==     in use at exit: 128 bytes in 2 blocks
+==20431==   total heap usage: 16 allocs, 14 frees, 1,056 bytes allocated
+==20431== 
+==20431== Thread 1:
+==20431== 64 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==20431==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==20431==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==20431==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==20431==    by 0x401884: open_server_socket (wearable_server.c:195)
+==20431==    by 0x400FB9: main (wearable_server.c:232)
+==20431== 
+==20431== 64 bytes in 1 blocks are definitely lost in loss record 2 of 2
+==20431==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==20431==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==20431==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==20431==    by 0x401884: open_server_socket (wearable_server.c:195)
+==20431==    by 0x400FC4: main (wearable_server.c:233)
+==20431== 
+==20431== LEAK SUMMARY:
+==20431==    definitely lost: 128 bytes in 2 blocks
+==20431==    indirectly lost: 0 bytes in 0 blocks
+==20431==      possibly lost: 0 bytes in 0 blocks
+==20431==    still reachable: 0 bytes in 0 blocks
+==20431==         suppressed: 0 bytes in 0 blocks
+==20431== 
+==20431== For counts of detected and suppressed errors, rerun with: -v
+==20431== Use --track-origins=yes to see where uninitialised values come from
+==20431== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 1 from 1)
+==20429== 
+==20429== HEAP SUMMARY:
+==20429==     in use at exit: 16 bytes in 2 blocks
+==20429==   total heap usage: 33 allocs, 31 frees, 3,701 bytes allocated
+==20429== 
+==20429== 8 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==20429==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==20429==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)
+==20429==    by 0x40262E: ??? (in /usr/bin/timeout)
+==20429==    by 0x4022CF: ??? (in /usr/bin/timeout)
+==20429==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)
+==20429== 
+==20429== 8 bytes in 1 blocks are definitely lost in loss record 2 of 2
+==20429==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==20429==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)
+==20429==    by 0x40262E: ??? (in /usr/bin/timeout)
+==20429==    by 0x4027F7: ??? (in /usr/bin/timeout)
+==20429==    by 0x504B12F: ??? (in /usr/lib64/libpthread-2.17.so)
+==20429==    by 0x504AC99: waitpid (in /usr/lib64/libpthread-2.17.so)
+==20429==    by 0x4022DF: ??? (in /usr/bin/timeout)
+==20429==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)
+==20429== 
+==20429== LEAK SUMMARY:
+==20429==    definitely lost: 16 bytes in 2 blocks
+==20429==    indirectly lost: 0 bytes in 0 blocks
+==20429==      possibly lost: 0 bytes in 0 blocks
+==20429==    still reachable: 0 bytes in 0 blocks
+==20429==         suppressed: 0 bytes in 0 blocks
+==20429== 
+==20429== For counts of detected and suppressed errors, rerun with: -v
+==20429== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 2 from 2)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 21532
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-28 12:06:44.287815
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+==5343== Memcheck, a memory error detector
+==5343== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==5343== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==5343== Command: timeout -k 5 -s INT 15 ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==5343== 
+==5345== Memcheck, a memory error detector
+==5345== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==5345== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==5345== Command: ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==5345== 
+==5345== Thread 2:
+==5345== Conditional jump or move depends on uninitialised value(s)
+==5345==    at 0x508A2B6: ____strtol_l_internal (in /usr/lib64/libc-2.17.so)
+==5345==    by 0x401532: atoi (stdlib.h:280)
+==5345==    by 0x401532: user_request_thread (wearable_server.c:149)
+==5345==    by 0x4E3BDF2: start_thread (in /usr/lib64/libpthread-2.17.so)
+==5345==    by 0x51461AC: clone (in /usr/lib64/libc-2.17.so)
+==5345== 
+==5345== 
+==5345== HEAP SUMMARY:
+==5345==     in use at exit: 128 bytes in 2 blocks
+==5345==   total heap usage: 16 allocs, 14 frees, 1,056 bytes allocated
+==5345== 
+==5345== Thread 1:
+==5345== 64 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==5345==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5345==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==5345==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==5345==    by 0x401884: open_server_socket (wearable_server.c:195)
+==5345==    by 0x400FB9: main (wearable_server.c:232)
+==5345== 
+==5345== 64 bytes in 1 blocks are definitely lost in loss record 2 of 2
+==5345==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5345==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==5345==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==5345==    by 0x401884: open_server_socket (wearable_server.c:195)
+==5345==    by 0x400FC4: main (wearable_server.c:233)
+==5345== 
+==5345== LEAK SUMMARY:
+==5345==    definitely lost: 128 bytes in 2 blocks
+==5345==    indirectly lost: 0 bytes in 0 blocks
+==5345==      possibly lost: 0 bytes in 0 blocks
+==5345==    still reachable: 0 bytes in 0 blocks
+==5345==         suppressed: 0 bytes in 0 blocks
+==5345== 
+==5345== For counts of detected and suppressed errors, rerun with: -v
+==5345== Use --track-origins=yes to see where uninitialised values come from
+==5345== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 1 from 1)
+==5343== 
+==5343== HEAP SUMMARY:
+==5343==     in use at exit: 16 bytes in 2 blocks
+==5343==   total heap usage: 33 allocs, 31 frees, 3,701 bytes allocated
+==5343== 
+==5343== 8 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==5343==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5343==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)
+==5343==    by 0x40262E: ??? (in /usr/bin/timeout)
+==5343==    by 0x4022CF: ??? (in /usr/bin/timeout)
+==5343==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)
+==5343== 
+==5343== 8 bytes in 1 blocks are definitely lost in loss record 2 of 2
+==5343==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==5343==    by 0x4E37FFF: timer_create@@GLIBC_2.3.3 (in /usr/lib64/librt-2.17.so)
+==5343==    by 0x40262E: ??? (in /usr/bin/timeout)
+==5343==    by 0x4027F7: ??? (in /usr/bin/timeout)
+==5343==    by 0x504B12F: ??? (in /usr/lib64/libpthread-2.17.so)
+==5343==    by 0x504AC99: waitpid (in /usr/lib64/libpthread-2.17.so)
+==5343==    by 0x4022DF: ??? (in /usr/bin/timeout)
+==5343==    by 0x5279AF4: (below main) (in /usr/lib64/libc-2.17.so)
+==5343== 
+==5343== LEAK SUMMARY:
+==5343==    definitely lost: 16 bytes in 2 blocks
+==5343==    indirectly lost: 0 bytes in 0 blocks
+==5343==      possibly lost: 0 bytes in 0 blocks
+==5343==    still reachable: 0 bytes in 0 blocks
+==5343==         suppressed: 0 bytes in 0 blocks
+==5343== 
+==5343== For counts of detected and suppressed errors, rerun with: -v
+==5343== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 2 from 2)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 22287
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-29 01:30:35.555263
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+==26069== Memcheck, a memory error detector
+==26069== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==26069== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==26069== Command: ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==26069== 
+==26069== Thread 2:
+==26069== Conditional jump or move depends on uninitialised value(s)
+==26069==    at 0x508A2B6: ____strtol_l_internal (in /usr/lib64/libc-2.17.so)
+==26069==    by 0x4015B2: atoi (stdlib.h:280)
+==26069==    by 0x4015B2: user_request_thread (wearable_server.c:160)
+==26069==    by 0x4E3BDF2: start_thread (in /usr/lib64/libpthread-2.17.so)
+==26069==    by 0x51461AC: clone (in /usr/lib64/libc-2.17.so)
+==26069== 
+==26069== 
+==26069== HEAP SUMMARY:
+==26069==     in use at exit: 528 bytes in 3 blocks
+==26069==   total heap usage: 17 allocs, 14 frees, 1,456 bytes allocated
+==26069== 
+==26069== Thread 1:
+==26069== 64 bytes in 1 blocks are definitely lost in loss record 1 of 3
+==26069==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26069==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==26069==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==26069==    by 0x401984: open_server_socket (wearable_server.c:207)
+==26069==    by 0x400FC1: main (wearable_server.c:246)
+==26069== 
+==26069== 64 bytes in 1 blocks are definitely lost in loss record 2 of 3
+==26069==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26069==    by 0x512BD1C: gaih_inet (in /usr/lib64/libc-2.17.so)
+==26069==    by 0x512F80C: getaddrinfo (in /usr/lib64/libc-2.17.so)
+==26069==    by 0x401984: open_server_socket (wearable_server.c:207)
+==26069==    by 0x400FCC: main (wearable_server.c:247)
+==26069== 
+==26069== 400 bytes in 1 blocks are definitely lost in loss record 3 of 3
+==26069==    at 0x4C28BFD: malloc (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26069==    by 0x401036: main (wearable_server.c:261)
+==26069== 
+==26069== LEAK SUMMARY:
+==26069==    definitely lost: 528 bytes in 3 blocks
+==26069==    indirectly lost: 0 bytes in 0 blocks
+==26069==      possibly lost: 0 bytes in 0 blocks
+==26069==    still reachable: 0 bytes in 0 blocks
+==26069==         suppressed: 0 bytes in 0 blocks
+==26069== 
+==26069== For counts of detected and suppressed errors, rerun with: -v
+==26069== Use --track-origins=yes to see where uninitialised values come from
+==26069== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 2 from 2)
+      </textarea>
+     </div>
+    </div>
+    <div class="visible result" id="result_div">
+     <div class="two_column">
+      <h2 id="revision">
+       Revision: 22476
+      </h2>
+      <h2 id="timestamp">
+       Time: 2015-04-29 13:28:36.789413
+      </h2>
+     </div>
+     <br/>
+     <br/>
+     <br/>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: One Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with one wearable ... 
+If you don't pass this, then you should just give up
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Two Wearable
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing server with two wearables
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Synchronized
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 10
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Testing Server for synchronization...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+Successfully matched solution!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Stress
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Stress Testing Server...
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Tricky
+       </h3>
+       <h3 class="fail" id="score">
+        Score: 0.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Now I'm just messing with you :)
+Trying to compile your code...
+Successfully compiled your code..
+Diffing your output with the expected solution...
+RESULTS DIFFERED FROM SOLUTION!
+      </textarea>
+     </div>
+     <div class="testcase" id="testcase_div">
+      <div class="two_column">
+       <h3 id="testcase">
+        TestCase: Memory Leak
+       </h3>
+       <h3 class="pass" id="score">
+        Score: 5.0
+       </h3>
+      </div>
+      <h4>
+       Output Log
+      </h4>
+      <textarea cols="80" id="output_log" rows="15">
+       Checking for memory leaks...
+Trying to compile your code...
+Successfully compiled your code..
+==19664== Memcheck, a memory error detector
+==19664== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==19664== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==19664== Command: ./mpwearables/svn/nunni2/mpwearables/wearable_server 49764 49765
+==19664== 
+==19664== Thread 2:
+==19664== Conditional jump or move depends on uninitialised value(s)
+==19664==    at 0x508A2B6: ____strtol_l_internal (in /usr/lib64/libc-2.17.so)
+==19664==    by 0x401662: atoi (stdlib.h:280)
+==19664==    by 0x401662: user_request_thread (wearable_server.c:160)
+==19664==    by 0x4E3BDF2: start_thread (in /usr/lib64/libpthread-2.17.so)
+==19664==    by 0x51461AC: clone (in /usr/lib64/libc-2.17.so)
+==19664== 
+==19664== 
+==19664== HEAP SUMMARY:
+==19664==     in use at exit: 0 bytes in 0 blocks
+==19664==   total heap usage: 17 allocs, 17 frees, 1,856 bytes allocated
+==19664== 
+==19664== All heap blocks were freed -- no leaks are possible
+==19664== 
+==19664== For counts of detected and suppressed errors, rerun with: -v
+==19664== Use --track-origins=yes to see where uninitialised values come from
+==19664== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 2 from 2)
+      </textarea>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- // <script src="script.js"></script> -->
+  <script type="text/javascript">
+   function getDirectChildren(){
+			var carousel = document.getElementById('carousel');
+			var child_divs = carousel.getElementsByTagName('div');
+			var direct_children = [];
+			for (i=0; i<child_divs.length;i++){
+				var className = child_divs[i].getAttribute("class")
+				if (className == "visible result" || className == "hidden result"){
+					direct_children.push(child_divs[i]);
+				}
+			}
+			return direct_children;
+		}
+
+		function getCurrentResultIndex(){
+			var direct_children = getDirectChildren();
+			var current_index = -1;
+			// alert("number of results: "+direct_children.length)
+			for (i=0; i<direct_children.length;i++){
+				var div = direct_children[i];
+				if(div.getAttribute("class") == "visible result"){
+					current_index = i;
+					break;
+				}
+			}
+			return current_index;
+		}
+
+		function incrementResults(amount){
+			// alert("hi");
+			var direct_children = getDirectChildren();
+			var current_index = getCurrentResultIndex();
+			// alert("current_index: "+current_index)
+			var next_index = ((current_index+amount)%direct_children.length+direct_children.length)%direct_children.length;
+			// alert("next_index: " + next_index)
+			change_page(next_index);
+		}
+
+		function changeResults(destination){
+			var direct_children = getDirectChildren();
+			var current_index = getCurrentResultIndex();
+			var diff = destination - current_index;
+			incrementResults(diff);
+		}
+
+		function load(){
+			var page_number = location.hash.split("#")[1];
+			if(page_number == null){
+				change_page(0);
+			}
+			if(!isNaN(page_number)){
+				change_page(parseInt(page_number));
+			}
+		}
+
+		function change_page(page_number){
+			if(page_number == "Chart"){
+				window.location.replace("thumbs.html");
+				return;
+			}
+			direct_children = getDirectChildren();
+			for (i=0; i<direct_children.length;i++){
+				var div = direct_children[i];
+				div.className = "hidden result";
+			}
+			next_div = direct_children[page_number];
+			next_div.className = "visible result";
+			document.getElementById('selector').value = page_number.toString();
+			location.hash = "#"+page_number.toString();
+		}
+  </script>
+ </body>
+</html>

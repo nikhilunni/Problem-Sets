@@ -1,0 +1,52 @@
+Grades for part 1 of the lab (worth 20% of the lab grade)
+	steering: 10.625 / 20
+		Passed test: Sensor Input = 00000
+		Failed test: On input sensor=10000, output should be left=0,right=0,walk=1
+		Your output: left=0, right=1, walk=1
+		Failed test: On input sensor=01000, output should be left=0,right=0,walk=1
+		Your output: left=0, right=1, walk=1
+		Failed test: On input sensor=11000, output should be left=0,right=0,walk=1
+		Your output: left=0, right=1, walk=1
+		Passed test: Sensor Input = 00100
+		Passed test: Sensor Input = 10100
+		Passed test: Sensor Input = 01100
+		Passed test: Sensor Input = 11100
+		Failed test: On input sensor=00010, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=10010, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=01010, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=11010, output should be left=0,right=0,walk=1
+		Your output: left=0, right=1, walk=1
+		Passed test: Sensor Input = 00110
+		Passed test: Sensor Input = 10110
+		Passed test: Sensor Input = 01110
+		Passed test: Sensor Input = 11110
+		Failed test: On input sensor=00001, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=10001, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=01001, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=11001, output should be left=0,right=0,walk=1
+		Your output: left=0, right=1, walk=1
+		Passed test: Sensor Input = 00101
+		Passed test: Sensor Input = 10101
+		Passed test: Sensor Input = 01101
+		Passed test: Sensor Input = 11101
+		Failed test: On input sensor=00011, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=10011, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=01011, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Failed test: On input sensor=11011, output should be left=0,right=0,walk=1
+		Your output: left=1, right=0, walk=1
+		Passed test: Sensor Input = 00111
+		Passed test: Sensor Input = 10111
+		Passed test: Sensor Input = 01111
+		Passed test: Sensor Input = 11111
+		
+Total: 10.625 / 20
+
