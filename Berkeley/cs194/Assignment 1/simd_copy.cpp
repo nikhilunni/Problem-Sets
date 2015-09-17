@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <cassert>
 #include <cstring>
+#include <sys/time.h>
+#include <time.h>
 
 void simd_memcpy(void *dst, void *src, size_t nbytes)
 {
@@ -52,6 +54,15 @@ void simd_memcpy(void *dst, void *src, size_t nbytes)
     {
       cdst[i] = csrc[i];
     }
+}
+
+void my_memcpy(void *dst, void *src, size_t nbytes) {
+  char *d = (char*)dst;
+  char *s = (char*)src;
+
+  for(int i = 0; i < nbytes; i+=sizeof(int)) {
+    d[i] = s[i];
+  }
 }
 
 void simd_memcpy_cache(void *dst, void *src, size_t nbytes)
@@ -109,14 +120,27 @@ void simd_memcpy_cache(void *dst, void *src, size_t nbytes)
 }
 
 int main(int argc, char *argv[])
-{
-  int myarray[10];
-  for(int i=0; i<10; i++)
-    myarray[i] = i;
+{  
+  struct timeval start_tv, end_tv;
+ 
+  printf("[");
+  for(int N = 8000; N <= 1000000; N += 1000) {
+    int myarray[N];
+    for(int i=0; i<N; i++)
+      myarray[i] = i;
   
-  int copiedarray[10];
-  simd_memcpy(copiedarray, myarray, 10*sizeof(int));
+    int copiedarray[N];
+    my_memcpy(copiedarray, myarray, N*sizeof(int)); 
+    my_memcpy(copiedarray, myarray, N*sizeof(int));
 
-  for(int i=0; i<10; i++)
-    printf("copied[%d] = %d\n", i, copiedarray[i]);
+    gettimeofday(&start_tv, 0);
+    simd_memcpy_cache(copiedarray, myarray, N*sizeof(int));
+    gettimeofday(&end_tv, 0);
+
+    double start = start_tv.tv_sec + 1e-6 * start_tv.tv_usec;
+    double end = end_tv.tv_sec + 1e-6 * end_tv.tv_usec;
+
+    double mbps = ((N*4) / (end-start)) / 1000000;
+    printf("(%d,%f),", N, mbps);
+  }
 }

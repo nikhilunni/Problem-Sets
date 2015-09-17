@@ -1,4 +1,3 @@
-
 #include "counters.h"
 
 static void initCounter(hwCounter_t &x, uint64_t counterConfig)
