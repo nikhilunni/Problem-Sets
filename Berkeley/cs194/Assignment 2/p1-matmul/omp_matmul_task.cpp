@@ -17,10 +17,18 @@ void omp_task_matmuld(double **a,
    * of threads */
   omp_set_num_threads(nthr);
 
-  for(int i=0;i<1024;i++)
-    {
-      /* CS194: add pragmas to this loop-nest
-       * to enable OpenMP task parallelism */
-      do_mv(a,b,c,i);
-    }
+  #pragma omp parallel
+  #pragma omp single nowait
+  {
+    for(int i=0;i<1024;i++)
+      {
+        /* CS194: add pragmas to this loop-nest
+         * to enable OpenMP task parallelism */
+        #pragma omp task
+        {
+          do_mv(a,b,c,i);
+        }
+      }
+  }
+  #pragma omp taskwait
 }
