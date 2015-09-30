@@ -1,0 +1,121 @@
+\input{../cs164.tex}
+\usepackage{amsmath, verbatim, tikz, float, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni (cs164-es), Section : Monday 3pm}{WA3}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+    \item 
+          \begin{enumerate}
+          \item
+                $$A \rightarrow B C A' | C A'$$
+                $$A' \rightarrow B C A' | \epsilon$$
+                $$B \rightarrow int | (A)$$
+                $$C \rightarrow bool$$
+
+          \item
+                $$L \rightarrow bool M$$
+                $$M \rightarrow + N | \epsilon$$
+                $$N \rightarrow bool | int$$
+
+          \item
+                $$A \rightarrow int B$$
+                $$B \rightarrow + A$$
+                $$B \rightarrow - C$$
+                $$B \rightarrow \epsilon$$
+                $$C \rightarrow A$$
+                $$C \rightarrow (A)$$
+          \end{enumerate}
+
+    \item Consider the following grammar describing a certain sort of parenthesis:
+          $$A \rightarrow \epsilon | A + B | C + C$$
+          $$B \rightarrow C | C * B$$
+          $$C \rightarrow (A) | int$$
+
+          \begin{enumerate}
+          \item Left-factor this grammar.\\
+                $$A \rightarrow C + CA' | A'$$
+                $$A' \rightarrow + B A' | \epsilon$$
+                $$B \rightarrow C B'$$
+                $$Follow \rightarrow * B | \epsilon$$
+                $$C \rightarrow (A) | int$$
+
+          \item Give the First and Follow sets for each nonterminal for the grammar in part (a).\\
+
+          First(A) = $\{(,$ int, $+\}$\\
+          First($A'$) = $\{+\}$\\
+          First(B) = $\{(,$ int$\}$\\
+          First($B'$) = $\{*\}$\\
+          First(C) = $\{(,$ int$\}$\\
+
+          Follow(A) = $\{), \$\}$\\
+          Follow($A'$) = $\{), \$\}$\\
+          Follow(B) = $\{), +, \$\}$\\
+          Follow($B'$) = $\{),+, \$\}$\\
+          Follow(C) = $\{), +, *, \$\}$\\
+
+
+          \item Is there a conflict in the original grammar?\\\\
+
+          Yes -- besides the left recursion, there’s a first/first conflict between first(A) and first(C), which are both transitions from A. Also, there’s another first/first conflict on B between the two C transitions.
+
+          \item Using the information, construct an LL parsing table for the grammar obtained in (a).
+
+          \begin{center}
+            \begin{tabular}{ c|c|c|c|c|c|c } 
+                 & $+$ & $*$ & $($ & $)$ & int & $\$$\\
+               \hline
+               A & $A'$ & & $C + CA'$ & $A'$ & $C + CA'$ & $A'$\\
+               $A'$ & $+BA'$ & & & $\epsilon$ & & $\epsilon$\\
+               B & & & $CB'$ & & $CB'$\\
+               $B'$ & $\epsilon$ & $*B$ & & $\epsilon$ & & $\epsilon$\\
+               C & & & (A) & & int\\
+               \hline
+            \end{tabular}
+          \end{center}
+
+          \item What would go wrong if we tried to parse the following input string?
+          $$((int + int) + int)+int+)$$\\\\
+
+          We'll continue to parse until our stack is $A'\$$, and our remaining input is ``+)''. Going forward this becomes :
+          $$+BA'\$ , +)$$
+          $$BA'\$ , ) $$
+
+          At this point, there is no table entry for T[B,$)$], so we get an error on the input.
+          \end{enumerate}
+
+      \item Complete the table below showing the trace of an LR(1) parser on the input provided.
+          \begin{center}
+            \begin{tabular}{c c c}
+               Stack & Input & Action\\
+               \hline
+                 & $\triangleright$ x + x + + x + $\$$ & shift\\
+                 x & x $\triangleright$ + x + + x + $\$$ & reduce ($B \rightarrow x$)\\
+                 B & x $\triangleright$ + x + + x + $\$$& shift 2\\
+                 B + x & x + x $\triangleright$ + + x + $\$$ & reduce ($B \rightarrow x$)\\
+                 B + B & x + x $\triangleright$ + + x + $\$$ & shift 3\\
+                 B + B + + x & x + x + + x $\triangleright$ + $\$$ & reduce ($B \rightarrow x$)\\
+                 B + B + + B & x + x + + x $\triangleright$ + $\$$ & shift 1\\
+                 B + B + + B + & x + x + + x + $\triangleright$ $\$$ & reduce ($A \rightarrow +B+$)\\
+                 B + B + A & x + x + + x + $\triangleright$ $\$$ & reduce ($A \rightarrow B + A$)\\
+                 B + A & x + x + + x + $\triangleright$ $\$$ & reduce ($A \rightarrow B + A$)\\
+                 A & x + x + + x + $\triangleright$ $\$$ & reduce ($S \rightarrow A$)\\
+                 S & x + x + + x + $\triangleright$ $\$$ & accept\\
+               
+            \end{tabular}
+          \end{center}
+
+\end{enumerate}
+
+\end{document}
