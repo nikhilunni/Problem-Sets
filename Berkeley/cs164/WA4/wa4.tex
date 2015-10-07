@@ -30,7 +30,7 @@
         $$A \rightarrow Bad$$
         $$A \rightarrow Cat$$
         $$B \rightarrow r$$
-        $$B \rightarrow r$$\\
+        $$C \rightarrow r$$\\
 
         It is not ambiguous, just because there is only 1 parse tree each for both ``rat'' and ``rad'', the only two stings in the language. It is \textbf{not} LR(1) because there is a reduce/reduce conflict in the parsing table between $B \rightarrow r$ and $C \rightarrow r$. This can be remedied by changing $A \rightarrow Cat$ to $A \rightarrow Bat$, and eliminate the nonterminal C.
     \end{enumerate}
