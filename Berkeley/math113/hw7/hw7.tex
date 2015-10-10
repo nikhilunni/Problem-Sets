@@ -1,0 +1,110 @@
+\input{../math113.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Homework \#7}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+\item Let F denote the additive group of continuous functions from $\mathds{R}$ to $\mathds{R}$.
+      \begin{enumerate}
+      \item Let $\phi : F \rightarrow \mathds{R}$ be defined by $f \rightarrow \int_{0}^{1} f(x)dx$ for all $f \in F$. Prove that $\phi$ is a group homomorphism.
+
+      $$f,g \in F$$
+      $$\phi(f+g) \? \phi(f) + \phi(g)$$
+      $$\int_{0}^{1}(f+g)(x)dx \? \int_{0}^{1}f(x)dx+\int_{0}^{1}g(x)dx$$
+      $$\int_{0}^{1}(f(x)+g(x))dx \? \int_{0}^{1}f(x)dx+\int_{0}^{1}g(x)dx$$
+      $$\int_{0}^{1}f(x)dx+\int_{0}^{1}g(x)dx = \int_{0}^{1}f(x)dx+\int_{0}^{1}g(x)dx$$
+
+      \item Find the kernel K of $\phi$.\\\\
+
+      K is the set of all continuous functions where the integral from 0 to 1 equals 0. Algebraically, from the Fundamental Theorem of Calculus, this is the set of functions $f$ with antiderivative $F$, where $F(1) = F(0)$. Geometrically, this is the set of functions where the average value between 0 and 1 is 0 (like $sin(2\pi x)$, or $2x-1$).\\
+
+      \item Describe the coset $x+K$ of the kernel, with both algebraic and geometric descriptions. Is there a ``nicer'' representative of this coset?\\\\
+
+      It is the set of functions where the integral from 0 to 1 equals some constant, c. This means the average value from 0 to 1 is c. This can be represented as : $\{f_c | \int_{0}^{1}f_c dx = c, f_c \in F, c \in \mathds{R}\}$\\
+      
+      \item Note that the cosets of K are in bijection with $\mathds{R}$. Does Lagrange's Theorem apply here? Explain very briefly.\\\\
+
+      Because the cosets of K form the quotient group of $G/ker(\phi)$, and since $\phi$ is a surjective function, by the Fundamental Homomorphism Theorem $\mathds{R}$ is isomorphic to $G/ker(\phi)$, meaning the mapping is bijective. Lagrange's Theorem does not help us here because it can only speak of cardinalities for infinite sets.\\
+      
+      \end{enumerate}
+
+\item
+        \begin{enumerate}
+        \item Suppose G is a finite group of order m. Prove that $g^m=e$ for all $g \in G$.\\\\
+
+        From Lagrange's Theorem, we know that the order of any $\langle g \rangle$ (let's call it $x$), for some $g \in G$ divides m. Meaning that $xy = m$, for some $y \in \mathds{Z}$. Then:
+        $$g^m = g^{x+y} = (g^x)^y = e^y = e$$
+
+        \item Suppose G is a finite group, and $N \trianglelefteq G$. If there are k cosets of N in G, prove that $g^k \in N$ for all $g \in G$.\\\\
+
+        Because N is a normal subgroup, the set of cosets becomes the quotient group $G/N$ of order k, where $(aN)(bN)=(ab)N$ for the binary operation, and $eN=N$ is the identity. From part (a), we know that for any quotient group, q, $q^k=N$.\\
+        By the definition of the binary operation, this means for any element $g$:
+        $$(gN)^k=N$$
+        $$(g^kN)=eN$$
+        $$g^k=e$$
+        \end{enumerate}
+
+\item This problem will deal with the group $G = D_4 \times S_3$.
+        \begin{enumerate}
+        \item How many elements of each order do the groups $D_4$ and $S_4$ have? Using this info, determine how many elements of each order G has.
+            \begin{center}
+            For $D_4$:\\
+            \begin{tabular}{c c}
+               Order Number & Count\\
+               \hline
+               1 & 1\\
+               2 & 5\\
+               4 & 2\\\\\\
+            \end{tabular}
+            \end{center}
+            
+            \begin{center}
+            For $S_3$:\\
+            \begin{tabular}{c c}
+               Order Number & Count\\
+               \hline
+               1 & 1\\
+               2 & 3\\
+               3 & 2\\\\\\
+            \end{tabular}
+            \end{center}
+
+            \begin{center}
+            For $G$:\\
+            \begin{tabular}{c c}
+               Order Number & Count\\
+               \hline
+               1 & 1\\
+               2 & 29\\
+               3 & 2\\
+               4 & 2\\
+               6 & 10\\
+               12 & 4\\\\\\
+            \end{tabular}
+            \end{center}        
+
+        \item Find all subgroups of G that are isomorphic to $Z_2 \times Z_2$. Be sure to explain why you have found all of them.\\\\
+
+        All sets are of the form $\{(e,()), ds\}$ for all $d \in \{r^2, s, rs, r^2s, r^3s\}$, and $s \in \{(1,2), (2,3), (1,3)\}$. All of those elements in d and s are their own inverse in their respective group. So paired with the group's inverse, they become isomorphic to $Z_2$. 
+        \end{enumerate}
+\end{enumerate}
+\end{document}

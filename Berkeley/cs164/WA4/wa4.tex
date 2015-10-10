@@ -1,0 +1,66 @@
+\input{../cs164.tex}
+\usepackage{amsmath, verbatim, tikz, float, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni (cs164-es), Section : Monday 3pm}{WA4}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+    \item
+    \begin{enumerate}
+        \item
+        Is the following grammar LL(1)? Is it LR(1)? Explain both of your answers.
+        $$F \rightarrow mv$$
+        $$F \rightarrow ma$$\\
+
+        It is not LL(1), because the grammar is not left-factored (there will be a first/first conflict on ``m''). It is LR(1) because there can be a valid parsing table which just shifts on m, and reduces on either v or a to F on a \$ in the input.
+
+        \item
+        Is the following grammar ambiguous? Is it LR(1)? Explain both of your answers.
+        $$A \rightarrow Bad$$
+        $$A \rightarrow Cat$$
+        $$B \rightarrow r$$
+        $$C \rightarrow r$$\\
+
+        It is not ambiguous, just because there is only 1 parse tree each for both ``rat'' and ``rad'', the only two stings in the language. It is \textbf{not} LR(1) because there is a reduce/reduce conflict in the parsing table between $B \rightarrow r$ and $C \rightarrow r$. This can be remedied by changing $A \rightarrow Cat$ to $A \rightarrow Bat$, and eliminate the nonterminal C.
+    \end{enumerate}
+
+    \item Consider the following grammar with start symbol S:
+    $$S \rightarrow Dx$$
+    $$D \rightarrow pwD | n$$
+
+    \begin{enumerate}
+        \item Complete the DFA skeleton.\\
+
+        I drew it on the back.\\
+        \item Is the grammar LR(1)? LR(2)? LL(1)?\\
+
+        The grammar is LR(1) because we have no conflicts in our DFA. Because the grammar is LR(1) it \textbf{has} to be LR(2) as well, (and, generally, LR(k), $k > 0$). The grammar is also LL(1) because it has no left recursion and is completely left factored.\\
+        \item Use your DFA to parse pwpwpwnx.
+            \begin{center}
+            \begin{tabular}{c c c}
+               Stack & Input & Action\\
+               \hline
+                 & $\triangleright$pwpwpwnx$\$$ & shift 7\\
+                 pwpwpwn & pwpwpwn$\triangleright$x$\$$ & reduce $D \rightarrow n$\\
+                 pwpwpwD & pwpwpwn$\triangleright$x$\$$ & reduce $D \rightarrow pwD$\\
+                 pwpwD & pwpwpwn$\triangleright$x$\$$ & reduce $D \rightarrow pwD$\\
+                 pwD & pwpwpwn$\triangleright$x$\$$ & reduce $D \rightarrow pwD$\\
+                 D & pwpwpwn$\triangleright$x$\$$ & shift\\
+                 Dx & pwpwpwnx$\triangleright$$\$$ & reduce $S \rightarrow Dx$\\
+                 S & pwpwpwnx$\triangleright$$\$$ & accept
+            \end{tabular}
+            \end{center}
+    \end{enumerate}
+\end{enumerate}
+\end{document}
