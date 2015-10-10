@@ -8,6 +8,8 @@
 
 #include "readjpeg.h"
 
+#include <omp.h>
+
 typedef struct
 {
   float r;
@@ -22,11 +24,20 @@ double timestamp()
   return tv.tv_sec + 1e-6*tv.tv_usec;
 }
 
+double report_mflops(double t)
+{
+  double n = 1024.0;
+  double f = (2.0*(n*n*n)) / ((1024.0*1024.0)*t);
+  return f;
+}
+
+
 void blur_frame(int width, int height, int* blur_radii,
-		pixel_t *in, pixel_t *out)
+		pixel_t *in, pixel_t *out, int nthreads)
 {
   pixel_t t;
-
+  omp_set_num_threads(nthreads);
+  #pragma omp parallel for collapse(2)
   for(int y = 0; y < height; y++)
     {
       for(int x = 0; x < width; x++)
@@ -110,7 +121,7 @@ int main(int argc, char *argv[])
   pixel_t *inPix=NULL;
   pixel_t *outPix=NULL;
   int *blur_radii = NULL;
-
+  int nthreads = 1;
   srand(5);
 
   while((c = getopt(argc, argv, "i:n:o:"))!=-1)
@@ -126,6 +137,9 @@ int main(int argc, char *argv[])
 	case 'n':
 	  n = atoi(optarg);
 	  break;
+        case 't':
+          nthreads = atoi(optarg);
+          break;
 	}
     }
 
@@ -167,12 +181,12 @@ int main(int argc, char *argv[])
 	    }
 	}
     }
-  
   convert_to_pixel(inPix, frame);
   double t0 = timestamp();
-  blur_frame(width, height, blur_radii, inPix, outPix);
+  blur_frame(width, height, blur_radii, inPix, outPix, 4);
   t0 = timestamp() - t0;
-  printf("%g sec\n", t0);
+  //printf("%g sec\n", t0);
+  printf("%d, %g mflops\n", n, report_mflops(t0));
 
   convert_to_frame(frame, outPix);
 

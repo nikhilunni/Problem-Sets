@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   c = new double*[1024];
   s = new double*[1024];
 
-  int nprocs = sysconf(_SC_NPROCESSORS_ONLN);
+  int nprocs = 16;//sysconf(_SC_NPROCESSORS_ONLN);
   printf("This machine has hardware %d threads\n",
 	 nprocs);
 
