@@ -2,8 +2,8 @@ OBJS = vvadd.o matmul.o sqr_sgemm.o clhelp.o incr.o
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Linux)
-OCL_INC=/usr/local/cuda-7.0/include
-OCL_LIB=/usr/local/cuda-7.0/lib64
+OCL_INC=/usr/local/cuda-6.5/include
+OCL_LIB=/usr/local/cuda-6.5/lib64
 
 %.o: %.cpp clhelp.h
 	g++ -msse4 -O2 -c $< -I$(OCL_INC)

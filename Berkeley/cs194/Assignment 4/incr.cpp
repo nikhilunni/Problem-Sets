@@ -49,8 +49,11 @@ int main(int argc, char *argv[])
   /* CS194: Allocate memory for arrays on 
    * the GPU */
   g_Y = clCreateBuffer(cv.context,CL_MEM_READ_WRITE,sizeof(float)*n,NULL,&err);
+
+  //Make sure we have no CL errors with CHK_ERR
   CHK_ERR(err);
 
+  //Write the host array onto device memory
   err = clEnqueueWriteBuffer(cv.commands, g_Y, true, 0, sizeof(float)*n,
 			     h_Y, 0, NULL, NULL);
   CHK_ERR(err);
@@ -58,11 +61,13 @@ int main(int argc, char *argv[])
   size_t global_work_size[1] = {n};
   size_t local_work_size[1] = {128};
     
+  //Set the arguments for our kernel method (*Y, and n)
   err = clSetKernelArg(incr, 0, sizeof(cl_mem), &g_Y);
   CHK_ERR(err);
   err = clSetKernelArg(incr, 1, sizeof(int), &n);
   CHK_ERR(err);
  
+  //Run the kernel across the entire range of data
   err = clEnqueueNDRangeKernel(cv.commands,
 			       incr,
 			       1,//work_dim,
