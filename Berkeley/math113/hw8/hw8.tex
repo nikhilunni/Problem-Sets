@@ -1,0 +1,112 @@
+\input{../math113.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Homework \#8}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+\item Determine the isomoprhism type of the factor group $\mathds{Z}_8 \times \mathds{Z}_6 \times \mathds{Z}_4 / \langle 2,2,2 \rangle$ and give two proofs -- one using elementary analysis of the orders of elements, and one using the First Isomoprhism Theorem.\\\\
+
+  The factor group has 16 elements, since the original group has 192 elements, and the subgroup has 12. So our candidates for the isomorphism type are types from $\mathds{Z}_{16}$. I exhaustively generated all the 16 elements of the factor group and their respective order with Python:\\
+$$\{(2, 2, 2), (2, 0, 2), (0, 4, 0), (4, 0, 0), (6, 0, 2), (4, 4, 0), (0, 2, 0), (2, 4, 2), (0, 0, 0), (6, 2, 2), (6, 4, 2), (4, 2, 0)\} : 1$$
+$$\{(4, 0, 1), (2, 0, 3), (2, 4, 3), (0, 0, 1), (6, 2, 3), (0, 4, 1), (6, 4, 3), (4, 2, 1), (6, 0, 3), (4, 4, 1), (2, 2, 3), (0, 2, 1)\} : 4$$
+$$\{(2, 4, 0), (6, 2, 0), (2, 0, 0), (0, 4, 2), (6, 4, 0), (0, 2, 2), (6, 0, 0), (4, 2, 2), (4, 0, 2), (2, 2, 0), (4, 4, 2), (0, 0, 2)\} : 2$$
+$$\{(2, 0, 1), (6, 4, 1), (2, 2, 1), (4, 2, 3), (6, 0, 1), (0, 2, 3), (4, 0, 3), (4, 4, 3), (2, 4, 1), (6, 2, 1), (0, 4, 3), (0, 0, 3)\} : 4$$
+$$\{(2, 3, 2), (0, 5, 0), (6, 5, 2), (0, 3, 0), (6, 1, 2), (4, 1, 0), (4, 5, 0), (2, 1, 2), (6, 3, 2), (2, 5, 2), (4, 3, 0), (0, 1, 0)\} : 2$$
+$$\{(2, 5, 3), (4, 3, 1), (0, 1, 1), (2, 3, 3), (0, 5, 1), (6, 5, 3), (0, 3, 1), (6, 1, 3), (4, 1, 1), (4, 5, 1), (2, 1, 3), (6, 3, 3)\} : 4$$
+$$\{(4, 5, 2), (2, 1, 0), (2, 5, 0), (6, 3, 0), (4, 3, 2), (0, 1, 2), (6, 5, 0), (2, 3, 0), (6, 1, 0), (0, 5, 2), (0, 3, 2), (4, 1, 2)\} : 2$$
+$$\{(0, 3, 3), (4, 1, 3), (0, 1, 3), (4, 5, 3), (2, 1, 1), (0, 5, 3), (2, 5, 1), (6, 3, 1), (4, 3, 3), (6, 5, 1), (2, 3, 1), (6, 1, 1)\} : 4$$
+$$\{(3, 0, 2), (5, 4, 0), (1, 4, 0), (7, 2, 2), (1, 0, 0), (3, 4, 2), (5, 2, 0), (3, 2, 2), (7, 0, 2), (7, 4, 2), (1, 2, 0), (5, 0, 0)\} : 4$$
+$$\{(1, 2, 1), (5, 0, 1), (5, 4, 1), (1, 4, 1), (3, 0, 3), (7, 2, 3), (1, 0, 1), (3, 4, 3), (5, 2, 1), (3, 2, 3), (7, 0, 3), (7, 4, 3)\} : 2$$
+$$\{(3, 2, 0), (7, 0, 0), (1, 2, 2), (7, 4, 0), (5, 4, 2), (5, 0, 2), (3, 0, 0), (7, 2, 0), (3, 4, 0), (1, 4, 2), (1, 0, 2), (5, 2, 2)\} : 4$$
+$$\{(1, 0, 3), (5, 2, 3), (3, 2, 1), (7, 0, 1), (1, 2, 3), (7, 4, 1), (5, 0, 3), (3, 0, 1), (5, 4, 3), (7, 2, 1), (1, 4, 3), (3, 4, 1)\} : 2$$
+$$\{(1, 1, 0), (3, 3, 2), (5, 3, 0), (1, 5, 0), (7, 1, 2), (1, 3, 0), (7, 5, 2), (3, 5, 2), (5, 5, 0), (7, 3, 2), (3, 1, 2), (5, 1, 0)\} : 4$$
+$$\{(3, 3, 3), (5, 3, 1), (1, 5, 1), (7, 1, 3), (1, 3, 1), (3, 5, 3), (7, 5, 3), (5, 5, 1), (7, 3, 3), (5, 1, 1), (3, 1, 3), (1, 1, 1)\} : 2$$
+$$\{(7, 5, 0), (1, 3, 2), (5, 5, 2), (3, 1, 0), (7, 3, 0), (3, 5, 0), (5, 1, 2), (5, 3, 2), (3, 3, 0), (1, 1, 2), (1, 5, 2), (7, 1, 0)\} : 4$$
+$$\{(5, 5, 3), (3, 5, 1), (3, 1, 1), (7, 3, 1), (1, 1, 3), (5, 1, 3), (5, 3, 3), (3, 3, 1), (7, 1, 1), (1, 5, 3), (7, 5, 1), (1, 3, 3)\} : 2$$
+
+  So we know we can eliminate $\mathds{Z}_{16}$ because it has an order 16 element, $\mathds{Z}_8 \times \mathds{Z}_2$ because it has an order 8 element, $\mathds{Z}_4 \times \mathds{Z}_4$ because it doesn't have enough order 2 elements, and $(\mathds{Z}_2)^4$ because it doesn't have any order 4 elements. So we know it must be $\mathds{Z}_4 \times \mathds{Z}_2 \times \mathds{Z}_2$.\\
+  
+  We can prove the isomorphism with the First Isomorphism Theorem. We know that our subgroup is Normal, because it is the subgroup of an abelian group. Let $\phi : \mathds{Z}_8 \times \mathds{Z}_6 \times \mathds{Z}_4 \rightarrow \mathds{Z}_4 \times \mathds{Z}_2 \times \mathds{Z}_2$  such that $(a,b,c) \mapsto (a-c (mod 4), b (mod 2), c (mod 2))$. It's a valid homomorphism because modulo arithmetic yields the same value if you apply the modulo before or after the arithmetic. So by the First Isomorphism Theorem, because the kernel of $\phi$ is our identity, $H$ in the quotient group, the quotient group is isomorphic to our isomorphism type.
+\item Let $R = M_n(\mathds{R})$ denote the ring of $n \times n$ matrices with real entries. Determine (with proof) whether each of the following is a subring of R.\\\\
+
+  For the following problems, I'm going to just have a checklist of things to prove S is a subring of R:
+  \begin{itemize}
+    \item The additive identities are the same ($0_r = 0_s$)
+    \item Closed under additive addition/inverses ($a - b \in S$)
+    \item Closed under multiplication (associativity will come for ``free'') ($ab \in S$)
+    \item Has multiplicative identity ($1_s$)
+  \end{itemize}
+  The first two bullets ensure that the subring is a valid group, which we've already proved. The bottom two ensure that it's a valid subring (of unity).\\
+  $S$ is only a subring iff the third bullet is true, just by the definition of a subring, and we want only subrings of unity, and this is only true iff the fourth bullet is true.
+
+  \begin{enumerate}
+    \item $T = \{A \in R : trace(A) \in \mathds{Q}\}$\\
+
+      \begin{itemize}
+        \item Let the additive identity of trace be the zero matrix $0_N$, which is just $n \times n$ zeroes. Then, for any element $t \in T$, $trace(t + 0_N) = trace(t)$, since the addition of the zeroes to the diagonal of the matrix does not change the sum of the diagonals. ($m + 0n = m$). And since t was a valid member of T, $m \in \mathds{Q}$.
+        \item For some $a,b \in T$, we can show that $a-b \in T$. $trace(a-b)$ can be calculated by just subtracting the traces of a and b. This becomes : $trace(a-b) = trace(a) - trace(b)$, and since $\mathds{Q}$ is closed under subtraction, $a-b$ is a valid element in $T$.
+        \item For some $a,b \in T$, we can show that $ab \in T$. Since all the elements along the diagonal of $ab$ are dot products of rows and columns of $a$ and $b$, and since $\mathds{Q}$ is closed under multiplication/addition/subtraction, all of the elements along the diagonal are in $\mathds{Q}$, and all the sum of those elements are in $\mathds{Q}$ as well.
+        \item Let our unity be the identity matrix, $I_N$. Then, for any $t \in T$, $I_Nt$ = $tI_n$, and $trace(I_N) = n \in \mathds{Q}$, so it is a valid element.
+      \end{itemize}
+    \item $D = \{A \in R : det(A)   \in \mathds{Q}\}$
+      \begin{itemize}
+        \item $det(0_N) = 0 \in \mathds{Q}$, so the zero matrix is a valid element in $D$.
+        \item For some $a,b \in D$, we can show $a-b \in D$. Algorithmically, in the calculation of $a-b$ as well as $det(a-b)$, the only operations we use are multiplication, addition, and subtraction (fact pulled from Linear Algebra). And since $\mathds{Q}$ is closed under all of these operations, $det(a-b)$ must be in $\mathds{Q}$.
+        \item The same is for any $ab : a,b \in D$. Since the multiplication of matrices involves no division, its product has only rational entries, and then its determinant must be a rational number as well.
+        \item Let the unity be the identity matrix, $I_N$. Then, $det(I_N) = 1 \in \mathds{Q}$.
+      \end{itemize}
+    \item $L = \{A \in R : $ A is lower triangular $\}$
+      \begin{itemize}
+        \item Trivially, the zero matrix, $0_N$ is lower triangular, since everything is 0, so it's a valid element.
+        \item For any $a,b \in L$, $a-b \in L$, because in both, every element above the diagonal is 0. And so all of the resulting elements above the diagonal in $a-b$ are just $0-0 = 0$, making it a valid lower triangular matrix as well.
+        \item From past homework, and from linear algebra, we know that lower triangular matrices are closed under multiplication. If you think of any element above the diagonal, like (ab)[1][2], anywhere where the first row of a is nonzero, that position in the second column of b is zero, so the entire dot product just evaluates to 0 for those elements.
+        \item The identity matrix, $I_N$ is lower triangular by definition, so it's a valid element as well.
+      \end{itemize}
+    \end{enumerate}
+    \item Let $R = \mathds{Z}[x]$, the ring of polynomials with coefficients in $\mathds{Z}$.
+      \begin{enumerate}
+        \item Let $S = \{p(x) \in R : $ every term of $p(x)$ has even degree $ \} = \{a_0 + a_2x^2 + \ldots a_{2k}x^{2k} : k \in \mathds{Z}, k \geq 0, $ and $ a_i \in \mathds{Z}\}$. Prove that S is a subring of R.\\\\
+          
+          Using the same checklist from earlier:
+          \begin{itemize}
+            \item The additive identity $0$ has an even degree of 0, so it's a valid element in S.
+            \item For any $a,b \in S$, $a-b$ can only have elements with degree from either $a$ or $b$, which both only have elements of even degree, so $a-b$ therefore must only have elements of even degree. Also, all the elements have integer coefficients since the integers are closed under addition/subtraction.
+            \item For any $a,b \in S$, $ab$ can only have elements of even degree. Either: An elements degree is from $a$ or $b$, in which case it must be even, as shown above. Or it has a degree of the sum of two elements from $a$ and $b$ respectively. And since evenness is closed under addition, all the elements of this type must be of even degree as well. So all of the elements in $ab$ must be of an even degree. And all the coefficients are still $\in \mathds{Z}$ since integers are closed under multiplication/addition.
+            \item The polynomial unity, $1$, also has an even degree of 0.
+          \end{itemize}
+        \item Let $\phi : R \rightarrow \mathds{Z} \times \mathds{Z}$ be defined by $p(x) \rightarrow (p(0), p(1))$. Show that $\phi$ is a ring homomorphism, and find $ker \phi = \phi^{-1}[{(0,0)}]$.\\\\
+
+          First we can show that it is a valid homomorphism. Since p(x) is a continuous real-valued function, and (f+g)(x) = f(x) + g(x) and (fg)(x) = f(x)g(x), for some functions $f,g : \mathds{R} \rightarrow \mathds{R}$, we know that $(p_1+p_2)(x) = p_1(x)+p_2(x)$ and $(p_1p_2)(x) = p_1(x)p_2(x)$. So for some $a,b \in R$: 
+          $$\phi(a+b) = ((a+b)(0), (a+b)(1))$$
+          $$=(a(0)+b(0), a(1)+b(1)) = (a(0),a(1)) + (b(0),b(1))$$
+          $$=\phi(a)+\phi(b)$$
+
+          Similarly:
+          $$\phi(ab) = ((ab)(0), (ab)(1))$$
+          $$=(a(0)b(0), a(1)b(1)) = (a(0),a(1))(b(0),b(1))$$
+          $$=\phi(a)\phi(b)$$\\
+
+          Then $ker \phi$ is just the set of polynomials where $p(0) = 0$ and $p(1) = 0$. The set where $p(0) = 0$ are the set containing only monomials of power greater than 0 (cannot have any constant terms). And the set where $p(1) = 0$ are the set of polynomials where the coefficients sum to 0.
+          $$ker \phi = \{p(x) \in R : \text{ power of p(x) $>$ 0 }\} \cap \{p(x) \in R : \text { the coefficients of p(x) sum to 0 }\}$$
+  \end{enumerate}
+\end{enumerate}
+\end{document}
