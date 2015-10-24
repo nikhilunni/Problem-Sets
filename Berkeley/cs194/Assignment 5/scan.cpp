@@ -24,9 +24,11 @@ void recursive_scan(cl_command_queue &queue,
 		    cl_mem &out, 
 		    int len)
 {
-  /* CS194: Explain to us how
-   * this function works in a 
-   * short paragraph */
+  /*
+   * In short, this parallel algorithm converges on the classic "sawtooth" shape of the
+     scan algorithm by iteratively creating "triangles" of sums, chopping it up until 
+     we hit the base case, when there is no leftover triangles to be made
+   */
   size_t global_work_size[1] = {len};
   size_t local_work_size[1] = {128};
   int left_over = 0;
@@ -56,7 +58,6 @@ void recursive_scan(cl_command_queue &queue,
   err = clSetKernelArg(scan_kern, 4, sizeof(int), &len);
   CHK_ERR(err);
 
-  /* CS194: You need to write this scan kernel */
   err = clEnqueueNDRangeKernel(queue,
 			       scan_kern,
 			       1,//work_dim,
@@ -89,11 +90,9 @@ void recursive_scan(cl_command_queue &queue,
 			   sizeof(int), &len);
       CHK_ERR(err);
       
-      /* CS194: We've provided you with
-       * this update kernel. Make you
-       * sure youre explain includes
-       * how this kernel works and
-       * why its needed */
+      /*
+       * Description in scan.cl
+       */
       err = clEnqueueNDRangeKernel(queue,
 				   update_kern,
 				   1,//work_dim,

@@ -1,3 +1,5 @@
+
+//Updates each triangle with information from the triangle prior
 __kernel void update(__global int *in,
 		     __global int *block,
 		     int n)
@@ -13,6 +15,7 @@ __kernel void update(__global int *in,
     }
 }
 
+//Actually generates the triange sums
 __kernel void scan(__global int *in, 
 		   __global int *out, 
 		   __global int *bout,
@@ -24,8 +27,17 @@ __kernel void scan(__global int *in,
   size_t dim = get_local_size(0);
   size_t gid = get_group_id(0);
   
-  /* CS194: Write this kernel! */
+  buf[tid] = in[idx];
+  barrier(CLK_LOCAL_MEM_FENCE); //Make sure we copy everything into local memory
 
+  out[idx] = 0; //Zero the array again
+
+  //Do scan for the partial array
+  for(int i = 0; i <= tid; i++)
+    out[idx] += buf[i];
+
+  if(tid == dim - 1)
+    bout[gid] = out[idx]; //Update for the next kernel
 }
 
 

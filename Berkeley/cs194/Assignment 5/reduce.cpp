@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
   if(n==0)
     return 0;
 
+  int original_N = n;
   h_A = new int[n];
   h_Y = new int[n];
 
@@ -73,28 +74,77 @@ int main(int argc, char *argv[])
   CHK_ERR(err);
 
 
-
-  size_t local_work_size[1] = {256};
-  size_t global_work_size[1];
-
-
   double t0 = timestamp();
-  /* CS194 : Implement a 
-   * reduction here */
+
+  /*
+   * First iteration!
+   */
+  size_t local_work_size[1] = {512};
+  size_t global_work_size[1] = {n};
+
+  err = clSetKernelArg(reduce, 0, sizeof(cl_mem), &g_In);
+  CHK_ERR(err);
+  err = clSetKernelArg(reduce, 1, sizeof(cl_mem), &g_Out);
+  CHK_ERR(err);
+  err = clSetKernelArg(reduce, 2, 512 * sizeof(cl_int), NULL);
+  CHK_ERR(err);
+  err = clSetKernelArg(reduce, 3, sizeof(int), &n);
+  CHK_ERR(err);  
+
+  err = clEnqueueNDRangeKernel(cv.commands,
+			       reduce,
+			       1,
+			       NULL,
+			       global_work_size,
+			       local_work_size,
+			       0,
+			       NULL,
+			       NULL
+			       );
+  CHK_ERR(err);
+  
+ 
+  //These are the only arguments we need to change... no need to change every iteration
+  int m;
+  err = clSetKernelArg(reduce, 0, sizeof(cl_mem), &g_Out);
+  CHK_ERR(err);  
+  err = clSetKernelArg(reduce, 3, sizeof(int), &n);
+  CHK_ERR(err);
+
+  //Keep reducing by 512 until we're done
+  for(m = n/512; m > 1; m /= 512) {
+    global_work_size[0] = m;
+
+    //Local size cannot be larger than global size
+    if(m < 512)
+      local_work_size[0] = m;
+    err = clEnqueueNDRangeKernel(cv.commands,
+				 reduce,
+				 1,
+				 NULL,
+				 global_work_size,
+				 local_work_size,
+				 0,
+				 NULL,
+				 NULL
+				 );
+    CHK_ERR(err);
+  }
   
   t0 = timestamp()-t0;
+  
   
   //read result of GPU on host CPU
   err = clEnqueueReadBuffer(cv.commands, g_Out, true, 0, sizeof(int)*n,
 			    h_Y, 0, NULL, NULL);
   CHK_ERR(err);
-  
+
   int sum=0.0f;
   for(int i = 0; i < n; i++)
     {
       sum += h_A[i];
     }
-
+  
   if(sum!=h_Y[0])
     {
       printf("WRONG: CPU sum = %d, GPU sum = %d\n", sum, h_Y[0]);
