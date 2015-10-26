@@ -22,6 +22,7 @@ PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 // This is a project skeleton file
 
 import java.io.PrintStream;
+import java.util.*;
 
 /** This class may be used to contain the semantic information such as
  * the inheritance graph.  You may use it or not as you like: it is only
@@ -29,6 +30,7 @@ import java.io.PrintStream;
 class ClassTable {
     private int semantErrors;
     private PrintStream errorStream;
+    private Graph<String> class_graph;
 
     /** Creates data structures representing basic Cool classes (Object,
      * IO, Int, Bool, String).  Please note: as is this method does not
@@ -189,23 +191,48 @@ class ClassTable {
 
 	/* Do somethind with Object_class, IO_class, Int_class,
            Bool_class, and Str_class here */
+	class_graph = new Graph<String>(Object_class.getName().toString(),
+					IO_class.getName().toString(),
+					Int_class.getName().toString(),
+					Bool_class.getName().toString(),
+					Str_class.getName().toString());
+
+	class_graph.addEdge(IO_class.getName().toString(), Object_class.getName().toString());
+	class_graph.addEdge(Int_class.getName().toString(), Object_class.getName().toString());
+	class_graph.addEdge(Bool_class.getName().toString(), Object_class.getName().toString());
+	class_graph.addEdge(Str_class.getName().toString(), Object_class.getName().toString());
+	
 
 	// NOT TO BE INCLUDED IN SKELETON
 	
+	/**
 	Object_class.dump_with_types(System.err, 0);
 	IO_class.dump_with_types(System.err, 0);
 	Int_class.dump_with_types(System.err, 0);
 	Bool_class.dump_with_types(System.err, 0);
 	Str_class.dump_with_types(System.err, 0);
+	**/
     }
 	
 
 
     public ClassTable(Classes cls) {
-	semantErrors = 0;
+	installBasicClasses();
 	errorStream = System.err;
-	
-	/* fill this in */
+	semantErrors = 0;	
+	for(int i = 0; i < cls.getLength(); i++) {
+	    class_c next = (class_c)(cls.getNth(i));
+	    try {
+		class_graph.addNode(next.getName().toString());
+		class_graph.addEdge(next.getName().toString(),
+				    next.getParent().toString());
+	    } catch (Exception e) {
+		semantError(next);
+	    }
+	}
+	ArrayList<String> topographicalSort = class_graph.topographicalSort();
+	if(topographicalSort == null)
+	    semantError();
     }
 
     /** Prints line number and file name of the given class.

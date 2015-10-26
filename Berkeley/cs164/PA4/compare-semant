@@ -1,1 +1,6 @@
-/home/ff/cs164/src/cool/PA4J/compare-semant
+#!/bin/sh
+
+./mysemant $1 > $1.out.my 2>&1
+./ref-semant $1 > $1.out.ref 2>&1
+diff -q $1.out.my $1.out.ref
+
