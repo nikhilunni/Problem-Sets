@@ -1,0 +1,6 @@
+[submodule "UIUC/cs446"]
+	path = UIUC/cs446
+	url = https://github.com/nikhilunni/cs446.git
+[submodule "UIUC/cs374"]
+	path = UIUC/cs374
+	url = https://github.com/nikhilunni/cs374.git
