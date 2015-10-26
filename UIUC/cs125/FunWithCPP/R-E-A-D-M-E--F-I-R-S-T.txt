@@ -1,0 +1,178 @@
+- A quick hello to shells, C++ and makefiles. -
+
+As the second 10% midterm bonus, complete this project during this week's
+section!
+
+* To earn bonus you must *COMMIT* your changes back to subversion.
+For this bonus project, it's OK if your project does not compile.
+But you must commit your changes back to subversion by the end of your lab section.
+
+Part I - Introduction to terminal shells
+
+This MP introduces you to C++, compilers and makesfiles-
+Things you'll be seeing more of in CS255.
+
+In CS125 Eclipse quietly compiled your java source files automatically.
+
+In CS225 you'll need to run the C++ compiler yourself.
+
+* Getting started:
+Login to a lab linux machine.
+
+First, some useful shell commands that you may need today:
+
+ ls          list files and directories in the current directory
+ mkdir XXX   make a new directory called XXX
+ cd XXX      move into sub-directory XXX
+ cd          cd by itself takes you back to your home directory.
+ cd ..       go up one directory
+ 
+ svn checkout https://..... YYY   Checkout project to YYY directory
+ 
+ e.g. the following will create a directory "red" on your machine
+ and it will contain a copy of all the files and directories that
+ are stored on the subversion server's 'luckydog' directory.
+ 
+    svn checkout https://blah.com/abc/luckydog red   
+
+ svn commit  -m 'message'         Commit changes in the current directory 
+ (use 'cd' to change the current directory)
+ 
+ svn help
+
+
+Part II - Checking out the project and manually compiling
+
+0. Open a Terminal ('shell') window (under the 'Applications>Accessories' menu).
+Note you can paste into a terminal window by right-clicking.
+
+1. Let's get the project from subversion. Carefully type or copy-paste
+
+svn checkout https://subversion.ews.illinois.edu/svn/fa13-cs125/YOURNETID/FunWithCPP
+
+(be sure to use your own netid and make sure there are no extra spaces. Watch out for upper/lowercase) 
+
+Now you have a local copy of all of the files (hello.cpp, Makefile and this readme).
+
+2. Change the current directory and list the files -
+
+cd FunWithCPP			(type "cd Midterm3" then press tab to autocomplete)
+ls
+
+- You should see hello.cpp and a couple of other files.
+
+You can compile the project manually by running the compiler for each source file - 
+For every .cpp file you'd type the following to create the binary machine code (the '.o' files)- 
+ 
+ g++ -c -g -O0 -Wall hello.cpp
+ 
+And finally link all of the libraries and binary .o files into a single executable file -
+ g++ -o hello hello.o
+ 
+Now look at the directory again and you'll see two new files 'hello.o' and hello (in green)
+To run the new program. Type the following - 
+./hello
+
+
+Part III - Using 'make' to automatically compile and link the project
+
+Soon you'll be changing hello.cpp and you'll need to re-compile.
+Before we do that, let's show you how to compile the code using 'make' -
+
+C and C++ programmers often use 'make' to build the software.
+For example, the linux kernel is compiled by typing 'make'
+You specify the build rules (dependencies) in a 'Makefile'.
+make checks the existence and modification times of files to lazily compile only when necessary.
+
+Type 'make' a few times and if you haven't made any changes to any source files
+then make will not recompile them! On some systems it will report 
+  make: Nothing to be done for `all'.
+
+By the way, make is a very general purpose tool - you can specify how
+a specific output file (or file extension) depends on an input file.
+If you update a file, or add new files, make will automatically
+recreate the output files - assuming you've set the rules correctly. 
+For example, I've used it to generate thumbnails of recently added jpgs.
+
+Remember, to see your changes you need to 
+* Save the text file in your editor (easy to forget after using Eclipse!)
+* Run 'make'
+
+
+Part IV - Editing files, and committing changes back to subversion
+
+Make a change and commit:
+Open the hello.cpp file in an editor (e.g. Applications>Programming>Vim improved). 
+  Make a tiny change; change 'first' to 'second';
+  Save the file.
+  
+Now commit your change back to subversion.
+  svn commit -m 'blah blah'
+
+NB blah blah can be any message you want (it's just there for other programmers to read). 
+A typical message might be
+'fixed xyz bug' or 'added new feature xyz' 
+
+The single quotes are required
+-m means the log message follows.
+And watch as hello.cpp file is sent back to subversion.
+   
+If nothing happens: 
+ Did you save your change to hello.cpp?
+ Ask the lab assistant for help.
+
+Let's see your program run!  Remember you need to compile it and run it
+Type the following-
+make
+./hello
+
+(if you have a syntax error in your code, then make will tell you where)
+
+
+Part V - Modifying hello.cpp
+
+Extend hello.cpp to print a multiplication table up to 16x16.
+Hint: Use two nested loops
+Hint: The syntax for java and c++ for-loops is identical.
+
+Don't forget to commit your changes before the end of your lab section 
+
+
+If you mess up hello.cpp, an original copy is below.
+
+Part VI Final words.
+Obviously, this is a very brief introduction to some very powerful tools and concepts.
+Google and lab assistants are your friends if you'd like to know more!
+
+If you have any spare time you could try running your c++ program using the debugger
+Type: 
+gdb hello
+l
+break 10
+print mesg
+run
+continue
+quit
+
+-----------------------
+
+#include <iostream>
+#include <string>
+
+using std::string;
+using std::cout;
+using std::endl;
+
+int main()
+{
+   cout << "Hey,";
+   string mesg = "this my first C++ program";
+   mesg += "!";
+   cout << mesg << endl;
+  
+   for(int i=0; i<10; i++) {
+     cout << i*i;
+     cout << endl;
+   }
+   return 0;
+}

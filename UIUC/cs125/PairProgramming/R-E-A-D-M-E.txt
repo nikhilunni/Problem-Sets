@@ -1,0 +1,111 @@
+
+Pair Programming Project #1:
+
+
+**** READ ALL OF THIS FILE CAREFULLY *****
+(By the way, in Eclipse if you open this file to read and then double click 
+the upper-right tab with "R-E-A-D-M-E.txt"  
+then you can see this document in full-screen mode)
+**** READ ALL OF THIS FILE CAREFULLY *****
+
+
+
+
+* Learn and practice pair programming skills.
+* Bump your first midterm score up by 10% 
+ ONLY IF YOU WORK WITH ANOTHER STUDENT USING PAIR PROGRAMMING TECHNIQUE.
+
+> How? (Don't skim read)
+Using the pair programming technique (described below) add features to the Game.
+To get the 10% midterm bump:
+
+1 Practice pair programming technique with a partner for this lab section (see below).
+2 Use pair programming to modify and extend the Game.
+3 Add your *netids* to the @author line
+4 Commit your code changes back to the subversion in one partner's svn area.
+5 Be ready to demo you game and explain your code changes (code-review) next week.
+
+
+> Feeling Competitive?
+Will your Game be the most playable and visually interesting next week?
+Note Zen graphics supports color, keyboard input and drawing image files.
+
+> The Pair Programming Technique.
+Pair Programming sounds expensive - "Two people, one keyboard" but actually is a
+common software development technique when working on difficult or open-ended
+problems. Typically every 5-10 minutes programmers swap seats and swap roles.
+
+It's most successful when both programmers are aware of each other's roles 
+(The Driver and The Observer). The Observer is also known as The Navigator.
+
+Both programmers share the responsibility of creating efficient, readable code.
+i.e. Both must be actively engaged in the creative process.
+
+Note - If one programmer is more experienced than the other, 
+then they should be the Observer most of the time. Plus the junior programmer must
+ask lots of questions to ensure they understand how the program will work.
+
+The roles and mindsets of each programmer are different because when at the 
+keyboard typing  ("The Driver") it's easy to - 
+  Not see the big picture
+  Create a bug / software error.
+  Not solve problems creatively.
+
+And that's where the other programmer comes in. Their role - "The Observer" -  
+is to help problem solve, think strategically and spot potential errors 
+as soon as possible.
+   
+Pair-programming can and should be noisy! Program development will slow or pause as partners
+discuss alternative implementations. But this is a good thing: Programs written using
+this technique have gone through deeper thought/more extensive design process and
+less likely to contain troublesome bugs.
+
+More tips from http://www.wikihow.com/Pair-Program
+* Agree on a solution: Decide on a general strategy to tackle the task that you 
+decided upon. 
+
+* Agree on one tiny goal at a time: something you can complete within a few minutes. 
+Stating the problem in words to another person helps focus your mind and helps 
+engage your partner's mind. It also ensures that you both know what you are working 
+on right now.
+
+* Rely on your partner, support your partner.
+# When you're the driver, complete the current tiny goal as quickly as you can, ignoring larger issues. 
+Trust the observer to be your safety net.
+# When you're the observer, read the code that the driver is writing as he or she writes it. 
+Your job is code review. You should pay total attention, aiming to let nothing get by you. 
+Think about possible bugs, larger issues, and ways to simplify or improve the design. 
+Bring up errors and code that you find unreadable right away. 
+Wait until the current tiny goal is done to bring up larger issues and ideas for design improvement. 
+Jot these later tasks down so the driver can stay focused on the present tiny task. 
+For example, if you see that the current code fails to account for a null input, 
+write down on a piece of paper, "Add unit test for null input."
+# When you're the observer, don't dictate the code. The driver should be actively thinking 
+about how to achieve the current task, not just typing passively. And as the observer, 
+you should exploit the fact that you don't need to invent the small details; you can and 
+should think at a higher level. Saying "That looks right. How about handling the case 
+where we're passed a null pointer now?" is better than "OK, now type 'if (s == NULL) { return ...'"
+
+Some benefits you can expect: better code (simpler design, fewer bugs, more maintainable),
+ higher morale (more fun!), shared knowledge throughout your team 
+ (both specific knowledge of your codebase and general programming knowledge), 
+ better time management, higher productivity.
+
+
+
+* The Game
+The example game code is designed to help rehabilitate patients after a stroke or brain surgery.
+The game idea is simple - type in the number that's falling down.
+It needs additional features and that's where you come in.
+
+By the way, here's some early feedback from testing with real patients-
+0. The numbers always fall vertically and don't reset back to the top if they fall past the bottom of the screen"
+1. They don't like the flicker (hint:  you can use Zen.flipBuffer - see the PongGame)
+2. It's possible to make the game die with an exception:
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 0
+	at java.lang.String.charAt(String.java:686)
+	at RainGame.main(RainGame:41)
+3. It would be nice if the game got harder and more interesting.
+e.g Some more visual distractions.
+4. It would be useful if you could skip the easiest levels.
+
