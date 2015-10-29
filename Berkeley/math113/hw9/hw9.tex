@@ -1,0 +1,115 @@
+\input{../math113.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Homework \#9}{Fall 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+\item Let $G = GL(7,\mathds{R})$. We have already showed that the subset $N = \{M \in G : det M = 1 \}$ is a subgroup of G. Verify that $N \trianglelefteq G$ and describe the cosets of N. Determine the isomorphism type of $G/N$ and prove your answer.\\\\
+
+  For any $n \in N, g \in G$: 
+  $$det(gng^{-1}) = det(g)det(n)det(g^{-1}) = det(g)det(g^{-1})det(n)$$ 
+  This becomes just $det(n)$ because the determinant of the inverse is the inverse of the determinant. And since $n \in N$, $det(n) = 1$. So $det(gng^{-1}) = 1$, making it a member of $N$ as well, proving that N is a normal subgroup of G.\\
+
+  $G/N$ is isomorphic to $\langle \mathds{R}-\{0\} , \times \rangle$. If we have some homomorphism $\phi: G \rightarrow \mathds{R}$, $\mathds{R}$ is isomorphic to $G / ker(\phi)$, by the First Isomorphism Theorem. Let our kernel be :
+  $\phi(g) \mapsto det(g)$. The mapping is onto since, for any $r$ in the image, we can just construct a matrix with r at (0,0) and 1's along the diagonal and 0's everywhere else that will have r as its determinant. It's also a valid homomorphism since $\phi(ab) = \phi(a)\phi(b)$, which is a property of determinants. And the kernel is the set of all elements that map to our multiplicative identity, 1, and this is only the elements with determinant 1.\\
+  Because $ker \phi = N$, and $\phi$ is onto, by the First Isomorphism Theorem, $G/N$ is isomorphic to $\langle \mathds{R}-\{0\} , \times \rangle$.\\
+
+  It's important that the isomorphic group excludes 0, since the GL group doesn't include uninvertable matrices, which have det(0). The reals minus 0 is still a valid group, since there's no way to multiply two nonzero numbers and yield 0, so it's still closed under multiplication.
+
+\item Let $R = \mathds{R}[[x]]$ denote the ring of formal power series in the variable $x$ with real coefficients. $R = \{a_0 + a_1x + \ldots\}$. 
+  \begin{enumerate}
+    \item Prove that R is an integral domain.\\\\
+
+      We can prove this in a similar way done in class on Tuesday. If we take any two nonzero elements, we can show that it's not possible for them to multiply to form 0. For some nonzero $a,b \in R$:
+      $ab = (a_0+a_1x+a_2x^2+\ldots)(b_0+b_1x+b_2x^2+\ldots)$
+      Let $a_nx^n$ be the lowest degree element in a (and there must be at least one or a is 0). And let $b_mx^m$ be the lowest degree element in b, and again, there must be one. Then, in ab, there must be the term $a_nb_mx^{n+m}$. Since $a_n$ and $b_m$ are nonzero, and n and m are nonnegative, this is an actual element in ab, meaning that $ab \neq 0$ for any nonzero a and b.
+
+    \item Find a nonzero element of R which is neither a unit nor a zero divisor. Prove your answer meets this condition.\\\\
+      The element $x \in \mathds{R}[[x]]$ is an example that is neither a unit nor a zero divisor. If we pick some arbitrary nonzero $r \in R = \Sigma_{i=0}^\infty r_ix^i$, $xr = \Sigma_{i=0}^\infty r_ix^{i+1}$. This cannot be 0, because the addition of our x has promoted all of the (nonzero) terms, and you cannot have a demotion of terms in an integral domain. For the same reason, $xr$ cannot yield the multiplicative identity, regardless of our choice of $r$. Since there is no ``negative one'' power term, there's no way that a promotion of power would yield a degree zero output in our integral domain. So $x$ is not zero, a unit, or a zero divisor.
+    \item Find the inverse of the linear polynomial $ax - 1$ in R where a is a nonzero constant.
+      $$(-1 + ax)^{-1} = (-1 - ax - a^2x^2 - a^3x^3 - \ldots) = -\Sigma_{i=0}^\infty a^ix^i$$
+      Roughly, this is because, for every term the original monomial $ax$ can generate (e.g. $-ax, -a^2x^2, -a^3x^3$), the $-1$ monomial is a step ahead, and has already generated the negated term (e.g. $ax, a^2x^2, a^3x^3$). So everything it generates cancels everything $ax$ generates, except for the lowest degree term, which will just become 1.
+  \end{enumerate}
+  
+  \item Let $R = M_2(\mathds{Z}_6)$, the ring of $2 \times 2$ matrices with entries from $\mathds{Z}_6$.
+
+    \begin{enumerate}
+      \item How many elements are in R? What can you say about the orders of subrings of R? Why?\\\\
+
+        Right off the bat we know that the number of elements in R is just $6 \times 6 \times 6 \times 6 = 1296$. This is because there are 4 cells in the elements of R, and each cell can have 6 different independent values.\\
+        We know that the order of any subring of R has to be less than or equal to 6, and has to divide 6. We know this because the additive group of matrices can just be treated as ($n \times n$) independent groups. In our case, it will behave exactly like $\mathds{Z}_6 \times \mathds{Z}_6 \times \mathds{Z}_6 \times \mathds{Z}_6$, because each cell is mod 6. An example homomorphism between the two representations would be $\phi(mat) \mapsto (mat[0][0], mat[0][1], mat[1][0], mat[1][1])$.
+
+      \item As completely as you can, classify the nonzero elements of R as units, zero divisors, or neither.\\\\
+        Let the set $r_n = \{r \in R : det(r) = n (mod 6)\}$.\\
+        Then we can describe the units as the set $r_1 \cup r_5$, the set of all matrices in our ring with a determinant of 1 or 5 (mod 6). Then, the rest of the nonzero elements are zero divisors in the ring. Informally, since the determinants of matrix products are the products of the determinants, and modulo arithmetic work the same if you apply it before or after the operation, it makes sense that the only way to multiply two determinants to get a determinant of 1 is if the product of the determinants is 1 (mod 6). Concretely, for some $a,b \in \mathds{Z}_6$, $ab = 1 (mod 6)$. And this is only possible with $1 \times 1 (mod 6)$ and $5 \times 5 (mod 6)$.
+
+        \item Can you find more than 2 solutions to $X^2 - 4x + 3I = 0$?\\\\
+$$          
+      \begin{pmatrix}[cc]
+        0 & 1 \\
+        3 & 4 \\
+      \end{pmatrix}, 
+      \begin{pmatrix}[cc]
+        0 & 3 \\
+        1 & 4 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        0 & 3 \\
+        3 & 4 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        4 & 3 \\
+        5 & 0 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        5 & 5 \\
+        2 & 5 \\
+      \end{pmatrix}
+$$
+And many more! In order, these matrices when plugged in evaluate to:
+$$
+      \begin{pmatrix}[cc]
+        6 & 0 \\
+        0 & 6 \\
+      \end{pmatrix}, 
+      \begin{pmatrix}[cc]
+        6 & 0 \\
+        0 & 6 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        12 & 0 \\
+        0 & 12 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        18 & 0 \\
+        0 & 18 \\
+      \end{pmatrix},
+      \begin{pmatrix}[cc]
+        18 & 30 \\
+        12 & 18 \\
+      \end{pmatrix}
+$$
+which are all the zero matrix in our modulo group.
+    \end{enumerate}
+
+\end{enumerate}
+\end{document}
