@@ -262,6 +262,8 @@ class ClassTable {
 	    String className = next.getName().toString();
 	    class_lookup.put(className, next);
 	    try {
+		if(className.toString().equals(TreeConstants.SELF_TYPE.toString()))
+		    throw new Exception();
 		class_graph.addNode(className);
 		class_graph.addEdge(className,
 				    next.getParent().toString());
@@ -275,7 +277,8 @@ class ClassTable {
 					     next.getParent());
 		}
 	    } catch (Exception e) {
-		semantError(next).println("Redefinition of class " + className);
+		semantError(next).printf("Class %s was previously defined.\n", className);
+		error = true;
 	    }
 	}
 	topographicalSort = class_graph.topographicalSort();
