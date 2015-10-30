@@ -202,9 +202,21 @@ class ClassTable {
 	class_graph.addEdge(Bool_class.getName().toString(), Object_class.getName().toString());
 	class_graph.addEdge(Str_class.getName().toString(), Object_class.getName().toString());
 	
+	class_lookup.put("Object", Object_class);
+	class_lookup.put("IO", IO_class);
+	class_lookup.put("Int", Int_class);
+	class_lookup.put("Bool", Bool_class);
+	class_lookup.put("String", Str_class);
+	class_lookup.put("SELF_TYPE", null); //Yikes...
 
-	// NOT TO BE INCLUDED IN SKELETON
-	
+	basicClasses = new Classes(0)
+	    .appendElement(Object_class)
+	    .appendElement(IO_class)
+	    .appendElement(Int_class)
+	    .appendElement(Bool_class)
+	    .appendElement(Str_class);
+
+	// NOT TO BE INCLUDED IN SKELETON	
 	/**
 	Object_class.dump_with_types(System.err, 0);
 	IO_class.dump_with_types(System.err, 0);
@@ -213,26 +225,81 @@ class ClassTable {
 	Str_class.dump_with_types(System.err, 0);
 	**/
     }
-	
 
+    HashMap<String, HashSet<Feature>> class_features;
+    HashMap<String, class_c> class_lookup;
+    ArrayList<String> topographicalSort;
+
+    public HashSet<Feature> getClassFeatures(String class_name) {
+	return class_features.get(class_name);
+    }
+    
+    Classes basicClasses;
+    public Classes basicClasses() {
+	return basicClasses;
+    }
+
+    public boolean containsClass(String class_name) {
+	return class_lookup.containsKey(class_name);
+    }
+
+    public class_c getClass_c(String class_name) {
+	return class_lookup.get(class_name);
+    }
+
+    public ArrayList<String> classes() {
+	return topographicalSort;
+    }
 
     public ClassTable(Classes cls) {
+	class_lookup = new HashMap<String, class_c>();
 	installBasicClasses();
 	errorStream = System.err;
-	semantErrors = 0;	
+	semantErrors = 0;
+	boolean error = false;
 	for(int i = 0; i < cls.getLength(); i++) {
 	    class_c next = (class_c)(cls.getNth(i));
+	    String className = next.getName().toString();
+	    class_lookup.put(className, next);
 	    try {
-		class_graph.addNode(next.getName().toString());
-		class_graph.addEdge(next.getName().toString(),
+		class_graph.addNode(className);
+		class_graph.addEdge(className,
 				    next.getParent().toString());
+		if(next.getParent().equals(TreeConstants.SELF_TYPE) ||
+		   next.getParent().equals(TreeConstants.Bool) || 
+		   next.getParent().equals(TreeConstants.Int) || 
+		   next.getParent().equals(TreeConstants.Str)) {
+		    error = true;
+		    semantError(next).printf("Class %s cannot inherit class %s.\n",
+					     className,
+					     next.getParent());
+		}
 	    } catch (Exception e) {
-		semantError(next);
+		semantError(next).println("Redefinition of class " + className);
 	    }
 	}
-	ArrayList<String> topographicalSort = class_graph.topographicalSort();
-	if(topographicalSort == null)
-	    semantError();
+	topographicalSort = class_graph.topographicalSort();
+	if(error || topographicalSort == null) { 
+	    if(!error)
+		semantError().println("Ill-formed class hierarchy in program.");
+	    System.err.println("Compilation halted due to static semantic errors.");
+	    System.exit(1);
+	} else {
+	    class_features = new HashMap<String, HashSet<Feature>>();
+	    
+	    /*
+	     * Copy all features to our map
+	     */
+	    for(String class_name : topographicalSort) {
+		class_features.put(class_name, new HashSet<Feature>());
+		class_c _class = class_lookup.get(class_name);
+		Features features = _class.getFeatures();
+		for(int i = 0; i < features.getLength(); i++) {
+		    Feature next = (Feature)features.getNth(i);
+		    class_features.get(class_name).add(next);
+		}
+	    }
+	}
     }
 
     /** Prints line number and file name of the given class.
@@ -261,6 +328,46 @@ class ClassTable {
     public PrintStream semantError(AbstractSymbol filename, TreeNode t) {
 	errorStream.print(filename + ":" + t.getLineNumber() + ": ");
 	return semantError();
+    }
+    
+
+    public boolean isLEQ(AbstractSymbol child, AbstractSymbol ancestor) {
+	if(child.equals(TreeConstants.No_type))
+	    return true;
+	class_c curr = getClass_c(child.toString());
+	for(; !curr.name.equals(TreeConstants.Object_); curr = getClass_c(curr.parent.toString())) {
+	    if(curr.name.equals(ancestor))
+		return true;
+	}
+	if(curr.name.equals(ancestor))
+	    return true;
+	return false;
+    }
+
+    public AbstractSymbol LUB(AbstractSymbol a, AbstractSymbol b) {
+	if(a == null)
+	    return b;
+	else if(b == null)
+	    return a;
+	ArrayList<AbstractSymbol> aPath = new ArrayList<AbstractSymbol>();
+	ArrayList<AbstractSymbol> bPath = new ArrayList<AbstractSymbol>();
+	class_c curr = getClass_c(a.toString());
+	for(; !curr.name.equals(TreeConstants.Object_); curr = getClass_c(curr.parent.toString())) {
+	    aPath.add(curr.name);
+	}
+	aPath.add(curr.name);
+
+	curr = getClass_c(b.toString());
+	for(; !curr.name.equals(TreeConstants.Object_); curr = getClass_c(curr.parent.toString())) {
+	    bPath.add(curr.name);	    
+	}
+	bPath.add(curr.name);
+
+	int a_i = aPath.size()-1, b_i = bPath.size()-1;
+	while(a_i >= 0 && b_i >= 0 && aPath.get(a_i).equals(bPath.get(b_i))) {
+	    a_i--; b_i--;
+	}
+	return aPath.get(a_i+1);
     }
 
     /** Increments semantic error count and returns the print stream for

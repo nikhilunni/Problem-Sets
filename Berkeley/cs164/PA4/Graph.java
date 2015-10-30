@@ -2,15 +2,23 @@ import java.util.*;
 
 public class Graph<T> {
     HashMap<T, HashSet<T>> out_edges;
+    HashMap<T, HashSet<T>> in_edges;
 
     public Graph(T... nodes) {
 	out_edges = new HashMap<T, HashSet<T>>();
-	System.out.println("Args : " + java.util.Arrays.asList(nodes));
 	if(nodes != null) {
 	    for(T node : nodes) {
 		out_edges.put(node, new HashSet<T>());
 	    }
 	}
+    }
+
+    public HashMap<T, HashSet<T>> out_edges() {
+	return out_edges;
+    }
+
+    public HashMap<T, HashSet<T>> in_edges() {
+	return in_edges;
     }
 
     public void addNode(T node) throws Exception {
@@ -40,7 +48,7 @@ public class Graph<T> {
     public ArrayList<T> topographicalSort() {
 	Stack<T> stack = new Stack<T>();
 	
-	HashMap<T, HashSet<T>> in_edges = getInEdges();
+	in_edges = getInEdges();
 	if(in_edges == null)
 	    return null;
 
@@ -49,25 +57,24 @@ public class Graph<T> {
 	    if(in_edges.get(t).isEmpty()) //No incoming edges
 		noIncoming.add(t);
 	}
-	System.out.println("No incoming : " + noIncoming);	
 	while(!noIncoming.isEmpty()) {
 	    T next = noIncoming.remove(noIncoming.size() - 1); //Get last element
 	    stack.push(next); //Add to tail of out
 	    for(T _out : out_edges.get(next)) {
-		out_edges.get(next).remove(_out);
 		in_edges.get(_out).remove(next);
 		if(in_edges.get(_out).isEmpty()) //No incoming edges to out
 		    noIncoming.add(_out);
 	    }
 	}
-	for(T t : out_edges.keySet()) {
-	    if(!out_edges.get(t).isEmpty())
+	for(T t : in_edges.keySet()) {
+	    if(!in_edges.get(t).isEmpty())
 		return null;
 	}
 
 	ArrayList<T> out = new ArrayList<T>();
 	while(!stack.isEmpty())
 	    out.add(stack.pop());
+	in_edges = getInEdges();
 	return out;
     }
 

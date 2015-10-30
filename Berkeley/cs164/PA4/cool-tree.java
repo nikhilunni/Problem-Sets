@@ -12,6 +12,11 @@ import java.util.Enumeration;
 import java.io.PrintStream;
 import java.util.Vector;
 
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Set;
+
 
 /** Defines simple phylum Program */
 abstract class Program extends TreeNode {
@@ -71,7 +76,7 @@ abstract class Feature extends TreeNode {
         super(lineNumber);
     }
     public abstract void dump_with_types(PrintStream out, int n);
-
+    public abstract void semant(class_c _class, SymbolTable st, ClassTable ct);
 }
 
 
@@ -154,6 +159,7 @@ abstract class Expression extends TreeNode {
         else
             { out.println(Utilities.pad(n) + ": _no_type"); }
     }
+    public abstract void semant(class_c _class, SymbolTable st, ClassTable ct);
 
 }
 
@@ -244,7 +250,25 @@ class programc extends Program {
         classes.dump(out, n+2);
     }
 
+    public void printAllFeatures(SymbolTable tb) {
+
+	HashMap<AbstractSymbol, HashMap<AbstractSymbol, AbstractSymbol>> t_v = 
+	    (HashMap<AbstractSymbol, HashMap<AbstractSymbol, AbstractSymbol>>)tb.variableLookup();
+	HashMap<AbstractSymbol, HashMap<AbstractSymbol, method>> t_m = 
+	    (HashMap<AbstractSymbol, HashMap<AbstractSymbol, method>>)tb.methodLookup();
+	for(AbstractSymbol className : t_v.keySet()) {
+	    System.out.println(className + " : ");
+	    HashMap<AbstractSymbol, AbstractSymbol> m = t_v.get(className);
+	    HashMap<AbstractSymbol, method> m_m = t_m.get(className);
+	    for(AbstractSymbol varName : m.keySet())
+		System.out.println("\t" + varName + " : " + m.get(varName));
+	    for(AbstractSymbol varName : m_m.keySet())
+		System.out.println("\t" + varName + " => " + m_m.get(varName).return_type);
+	    System.out.println();
+	}
+    }
     
+
     public void dump_with_types(PrintStream out, int n) {
         dump_line(out, n);
         out.println(Utilities.pad(n) + "_program");
@@ -268,17 +292,78 @@ class programc extends Program {
 	to test the complete compiler.
     */
     public void semant() {
+	/*
+	 * A program is semantically correct if it:
+	 * (a) Contains a Main class
+	 * (b) The Main class has a main method
+	 * (c) The main method has no args
+	 * (d) All of the classes in the program are semantically correct
+	 */
+	
 	/* ClassTable constructor may do some semantic analysis */
 	ClassTable classTable = new ClassTable(classes);
+	SymbolTable tb = new SymbolTable();
+	tb.setClassTable(classTable);
 	
-	/* some semantic analysis code may go here */
-
+	//Populate ClassTable's methodLookup and variableLookup
+	for(int i = 0; i < classTable.basicClasses().getLength() + classes.getLength(); i++) {
+	    class_c next = (class_c)(i < classTable.basicClasses().getLength() ? 
+				     classTable.basicClasses().getNth(i) : classes.getNth(i-classTable.basicClasses().getLength()));
+	    
+	    
+	    //Instantiate the lookup tables in tb
+	    HashMap<AbstractSymbol, AbstractSymbol> t_v = 
+		new HashMap<AbstractSymbol, AbstractSymbol>();
+	    HashMap<AbstractSymbol, method> t_m = 
+		new HashMap<AbstractSymbol, method>();
+	    //Populate the lookup tables
+	    for(int j = 0; j < next.features.getLength(); j++) {
+		Feature next_f = (Feature)(next.features.getNth(j));
+		if(next_f instanceof attr) {
+		    attr next_a = (attr)next_f;
+		    t_v.put(next_a.name, next_a.type_decl);
+		}
+		if(next_f instanceof method) {
+		    method next_m = (method)next_f;
+		    t_m.put(next_m.name, next_m);
+		}
+	    }
+	    tb.variableLookup().put(next.getName(), t_v);
+	    tb.methodLookup().put(next.getName(), t_m);
+	}
+	
+	//If Main is not defined, or if Main.main is not defined, or if Main.main has > 0 args
+	if(!classTable.containsClass("Main")) {
+	    classTable.semantError().println("Class Main is not defined.");
+	} else { 
+	    HashSet<Feature> main_features = classTable.getClassFeatures("Main");
+	    method main_main_feature = null;
+	    for(Feature f : main_features) {
+		if(f instanceof method && ((method)f).name.equals(TreeConstants.main_meth))
+		    main_main_feature = (method)f;
+	    }
+	    if(main_main_feature == null) {
+		classTable.semantError(classTable.getClass_c("Main"))
+		    .println("No 'main' method in class Main.");
+	    } else if(main_main_feature.formals.getLength() > 0) {
+		classTable.semantError(classTable.getClass_c("Main").getFilename(),
+				       main_main_feature)
+		    .println("'main' method in class Main should have no arguments.");
+	    }		    
+	}
+	tb.enterScope();
+	tb.addId(TreeConstants.self, TreeConstants.SELF_TYPE);
+	//Type check all of the classes
+	for(int i = 0; i < classes.getLength(); i++) {
+	    class_c next = ((class_c)classes.getNth(i));
+	    ((class_c)classes.getNth(i)).semant(tb, classTable);
+	}
+	
 	if (classTable.errors()) {
 	    System.err.println("Compilation halted due to static semantic errors.");
 	    System.exit(1);
 	}
     }
-
 }
 
 
@@ -316,7 +401,42 @@ class class_c extends Class_ {
         dump_AbstractSymbol(out, n+2, filename);
     }
 
+    public method oldestAncestorMethod(AbstractSymbol method_name, 
+					ClassTable ct, 
+					SymbolTable st) {
+	method out = null;
+ 	class_c curr;
+	for(curr = this; !curr.name.equals(TreeConstants.Object_); curr = ct.getClass_c(curr.parent.toString())) {
+	    HashMap<AbstractSymbol, method> mLookup = (HashMap<AbstractSymbol, method>)(st.methodLookup().get(curr.name));
+	    if(mLookup.containsKey(method_name))
+		out = mLookup.get(method_name);
+	}
+	HashMap<AbstractSymbol, method> mLookup = (HashMap<AbstractSymbol, method>)(st.methodLookup().get(curr.name));
+	if(mLookup.containsKey(method_name))
+	    out = mLookup.get(method_name);
+	
+	return out;
+    }
     
+    public boolean checkAncAttrs(AbstractSymbol _attr, ClassTable ct, SymbolTable st) {
+	if(this.parent == null || this.name.equals(TreeConstants.Object_))
+	    return ((HashMap<AbstractSymbol, AbstractSymbol>)(st.variableLookup().get(TreeConstants.Object_))).containsKey(_attr);
+	class_c curr = ct.getClass_c(this.parent.toString());
+	for(; !curr.name.equals(TreeConstants.Object_); curr = ct.getClass_c(curr.parent.toString())) {
+	    HashMap<AbstractSymbol, AbstractSymbol> vLookup = 
+		(HashMap<AbstractSymbol, AbstractSymbol>)(st.variableLookup().get(curr.name));	    
+	    if(vLookup.containsKey(_attr)) {
+		return true;
+	    }
+	}
+	HashMap<AbstractSymbol, AbstractSymbol> vLookup = 
+	    (HashMap<AbstractSymbol, AbstractSymbol>)(st.variableLookup().get(curr.name));
+	if(vLookup.containsKey(_attr)) {
+	    return true;
+	}
+	return false;
+    }
+
     public void dump_with_types(PrintStream out, int n) {
         dump_line(out, n);
         out.println(Utilities.pad(n) + "_class");
@@ -330,6 +450,59 @@ class class_c extends Class_ {
         }
         out.println(Utilities.pad(n + 2) + ")");
     }
+
+    public void semant(SymbolTable st, ClassTable ct) {
+	for(int i = 0; i < features.getLength(); i++) {
+	    Feature f = (Feature)(features.getNth(i));
+	    if(f instanceof attr) {
+		if (checkAncAttrs( ((attr)f).name, ct, st)) {
+		    ct.semantError(getFilename(), f)
+			.println("Attribute " + ((attr)f).name + " is an attribute of an inherited class.");		    
+		}
+		if( !ct.containsClass( ((attr)f).type_decl.toString() ) )
+		    ct.semantError(this.getFilename(), f)
+			.println("Class " + ((attr)f).type_decl + " of attribute " +
+				 ((attr)f).name + " is undefined.");
+	    }
+	    if(f instanceof method) {
+		method oldestMethod = oldestAncestorMethod( ((method)f).name, ct, st);
+		if(oldestMethod != f) { //We have some ancestor that has the same method name
+		    method _f = (method)f;
+		    if(!oldestMethod.return_type.equals(_f.return_type)) {
+			ct.semantError(this.getFilename(), f)
+			    .println("In redefined method " + _f.name + ", return type " 
+				     + _f.return_type 
+				     + " is different from original return type " 
+				     + oldestMethod.return_type + ".");
+		    }
+		    else if(oldestMethod.formals.getLength() != _f.formals.getLength()) {
+			ct.semantError(this.getFilename(), f)
+			    .println("Incompatible number of formal parameters in redefined method " + _f.name + ".");
+		    } else {
+			for(int j = 0; j < _f.formals.getLength(); j++) {
+			    formalc mine = (formalc)(_f.formals.getNth(j));
+			    formalc theirs = (formalc)(oldestMethod.formals.getNth(j));
+			    if(!mine.type_decl.equals(theirs.type_decl))
+				ct.semantError(this.getFilename(), f)
+				    .println("In redefined method thing, parameter type " 
+					     + mine.type_decl + 
+					     " is different from original type " 
+					     + theirs.type_decl + ".");
+			}
+		    }
+		}
+		if( !ct.containsClass( ((method)f).return_type.toString() ) )
+		    ct.semantError(this.getFilename(), f)
+			.println("Undefined return type " + ((method)f).return_type + 
+				 " in method " + ((method)f).name + ".");
+	    }
+	}
+	//Have to run after the last for-loop so that the order of my errors matches ref-semant
+	for(int i = 0; i < features.getLength(); i++) {
+	    ((Feature)features.getNth(i)).semant(this, st, ct);
+	}
+    }
+
     public AbstractSymbol getName()     { return name; }
     public AbstractSymbol getParent()   { return parent; }
     public AbstractSymbol getFilename() { return filename; }
@@ -384,6 +557,37 @@ class method extends Feature {
 	expr.dump_with_types(out, n + 2);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	st.enterScope( new Hashtable((HashMap)(st.variableLookup().get(_class.name))) );
+
+	HashSet<AbstractSymbol> formalNames = new HashSet<AbstractSymbol>();
+	for(int i = 0; i < formals.getLength(); i++) {
+	    formalc next = (formalc)(formals.getNth(i));
+	    if(formalNames.contains(next.name)) {
+		ct.semantError(_class.getFilename(), this)
+		    .printf("Formal parameter %s is multiply defined.\n", next.name);
+	    } else {
+		st.addId(next.name, next.type_decl);
+	    }
+	    if(next.type_decl.equals(TreeConstants.SELF_TYPE)) {
+		ct.semantError(_class.getFilename(), next)
+		    .printf("Formal parameter %s cannot have type SELF_TYPE.\n", next.name);
+	    } else if(!ct.containsClass(next.type_decl.toString())) {
+		ct.semantError(_class.getFilename(), next)
+		    .printf("Class %s of formal parameter %s is undefined.\n", next.type_decl,
+			    next.name);
+	    }
+	    formalNames.add(next.name);
+	}
+
+	expr.semant(_class, st, ct);
+	AbstractSymbol t1 = return_type.equals(TreeConstants.SELF_TYPE) ? _class.name : return_type;
+	AbstractSymbol t2 = expr.get_type().equals(TreeConstants.SELF_TYPE) ? _class.name : expr.get_type();
+        if(!ct.isLEQ(t2,t1) && ct.containsClass(return_type.toString()))
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Inferred return type %s of method %s does not conform to declared return type %s.\n", expr.get_type(), this.name, return_type);
+	st.exitScope();
+    }
 }
 
 
@@ -426,6 +630,17 @@ class attr extends Feature {
 	init.dump_with_types(out, n + 2);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	st.enterScope( new Hashtable((HashMap)(st.variableLookup().get(_class.name))) );
+	init.semant(_class, st, ct);
+	AbstractSymbol t1 = type_decl.equals(TreeConstants.SELF_TYPE) ? _class.name : type_decl;
+	AbstractSymbol t2 = init.get_type().equals(TreeConstants.SELF_TYPE) ? _class.name : init.get_type();
+        if(!ct.isLEQ(t2,t1))
+	    ct.semantError(_class.getFilename(), this)
+		.println("Inferred type " + init.get_type() + " of initialization of attribute"
+			 + this.name + " does not conform to declared type " + this.type_decl);
+	st.exitScope();
+    }
 }
 
 
@@ -463,6 +678,9 @@ class formalc extends Formal {
         dump_AbstractSymbol(out, n + 2, type_decl);
     }
 
+    public void semant() {
+	
+    }
 }
 
 
@@ -473,6 +691,8 @@ class branch extends Case {
     protected AbstractSymbol name;
     protected AbstractSymbol type_decl;
     protected Expression expr;
+    
+    protected AbstractSymbol type;
     /** Creates "branch" AST node. 
       *
       * @param lineNumber the line in the source file from which this node came.
@@ -504,7 +724,31 @@ class branch extends Case {
         dump_AbstractSymbol(out, n + 2, type_decl);
 	expr.dump_with_types(out, n + 2);
     }
-
+    public AbstractSymbol get_type() { 
+	return type;
+    }
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	if(!ct.containsClass(type_decl.toString())) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Class %s of case branch is undefined.\n", type_decl);
+	} else if(type_decl.equals(TreeConstants.SELF_TYPE)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Identifier %s declared with type SELF_TYPE in case branch.\n", 
+			name);
+	}
+	if(name.equals(TreeConstants.self))
+	    ct.semantError(_class.getFilename(), this)
+		.printf("'self' bound in 'case'.\n");
+	else {
+	    st.enterScope();
+	    st.addId(name, type_decl);
+	    expr.semant(_class, st, ct);
+	    type = expr.get_type();
+	    st.exitScope();
+	}
+	if(type == null) /*TODO*/
+	    type = TreeConstants.Object_;
+    }
 }
 
 
@@ -533,7 +777,6 @@ class assign extends Expression {
         dump_AbstractSymbol(out, n+2, name);
         expr.dump(out, n+2);
     }
-
     
     public void dump_with_types(PrintStream out, int n) {
         dump_line(out, n);
@@ -543,6 +786,19 @@ class assign extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	expr.semant(_class, st, ct);
+	if(!st.isInTable(name) && !_class.checkAncAttrs(name, ct, st)) {
+	    ct.semantError(_class.getFilename(), this)
+		.println("Assignment to undeclared variable " + this.name + ".");
+	    set_type(TreeConstants.Object_);
+	} else if(name.equals(TreeConstants.self)) {
+	    ct.semantError(_class.getFilename(), this)
+		.println("Cannot assign to 'self'.");
+	    set_type(expr.get_type());
+	}
+	set_type(expr.get_type());
+    }
 }
 
 
@@ -594,7 +850,22 @@ class static_dispatch extends Expression {
         out.println(Utilities.pad(n + 2) + ")");
 	dump_type(out, n);
     }
-
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	expr.semant(_class, st, ct);
+	if(!ct.containsClass(type_name.toString()))
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Static dispatch to undefined class %s.\n", type_name);
+	else if(type_name.equals(TreeConstants.SELF_TYPE))
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Static dispatch to SELF_TYPE.\n", type_name);
+	else if(!ct.isLEQ(expr.get_type(), type_name)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Expression type %s does not conform to declared static dispatch type %s.\n", expr.get_type(), type_name);
+	}
+	else {
+	    set_type(expr.get_type());
+	}
+    }
 }
 
 
@@ -628,6 +899,16 @@ class dispatch extends Expression {
         actual.dump(out, n+2);
     }
 
+    private method earliestMethod(AbstractSymbol m, class_c _class, SymbolTable st, ClassTable ct) {
+	for(class_c curr = _class; curr != null; curr = ct.getClass_c(curr.parent.toString())) {
+	    if(curr != null) {
+		HashMap<AbstractSymbol, method> tab = (HashMap<AbstractSymbol, method>)st.methodLookup().get(curr.name);
+		if(tab.containsKey(m))
+		     return tab.get(m);
+	    }
+	}
+	return null;
+    }
     
     public void dump_with_types(PrintStream out, int n) {
         dump_line(out, n);
@@ -641,7 +922,50 @@ class dispatch extends Expression {
         out.println(Utilities.pad(n + 2) + ")");
 	dump_type(out, n);
     }
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	expr.semant(_class, st, ct);
 
+	for(int i = 0; i < actual.getLength(); i++)
+	    ((Expression)actual.getNth(i)).semant(_class, st, ct);
+
+	class_c baseClass = expr.get_type().equals(TreeConstants.SELF_TYPE) ? 
+	    _class : ct.getClass_c(expr.get_type().toString());
+	method earliest = earliestMethod(name, baseClass, st, ct);
+	if(earliest == null) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Dispatch to undefined %s.\n", name);
+	    set_type(TreeConstants.Object_);
+	    return;
+	}
+	if(earliest.formals.getLength() != actual.getLength()) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Method %s called with wrong number of arguments.\n", name);
+	    set_type(TreeConstants.Object_);
+	    return;
+	} else {
+	    for(int i = 0; i < actual.getLength(); i++) {
+		Expression actualForm = (Expression)actual.getNth(i);
+		formalc parentForm = (formalc)earliest.formals.getNth(i);
+		
+		AbstractSymbol a1 = (actualForm.get_type().equals(TreeConstants.SELF_TYPE)) ? 
+		    _class.name : actualForm.get_type();
+		AbstractSymbol a2 = (parentForm.type_decl.equals(TreeConstants.SELF_TYPE)) ? 
+		    _class.name : parentForm.type_decl;
+
+		
+		if(!ct.isLEQ(a1,a2)) {
+		    ct.semantError(_class.getFilename(), this)
+			.printf("In call of method %s, type %s of parameter #%d does not conform to declared type %s.\n", name, parentForm.name, i, parentForm.type_decl);
+		}
+	    }
+	}
+	if(earliest.return_type.equals(TreeConstants.SELF_TYPE)) {
+	    set_type(expr.get_type());
+	} else {
+	    set_type(earliest.return_type);
+	}
+
+    }
 }
 
 
@@ -685,6 +1009,19 @@ class cond extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	pred.semant(_class, st, ct);
+	then_exp.semant(_class, st, ct);
+	else_exp.semant(_class, st, ct);
+
+	if(!pred.get_type().equals(TreeConstants.Bool))
+	    ct.semantError(_class.getFilename(), this)
+		.println("Predicate of 'if' does not have type Bool.");
+
+	set_type(ct.LUB(then_exp.get_type(), else_exp.get_type()));
+    }
+
+
 }
 
 
@@ -721,6 +1058,16 @@ class loop extends Expression {
 	pred.dump_with_types(out, n + 2);
 	body.dump_with_types(out, n + 2);
 	dump_type(out, n);
+    }
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	pred.semant(_class, st, ct);
+	body.semant(_class, st, ct);
+	
+	if(!pred.get_type().equals(TreeConstants.Bool))
+	    ct.semantError(_class.getFilename(), this)
+		.println("Predicate of 'if' does not have type Bool.");
+
+	set_type(TreeConstants.Object_);
     }
 
 }
@@ -763,6 +1110,21 @@ class typcase extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	HashSet<AbstractSymbol> typesSeen = new HashSet<AbstractSymbol>();
+	AbstractSymbol type = null;
+	for(int i = 0; i < cases.getLength(); i++) {
+	    branch next = (branch)(cases.getNth(i));
+	    if(typesSeen.contains(next.type_decl))
+		ct.semantError(_class.getFilename(), this)
+		    .printf("Duplicate branch %s in case statement.\n", next.type_decl);
+	    typesSeen.add(next.type_decl);
+	    next.semant(_class, st, ct);
+	    type = ct.LUB(type, next.get_type());
+	}
+	set_type(type);
+    }
+
 }
 
 
@@ -796,6 +1158,15 @@ class block extends Expression {
 	    ((Expression)e.nextElement()).dump_with_types(out, n + 2);
         }
 	dump_type(out, n);
+    }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	for(int i = 0; i < body.getLength(); i++) {
+	    Expression next = (Expression)(body.getNth(i));
+	    next.semant(_class, st, ct);
+	}
+	//Type is the type of the last expression in the block
+	set_type( ((Expression)body.getNth(body.getLength()-1)).get_type() );
     }
 
 }
@@ -845,9 +1216,32 @@ class let extends Expression {
 	body.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	init.semant(_class, st, ct);
+	if(!ct.containsClass(type_decl.toString())) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Class %s of let-bound identifier %s is undefined.\n",
+			type_decl, identifier);
+	} else {
+	    AbstractSymbol t1 = type_decl.equals(TreeConstants.SELF_TYPE) ? _class.name : type_decl;
+	    AbstractSymbol t2 = init.get_type().equals(TreeConstants.SELF_TYPE) ? _class.name : init.get_type();
+	    if(!ct.isLEQ(t2,t1))
+		ct.semantError(_class.getFilename(), this)
+		    .printf("Inferred type %s of initialization of %s does not conform to identifier's declared type %s.\n", init.get_type(), identifier, type_decl);
+	    
+	}
+	st.enterScope();
+	if(identifier.equals(TreeConstants.self))
+	    ct.semantError(_class.getFilename(), this)
+		.printf("'self' cannot be bound in a 'let' expression.\n");
+	else {
+	    st.addId(identifier, type_decl);	    
+	}
+	body.semant(_class, st, ct);
+	st.exitScope();
+	set_type(body.get_type());
+    }
 }
-
 
 /** Defines AST constructor 'plus'.
     <p>
@@ -883,6 +1277,20 @@ class plus extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s + %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Int);
+    }
+
 
 }
 
@@ -920,6 +1328,18 @@ class sub extends Expression {
 	e1.dump_with_types(out, n + 2);
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
+    }
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s - %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Int);
     }
 
 }
@@ -960,6 +1380,20 @@ class mul extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s * %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Int);
+    }
+
+
 }
 
 
@@ -998,6 +1432,20 @@ class divide extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s / %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Int);
+    }
+
+
 }
 
 
@@ -1031,6 +1479,16 @@ class neg extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Argument of '~' has type %s instead of Int.\n", e1.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Int);
+    }
 }
 
 
@@ -1068,6 +1526,20 @@ class lt extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s < %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Bool);
+    }
+
 
 }
 
@@ -1107,6 +1579,20 @@ class eq extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s = %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Bool);
+    }
+
+
 }
 
 
@@ -1145,6 +1631,20 @@ class leq extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	e2.semant(_class, st, ct);
+
+	if(!e1.get_type().equals(TreeConstants.Int) ||
+	   !e2.get_type().equals(TreeConstants.Int)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("non-Int arguments : %s <= %s.\n", e1.get_type(), e2.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Bool);
+    }
+
+
 }
 
 
@@ -1177,6 +1677,17 @@ class comp extends Expression {
 	e1.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	if(!e1.get_type().equals(TreeConstants.Bool)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Argument of 'not' has type %s instead of Bool.\n", e1.get_type());
+	    set_type(TreeConstants.Object_);
+	}
+	set_type(TreeConstants.Bool);
+    }
+
 
 }
 
@@ -1211,6 +1722,11 @@ class int_const extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	set_type(TreeConstants.Int);
+    }
+
+
 }
 
 
@@ -1243,6 +1759,11 @@ class bool_const extends Expression {
 	dump_Boolean(out, n + 2, val);
 	dump_type(out, n);
     }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	set_type(TreeConstants.Bool);
+    }
+
 
 }
 
@@ -1279,6 +1800,11 @@ class string_const extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	set_type(TreeConstants.Str);
+    }
+
+
 }
 
 
@@ -1311,6 +1837,17 @@ class new_ extends Expression {
 	dump_AbstractSymbol(out, n + 2, type_name);
 	dump_type(out, n);
     }
+
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	if(!ct.containsClass(type_name.toString())) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("'new' used with undefined class %s.\n", type_name);
+	    set_type(TreeConstants.Object_); /*TODO*/
+	} else {
+	    set_type(type_name);
+	}
+    }
+
 
 }
 
@@ -1345,6 +1882,12 @@ class isvoid extends Expression {
 	dump_type(out, n);
     }
 
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	e1.semant(_class, st, ct);
+	set_type(e1.get_type());
+    }
+
+
 }
 
 
@@ -1372,7 +1915,9 @@ class no_expr extends Expression {
         out.println(Utilities.pad(n) + "_no_expr");
 	dump_type(out, n);
     }
-
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	set_type(TreeConstants.No_type);
+    }
 }
 
 
@@ -1405,7 +1950,17 @@ class object extends Expression {
 	dump_AbstractSymbol(out, n + 2, name);
 	dump_type(out, n);
     }
-
+    public void semant(class_c _class, SymbolTable st, ClassTable ct) {
+	if(!st.isInTable(name) && !_class.checkAncAttrs(name, ct, st)) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Undeclared identifier %s.\n", name);
+	    set_type(TreeConstants.Object_);
+	} else if(!ct.containsClass( ((AbstractSymbol)st.lookup(name)).toString() )) {
+	    ct.semantError(_class.getFilename(), this)
+		.printf("Invalid type %s for %s.\n", (AbstractSymbol)st.lookup(name), name);
+	    set_type(TreeConstants.Object_);
+	} else {
+	    set_type((AbstractSymbol)st.lookup(name));
+	}
+    }
 }
-
-
