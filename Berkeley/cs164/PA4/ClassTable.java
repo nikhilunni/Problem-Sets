@@ -216,14 +216,6 @@ class ClassTable {
 	    .appendElement(Bool_class)
 	    .appendElement(Str_class);
 
-	// NOT TO BE INCLUDED IN SKELETON	
-	/**
-	Object_class.dump_with_types(System.err, 0);
-	IO_class.dump_with_types(System.err, 0);
-	Int_class.dump_with_types(System.err, 0);
-	Bool_class.dump_with_types(System.err, 0);
-	Str_class.dump_with_types(System.err, 0);
-	**/
     }
 
     HashMap<String, HashSet<Feature>> class_features;
@@ -347,11 +339,20 @@ class ClassTable {
 	return false;
     }
 
-    public AbstractSymbol LUB(AbstractSymbol a, AbstractSymbol b) {
+    public AbstractSymbol LUB(AbstractSymbol a, AbstractSymbol b, class_c classA, class_c classB) {
 	if(a == null)
 	    return b;
 	else if(b == null)
 	    return a;
+	if(a.equals(b))
+	    return a;
+
+	if(a.equals(TreeConstants.SELF_TYPE))
+	    a = classA.name;
+	if(b.equals(TreeConstants.SELF_TYPE))
+	    b = classB.name;
+
+
 	ArrayList<AbstractSymbol> aPath = new ArrayList<AbstractSymbol>();
 	ArrayList<AbstractSymbol> bPath = new ArrayList<AbstractSymbol>();
 	class_c curr = getClass_c(a.toString());

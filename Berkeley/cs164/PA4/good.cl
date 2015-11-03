@@ -1,4 +1,4 @@
-(*
+	(*
  *  A contribution from Anne Sheets (sheets@cory)
  *
  *  Tests the arithmetic operations and various other things
@@ -248,7 +248,7 @@ overflow.
 
 };
 
-class Main1 inherits IO {
+class Main100 inherits IO {
    
    char : String;
    avar : A; 
@@ -440,7 +440,7 @@ something of type A2I, or simpl write (new A2I).method(argument).
    c2i   Converts a 1-character string to an integer.  Aborts
          if the string is not "0" through "9"
 *)
-class A2I {
+class A2I432 {
 
      c2i(char : String) : Int {
         if char = "0" then 0 else
@@ -536,7 +536,7 @@ overflow.
 
 };
 
-class Main2 inherits IO {
+class Main2543 inherits IO {
     main(): Object {
         let numString: String,
         	num: Int,
@@ -605,8 +605,8 @@ Class BookList inherits IO {
     *)
     isNil() : Bool { { abort(); true; } };
     
-    cons(hd : Book) : Cons {
-        (let new_cell : Cons <- new Cons in
+    cons(hd : Book) : Cons2 {
+        (let new_cell : Cons2 <- new Cons2 in
             new_cell.init(hd,self)
         )
     };
@@ -626,7 +626,7 @@ Class BookList inherits IO {
     print_list() : Object { abort() };
 };
 
-Class Cons inherits BookList {
+Class Cons2 inherits BookList {
     xcar : Book;  -- We keep the car and cdr in attributes.
     xcdr : BookList; -- Because methods and features must have different names,
     -- we use xcar and xcdr for the attributes and reserve
@@ -634,7 +634,7 @@ Class Cons inherits BookList {
     
     isNil() : Bool { false };
     
-    init(hd : Book, tl : BookList) : Cons {
+    init(hd : Book, tl : BookList) : Cons2 {
         {
             xcar <- hd;
             xcdr <- tl;
@@ -657,7 +657,7 @@ Class Cons inherits BookList {
     };
 };
 
-Class Nil inherits BookList {
+Class Nil432 inherits BookList {
     isNil() : Bool { true };
 
     print_list() : Object { true };
@@ -679,7 +679,7 @@ Class Main3 {
                                           "PC Magazine")
             in
                 {
-                    books <- (new Nil).cons(a_book).cons(an_article);
+                    books <- (new Nil432).cons(a_book).cons(an_article);
                     books.print_list();
                 }
             )  -- end let an_article
@@ -691,7 +691,7 @@ Class Main3 {
    arrays are faked as Strings,
    X's respresent live cells, dots represent dead cells,
    no error checking is done *)
-class CellularAutomaton inherits IO {
+class CellularAutomaton2 inherits IO {
     population_map : String;
    
     init(map : String) : SELF_TYPE {
@@ -796,11 +796,11 @@ class Main5 inherits IO {
  };
 };
 
-class Complex inherits IO {
+class Complex2 inherits IO {
  x : Int;
  y : Int;
 
- init(a : Int, b : Int) : Complex {
+ init(a : Int, b : Int) : Complex2 {
 	{
 	 x = a;
 	 y = b;
@@ -815,7 +815,7 @@ class Complex inherits IO {
 	fi
  };
 
- reflect_0() : Complex {
+ reflect_0() : Complex2 {
 	{
 	 x = ~x;
 	 y = ~y;
@@ -823,14 +823,14 @@ class Complex inherits IO {
 	}
  };
 
- reflect_X() : Complex {
+ reflect_X() : Complex2 {
 	{
 	 y = ~y;
 	 self;
 	}
  };
 
- reflect_Y() : Complex {
+ reflect_Y() : Complex2 {
 	{
 	 x = ~x;
 	 self;
@@ -1806,7 +1806,7 @@ class CellularAutomaton inherits Board {
 
 };
 
-class Main inherits CellularAutomaton {
+class Main_ inherits CellularAutomaton {
     cells : CellularAutomaton;
    
     main() : SELF_TYPE {
@@ -1864,7 +1864,7 @@ class Main inherits CellularAutomaton {
  *)
 
 
-class List {
+class List2 {
    -- Define operations on empty lists.
 
    isNil() : Bool { true };
@@ -1878,7 +1878,7 @@ class List {
    -- As for head(), the self is just to make sure the return type of
    -- tail() is correct.
 
-   tail()  : List { { abort(); self; } };
+   tail()  : List2 { { abort(); self; } };
 
    -- When we cons and element onto the empty list we get a non-empty
    -- list. The (new Cons) expression creates a new list cell of class
@@ -1887,8 +1887,8 @@ class List {
    -- conforms to the return type List, because Cons is a subclass of
    -- List.
 
-   cons(i : Int) : List {
-      (new Cons).init(i, self)
+   cons(i : Int) : List2 {
+      (new Cons2432).init(i, self)
    };
 
 };
@@ -1908,19 +1908,19 @@ class List {
  *  cell.
  *)
 
-class Cons inherits List {
+class Cons2432 inherits List2 {
 
    car : Int;	-- The element in this list cell
 
-   cdr : List;	-- The rest of the list
+   cdr : List2;	-- The rest of the list
 
    isNil() : Bool { false };
 
    head()  : Int { car };
 
-   tail()  : List { cdr };
+   tail()  : List2 { cdr };
 
-   init(i : Int, rest : List) : List {
+   init(i : Int, rest : List2) : List2 {
       {
 	 car <- i;
 	 cdr <- rest;
@@ -1938,47 +1938,7 @@ class Cons inherits List {
  *  first element of the list.
  *)
 
-class Main inherits IO {
-
-   mylist : List;
-
-   -- Print all elements of the list. Calls itself recursively with
-   -- the tail of the list, until the end of the list is reached.
-
-   print_list(l : List) : Object {
-      if l.isNil() then out_string("\n")
-                   else {
-			   out_int(l.head());
-			   out_string(" ");
-			   print_list(l.tail());
-		        }
-      fi
-   };
-
-   -- Note how the dynamic dispatch mechanism is responsible to end
-   -- the while loop. As long as mylist is bound to an object of 
-   -- dynamic type Cons, the dispatch to isNil calls the isNil method of
-   -- the Cons class, which returns false. However when we reach the
-   -- end of the list, mylist gets bound to the object that was
-   -- created by the (new List) expression. This object is of dynamic type
-   -- List, and thus the method isNil in the List class is called and
-   -- returns true.
-
-   main() : Object {
-      {
-	 mylist <- new List.cons(1).cons(2).cons(3).cons(4).cons(5);
-	 while (not mylist.isNil()) loop
-	    {
-	       print_list(mylist);
-	       mylist <- mylist.tail();
-	    }
-	 pool;
-      }
-   };
-
-};
-
-class Main inherits IO {
+class Main20 inherits IO {
  main() : SELF_TYPE {
 	(let c : Complex <- (new Complex).init(1, 1) in
 	 {
@@ -2058,7 +2018,7 @@ class Complex inherits IO {
  };
 };
 
-class Main inherits IO {
+class Main2 inherits IO {
     pal(s : String) : Bool {
 	if s.length() = 0
 	then true
@@ -2110,7 +2070,7 @@ class Main inherits IO {
  * interesting when we initialize them!
  *)
 
-class Main inherits IO {
+class Main300 inherits IO {
 
  main() : Int {	-- main() is an atrophied method so we can parse.
  0 
@@ -2209,7 +2169,7 @@ class Random {
     }};
 };
 
-class Main inherits IO {
+class Main4345 inherits IO {
     main() : Object {
         let i: Int,
         	rand: Random <- new Random,
@@ -2245,7 +2205,7 @@ class Main inherits IO {
     };
 };
 
-class A2I {
+class A2I2342 {
 
      c2i(char : String) : Int {
         if char = "0" then 0 else
@@ -2478,7 +2438,6 @@ Class Main inherits IO {
 	main() : Object {
 	 {
 	 let x : Int <- 5 in let y : Int <- 5 in let z : Int <- 5 in x+y+z;
-	 if if 4 then 4 + 4 * 4 else ~4 * ~4 + ~4 fi then 4 else 4 fi;
 	 out_string("How many numbers to sort? ");
 	 iota(in_int()).rev().sort().print_list();
 	 }

@@ -276,21 +276,6 @@ class programc extends Program {
 	    ((Class_)e.nextElement()).dump_with_types(out, n + 2);
         }
     }
-    /** This method is the entry point to the semantic checker.  You will
-        need to complete it in programming assignment 4.
-	<p>
-        Your checker should do the following two things:
-	<ol>
-	<li>Check that the program is semantically correct
-	<li>Decorate the abstract syntax tree with type information
-        by setting the type field in each Expression node.
-        (see tree.h)
-	</ol>
-	<p>
-	You are free to first do (1) and make sure you catch all semantic
-    	errors. Part (2) can be done in a second stage when you want
-	to test the complete compiler.
-    */
     public void semant() {
 	/*
 	 * A program is semantically correct if it:
@@ -455,6 +440,12 @@ class class_c extends Class_ {
     }
 
     public void semant(SymbolTable st, ClassTable ct) {
+	/*
+	 * For each feature, if it is:
+	 *   -An attribute : We check that there are no ancestors with the attribute name
+	 *   -A method : We check that it is correctly inheriting if an ancestor as the same method name. 
+	 *               This means checking argument length, argument type, etc
+	 */
 	for(int i = 0; i < features.getLength(); i++) {
 	    Feature f = (Feature)(features.getNth(i));
 	    if(f instanceof attr) {
@@ -566,6 +557,7 @@ class method extends Feature {
     public void semant(class_c _class, SymbolTable st, ClassTable ct) {
 	st.enterScope( new Hashtable((HashMap)(st.variableLookup().get(_class.name))) );
 
+	//formalNames makes sure we don't repeat any argument names
 	HashSet<AbstractSymbol> formalNames = new HashSet<AbstractSymbol>();
 	for(int i = 0; i < formals.getLength(); i++) {
 	    formalc next = (formalc)(formals.getNth(i));
@@ -756,8 +748,8 @@ class branch extends Case {
 	    type = expr.get_type();
 	    st.exitScope();
 	}
-	if(type == null) /*TODO*/
-	    type = TreeConstants.Object_;
+	if(type == null)
+	    type = TreeConstants.Object_; //Bottomed out...
     }
 }
 
@@ -892,6 +884,8 @@ class static_dispatch extends Expression {
 	    set_type(TreeConstants.Object_);
 	}
 	else {
+	    //If none of those errors above... we can continue with finding the dynamic method of the id
+	    //Then we continue to check if our current dispatch arguments matches the ancestor method arguments
 	    method ancestorMethod = (ct.getClass_c(type_name.toString())).oldestAncestorMethod(name, ct, st);
 	    if(ancestorMethod.formals.getLength() != actual.getLength()) {
 		ct.semantError(_class.getFilename(), this)
@@ -995,6 +989,7 @@ class dispatch extends Expression {
 	    set_type(TreeConstants.Object_);
 	    return;
 	} else {
+	    //Then we continue to check if our current dispatch arguments matches the ancestor method arguments
 	    for(int i = 0; i < actual.getLength(); i++) {
 		Expression actualForm = (Expression)actual.getNth(i);
 		formalc parentForm = (formalc)earliest.formals.getNth(i);
@@ -1070,12 +1065,10 @@ class cond extends Expression {
 	    ct.semantError(_class.getFilename(), this)
 		.println("Predicate of 'if' does not have type Bool.");
 
-	AbstractSymbol t1 = then_exp.get_type().equals(TreeConstants.SELF_TYPE) ? 
-	    _class.name : then_exp.get_type();
-	AbstractSymbol t2 = else_exp.get_type().equals(TreeConstants.SELF_TYPE) ? 
-	    _class.name : else_exp.get_type();
+	AbstractSymbol t1 = then_exp.get_type();
+	AbstractSymbol t2 = else_exp.get_type();
 
-	set_type(ct.LUB(t1, t2));
+	set_type(ct.LUB(then_exp.get_type(), else_exp.get_type(), _class, _class));
     }
 
 
@@ -1177,8 +1170,8 @@ class typcase extends Expression {
 		ct.semantError(_class.getFilename(), this)
 		    .printf("Duplicate branch %s in case statement.\n", next.type_decl);
 	    typesSeen.add(next.type_decl);
-	    next.semant(_class, st, ct);	    
-	    type = ct.LUB(type, next.get_type().equals(TreeConstants.SELF_TYPE) ? _class.name : next.get_type());
+	    next.semant(_class, st, ct);
+	    type = ct.LUB(type, next.get_type(), _class, _class);
 	}
 	set_type(type);
     }
@@ -1344,7 +1337,6 @@ class plus extends Expression {
 	   !e2.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("non-Int arguments : %s + %s.\n", e1.get_type(), e2.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Int);
     }
@@ -1395,7 +1387,6 @@ class sub extends Expression {
 	   !e2.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("non-Int arguments : %s - %s.\n", e1.get_type(), e2.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Int);
     }
@@ -1446,7 +1437,6 @@ class mul extends Expression {
 	   !e2.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("non-Int arguments : %s * %s.\n", e1.get_type(), e2.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Int);
     }
@@ -1498,7 +1488,6 @@ class divide extends Expression {
 	   !e2.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("non-Int arguments : %s / %s.\n", e1.get_type(), e2.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Int);
     }
@@ -1543,7 +1532,6 @@ class neg extends Expression {
 	if(!e1.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("Argument of '~' has type %s instead of Int.\n", e1.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Int);
     }
@@ -1593,7 +1581,6 @@ class lt extends Expression {
 	   !e2.get_type().equals(TreeConstants.Int)) {
 	    ct.semantError(_class.getFilename(), this)
 		.printf("non-Int arguments : %s < %s.\n", e1.get_type(), e2.get_type());
-	    set_type(TreeConstants.Object_);
 	}
 	set_type(TreeConstants.Bool);
     }
@@ -1945,7 +1932,7 @@ class isvoid extends Expression {
 
     public void semant(class_c _class, SymbolTable st, ClassTable ct) {
 	e1.semant(_class, st, ct);
-	set_type(e1.get_type());
+	set_type(TreeConstants.Bool);
     }
 
 
