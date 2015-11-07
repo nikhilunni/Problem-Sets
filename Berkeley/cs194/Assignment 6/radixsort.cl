@@ -43,35 +43,17 @@ __kernel void scan(__global int *in,
     }
   
   barrier(CLK_LOCAL_MEM_FENCE);
-
-  /* CS194: Your scan code from HW 5 
-   * goes here */
-
-  __local int buffer2[128];
-  for (int offset = 1; offset < dim; offset *= 2) {
-    if (tid >= offset) {
-       buffer2[tid - offset] = buf[tid - offset];
-    }
-    barrier(CLK_LOCAL_MEM_FENCE);
-    if (tid >= offset) {
-      buf[tid] = buffer2[tid - offset] + buf[tid];
-    }
-    barrier(CLK_LOCAL_MEM_FENCE);
-  }
   
-  /* CS194: Store partial scans */
-  if(idx < n)
-    {
-      out[idx] = buf[r+tid];
-    }
 
-  /* CS194: one work-item stores the
-   * work group's total partial
-   * "reduction" */
-  if(tid==0)
-    {
-      bout[gid] = buf[r+dim-1];
-    }
+  /*COPIED FROM ASSIGNMENT 5*/  
+  out[idx] = 0; //Zero the array again
+
+  //Do scan for the partial array
+  for(int i = 0; i <= tid; i++)
+    out[idx] += buf[i];
+
+  if(tid == dim - 1)
+    bout[gid] = out[idx]; //Update for the next kernel  
 }
 
 
@@ -85,27 +67,28 @@ __kernel void reassemble(__global int *in,
 {
   size_t idx = get_global_id(0);
   size_t tid = get_local_id(0);
-  int t, index;
 
-  if(idx<n)
+  if(idx<n) 
   {
-    t = in[idx];
-    buf[tid] = ((t >> k) & 0x1);
-  } else {
+    buf[tid] = ((in[idx] >> k) & 0x1);
+  } 
+  else 
+  {
     buf[tid] = 0;
   }
-  barrier(CLK_LOCAL_MEM_FENCE);
+  barrier(CLK_LOCAL_MEM_FENCE); //Wait for all indices in buf to be loaded
 
   if (idx<n)
   {
+    int finalIndex;
     if (buf[tid] == 1)
     {
-      index = zeros[n - 1] + ones[idx] - 1;
+      finalIndex = zeros[n - 1] + ones[idx] - 1;
     } else {
-      index = zeros[idx] - 1;
+      finalIndex = zeros[idx] - 1;
     }
-    if(index < n) 
-	out[index] = in[idx];
+    if(finalIndex < n) 
+	out[finalIndex] = in[idx];
   }  
 }
 

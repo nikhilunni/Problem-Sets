@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 	       n);
     rsort_scatter(cv.commands,
 		  cv.context,
-		  kernel_map[reassemble_name_str],
+		  kernel_map[reassemble_name_str], //"Reassemble"" was already included in the source code
 		  g_in,
 		  g_out,
 		  g_zeros,
