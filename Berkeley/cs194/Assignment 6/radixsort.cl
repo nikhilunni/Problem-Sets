@@ -47,6 +47,17 @@ __kernel void scan(__global int *in,
   /* CS194: Your scan code from HW 5 
    * goes here */
 
+  __local int buffer2[128];
+  for (int offset = 1; offset < dim; offset *= 2) {
+    if (tid >= offset) {
+       buffer2[tid - offset] = buf[tid - offset];
+    }
+    barrier(CLK_LOCAL_MEM_FENCE);
+    if (tid >= offset) {
+      buf[tid] = buffer2[tid - offset] + buf[tid];
+    }
+    barrier(CLK_LOCAL_MEM_FENCE);
+  }
   
   /* CS194: Store partial scans */
   if(idx < n)
@@ -63,5 +74,39 @@ __kernel void scan(__global int *in,
     }
 }
 
+
+__kernel void reassemble(__global int *in,
+	      	         __global int *out,
+			 __global int *zeros,
+			 __global int *ones,
+			 __local int *buf,
+			 int k,
+			 int n)
+{
+  size_t idx = get_global_id(0);
+  size_t tid = get_local_id(0);
+  int t, index;
+
+  if(idx<n)
+  {
+    t = in[idx];
+    buf[tid] = ((t >> k) & 0x1);
+  } else {
+    buf[tid] = 0;
+  }
+  barrier(CLK_LOCAL_MEM_FENCE);
+
+  if (idx<n)
+  {
+    if (buf[tid] == 1)
+    {
+      index = zeros[n - 1] + ones[idx] - 1;
+    } else {
+      index = zeros[idx] - 1;
+    }
+    if(index < n) 
+	out[index] = in[idx];
+  }  
+}
 
 

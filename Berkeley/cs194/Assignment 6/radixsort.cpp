@@ -24,6 +24,16 @@ void rsort_scan(cl_command_queue &queue,
 		    int k,
 		    int len);
 
+void rsort_scatter(cl_command_queue &queue,
+		   cl_context &context,
+		   cl_kernel &scatter_kern,
+		   cl_mem &in,
+		   cl_mem &out,
+		   cl_mem &zeros,
+		   cl_mem &ones,
+		   int k,
+		   int n);
+
 void cpu_rscan(int *in, int *out, int v, int k, int n)
 {
   int t = (in[0] >> k) & 0x1;
@@ -138,7 +148,40 @@ int main(int argc, char *argv[])
   int left_over = 0;
 
   double t0 = timestamp();
-  /* CS194: Implement radix sort here */
+  for(int32_t k = 0; k < 32; k++) {
+    rsort_scan(cv.commands,
+	       cv.context,
+	       kernel_map[scan_name_str],
+	       kernel_map[update_name_str],
+	       g_in,
+	       g_zeros,
+	       0,
+	       k,
+	       n);
+    rsort_scan(cv.commands,
+	       cv.context,
+	       kernel_map[scan_name_str],
+	       kernel_map[update_name_str],
+	       g_in,
+	       g_ones,
+	       1,
+	       k,
+	       n);
+    rsort_scatter(cv.commands,
+		  cv.context,
+		  kernel_map[reassemble_name_str],
+		  g_in,
+		  g_out,
+		  g_zeros,
+		  g_ones,
+		  k,
+		  n);
+
+    //Not in-place, need to swap pointers
+    cl_mem temp = g_in;
+    g_in = g_out;
+    g_out = temp;
+  }
 
   t0 = timestamp() - t0;
 
@@ -150,6 +193,7 @@ int main(int argc, char *argv[])
   err = clEnqueueReadBuffer(cv.commands, g_in, true, 0, sizeof(int)*n,
 			    out, 0, NULL, NULL);
   CHK_ERR(err);
+
 
  for(int i = 0; i < n; i++)
     {
@@ -186,6 +230,52 @@ int main(int argc, char *argv[])
   delete [] out;
   delete [] c_scan;
   return 0;
+}
+
+void rsort_scatter(cl_command_queue &queue,
+		   cl_context &context,
+		   cl_kernel &scatter_kern,
+		   cl_mem &in,
+		   cl_mem &out,
+		   cl_mem &zeros,
+		   cl_mem &ones,
+		   int k,
+		   int n)
+{
+  size_t global_work_size[1] = {n};
+  size_t local_work_size[1] = {128};
+  cl_int err;
+
+  adjustWorkSize(global_work_size[0], local_work_size[0]);
+  global_work_size[0] = std::max(local_work_size[0], global_work_size[0]);
+
+  err = clSetKernelArg(scatter_kern, 0, sizeof(cl_mem), &in);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 1, sizeof(cl_mem), &out);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 2, sizeof(cl_mem), &zeros);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 3, sizeof(cl_mem), &ones);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 4, 2*local_work_size[0]*sizeof(cl_int), NULL);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 5, sizeof(int), &k);
+  CHK_ERR(err);
+  err = clSetKernelArg(scatter_kern, 6, sizeof(int), &n);
+  CHK_ERR(err);
+
+  err = clEnqueueNDRangeKernel(queue,
+			       scatter_kern,
+			       1,
+			       NULL,
+			       global_work_size,
+			       local_work_size,
+			       0,
+			       NULL,
+			       NULL);
+  CHK_ERR(err);
+
+
 }
 
 /* CS194: This function performs an
