@@ -1,0 +1,69 @@
+\input{../math113.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\usepackage{scalerel}
+\usepackage{stackengine}
+\usepackage{xcolor}
+\newcommand\showdiv[1]{\overline{\smash{\hstretch{.5}{)}\mkern-3.2mu\hstretch{.5}{)}}#1}}
+\newcommand\ph[1]{\textcolor{white}{#1}}
+
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Homework \#12}{Fall 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+  \begin{enumerate}
+    \item Show that $x^3 +2x + 1$ is irreducible in $\mathds{Z}_3[x]$.\\\\
+
+      We can just try out all of the possible roots:
+      $$0^3+0x+1 = 1 \neq 0$$
+      $$1^3+2*1+1 = 1 \neq 0$$
+      $$2^3+2*2+1 = 1 \neq 0$$
+
+      None of the possible values are zeros of the polyomial, so it's irreducible in $\mathds{Z}_3[x]$.\\
+
+    \item Let $\alpha$ be a zero of $x^3+2x+1$ in an extension field of $\mathds{Z}_3$. Show that the polyonmial factors into three linear factors in $\mathds{Z}_3(\alpha)[x]$ by finding the factorization.\\\\
+
+
+\setstackgap{S}{2pt}
+\stackMath\def\stackalignment{r}
+\(
+\stackunder{%
+  x-\alpha \stackon[1pt]{\showdiv{x^3+0x^2+2x+1}}{x^2+\alpha x + (2+\alpha^2)}%
+}{%
+}
+\)
+
+(I couldn't format the division properly...but I've listed the remainders here)
+$$(x^3 + 0x^2) - (x^3-\alpha x^2) = \alpha x^2$$
+$$(\alpha x^2 + 2x) - (\alpha x^2 - \alpha^2 x) = (2+\alpha^2)x$$
+$$((2+\alpha^2)x + 1) - ((2+\alpha^2)x - (2\alpha + \alpha^3)) = 1 + 2\alpha + \alpha^3$$
+
+Because we know that our remainder is 0, since it's literally $\alpha$ plugged into our original polyonmial for which it's a solution, we have a clean division:
+
+$$(x-\alpha)(x^2+\alpha x + (2+\alpha^2)) = x^3 + 2x + 1$$
+
+   I had a hectic week -- couldn't finish the homework on time.
+
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}

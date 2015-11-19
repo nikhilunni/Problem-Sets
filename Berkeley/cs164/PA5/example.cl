@@ -4,6 +4,6 @@
  *)
 
 class Main {
-  main():Int { 0 };
+  main():Int { if (true) then 0 else 1 fi };
 };
 

@@ -723,7 +723,29 @@ class cond extends Expression {
       * you wish.)
       * @param s the output stream 
       * */
+
+    static int labelNum = 0;
+
+    /**
+     *                cgen(pred)
+     *                li $t1 1
+     *                beq $t1 $a0 true_branch
+     * false_branch : cgen(else_expr)
+     *                b end_if
+     * true_branch  : cgen(then_expr)
+     * end_if       : 
+     **/
     public void code(PrintStream s) {
+	System.err.println("SDLKFJLSDJFKS");
+	pred.code(s);
+	CgenSupport.emitLoadImm("$t1", 1, s);
+	CgenSupport.emitBeq("$t1", "$a0", labelNum, s);
+	CgenSupport.emitLabelDef(labelNum, s);
+	else_exp.code(s);
+	CgenSupport.emitBranch(labelNum+2, s);
+	CgenSupport.emitLabelDef(labelNum+1, s);
+	then_exp.code(s);
+	CgenSupport.emitLabelDef(labelNum+2, s);
     }
 
 
@@ -1233,7 +1255,15 @@ class eq extends Expression {
       * you wish.)
       * @param s the output stream 
       * */
+
+    /*TODO!!!!*/
     public void code(PrintStream s) {
+	e1.code(s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(s);
+	
+	
+	
     }
 
 
