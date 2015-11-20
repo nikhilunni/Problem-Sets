@@ -3,7 +3,7 @@
     as possible.
  *)
 
-class Main {
-  main():Int { if (true) then 0 else 1 fi };
+class Main inherits IO {
+  main():Object { out_int( 72 ) };
 };
 

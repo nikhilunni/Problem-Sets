@@ -23,6 +23,8 @@ PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 import java.io.PrintStream;
 import java.util.Vector;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 /** This class is used for representing the inheritance tree during code
@@ -149,6 +151,66 @@ class CgenClassTable extends SymbolTable {
 	codeBools(boolclasstag);
     }
 
+    private void codeNameTab() {
+	str.print(CgenSupport.CLASSNAMETAB + CgenSupport.LABEL);
+	for(Object o : AbstractTable.stringtable.tbl) {
+	    StringSymbol so = (StringSymbol)o;
+	    String strName = so.str;
+	    if(strName.equals("Object") ||
+	       strName.equals("IO") ||
+	       strName.equals("Int") ||
+	       strName.equals("Bool") ||
+	       strName.equals("String") ||
+	       strName.equals("Main")) {
+		str.print(CgenSupport.WORD);
+		so.codeRef(str);
+		str.println();
+	    }
+	}
+    }
+
+    private void codeObjTab() {
+	str.print(CgenSupport.CLASSOBJTAB + CgenSupport.LABEL);
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    str.println(CgenSupport.WORD + co.name.str + CgenSupport.PROTOBJ_SUFFIX);
+	    str.println(CgenSupport.WORD + co.name.str + CgenSupport.CLASSINIT_SUFFIX);
+	}
+    }
+    
+    private void printMethods(CgenNode name, HashMap<CgenNode, ArrayList<String>> mtds) {
+	if(name.getParentNd() != null && 
+	   !name.getParentNd().name.equals(TreeConstants.No_class)) {
+	    printMethods(name.getParentNd(), mtds);
+	}
+	ArrayList<String> mtd = mtds.get(name);
+	for(String s : mtd) {
+	    str.println(CgenSupport.WORD + s);
+	}
+    }
+    
+    private void codeDispTabs() {
+	HashMap<CgenNode, ArrayList<String>> mtds = new HashMap<CgenNode, ArrayList<String>>();
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    mtds.put(co, new ArrayList<String>());
+	    for(int i = 0; i < co.features.getLength(); i++) {
+		Object next = co.features.getNth(i);
+		if(next instanceof method) {
+		    method m_next = (method)next;
+		    mtds.get(co).add(co.name.str + "." + m_next.name.str);
+		}
+	    }
+	}
+	for(CgenNode co : mtds.keySet()) {
+	    str.print(co.name.str + CgenSupport.DISPTAB_SUFFIX + CgenSupport.LABEL);
+	    printMethods(co, mtds);
+	}	
+    }
+
+    private void codeProtObjs() {
+	
+    }
 
     /** Creates data structures representing basic Cool classes (Object,
      * IO, Int, Bool, String).  Please note: as is this method does not
@@ -405,7 +467,9 @@ class CgenClassTable extends SymbolTable {
 
 	if (Flags.cgen_debug) System.out.println("coding constants");
 	codeConstants();
-
+	codeNameTab();
+	codeObjTab();
+	codeDispTabs();
 	//                 Add your code to emit
 	//                   - prototype objects
 	//                   - class_nameTab

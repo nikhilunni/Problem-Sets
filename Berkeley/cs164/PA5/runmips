@@ -2,7 +2,7 @@
 # example run is ./runmips foobar.s
 
 SCRIPT_LOCATION="$( dirname "${BASH_SOURCE[0]}" )"
-
+echo $SCRIPT_LOCATION
 COOLC_JAR="$SCRIPT_LOCATION/coolc.jar"
 MIPS_HANDLER="$SCRIPT_LOCATION/trap_handler.mars"
 
