@@ -45,7 +45,7 @@ class CgenClassTable extends SymbolTable {
     private int stringclasstag;
     
     private HashMap<CgenNode, Integer> tags;
-
+    public  HashMap<CgenNode, ArrayList<String>> methodOffsets;
 
     // The following methods emit code for constants and global
     // declarations.
@@ -183,14 +183,16 @@ class CgenClassTable extends SymbolTable {
 	}
     }
     
-    private void printMethods(CgenNode name, HashMap<CgenNode, ArrayList<String>> mtds) {
+    private void printMethods(CgenNode name, HashMap<CgenNode, ArrayList<String>> mtds,
+			      CgenNode ancestor) {
 	if(name.getParentNd() != null && 
 	   !name.getParentNd().name.equals(TreeConstants.No_class)) {
-	    printMethods(name.getParentNd(), mtds);
+	    printMethods(name.getParentNd(), mtds, ancestor);
 	}
 	ArrayList<String> mtd = mtds.get(name);
 	for(String s : mtd) {
 	    str.println(CgenSupport.WORD + s);
+	    methodOffsets.get(ancestor).add(s);
 	}
     }
     
@@ -209,7 +211,8 @@ class CgenClassTable extends SymbolTable {
 	}
 	for(CgenNode co : mtds.keySet()) {
 	    str.print(co.name.str + CgenSupport.DISPTAB_SUFFIX + CgenSupport.LABEL);
-	    printMethods(co, mtds);
+	    methodOffsets.put(co, new ArrayList<String>());
+	    printMethods(co, mtds, co);
 	}	
     }
 
@@ -261,9 +264,29 @@ class CgenClassTable extends SymbolTable {
 	    CgenSupport.emitReturn(str);
 	}	
     }
-
+    private void printMethod(CgenNode co, method m_next) {
+	str.print(co.name.str + "." + m_next.name.str + CgenSupport.LABEL);
+	CgenSupport.emitMove("$fp", "$sp", str);
+	CgenSupport.emitPush("$ra", str);
+	m_next.expr.code(this, str);
+	CgenSupport.emitLoad("$ra", 1, "$sp", str);
+	CgenSupport.emitAddiu("$sp", "$sp", m_next.formals.getLength()*4 + 8, str);
+	CgenSupport.emitLoad("$fp", 0, "$sp", str);
+	CgenSupport.emitReturn(str);
+    }
     private void codeClassMethods() {
-	
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    if(!co.basic()) {
+		for(int i = 0; i < co.features.getLength(); i++) {
+		    Object next = co.features.getNth(i);
+		    if(next instanceof method) {
+			method m_next = (method)next;
+			printMethod(co, m_next);
+		    }
+		}
+	    }
+	}
     }
 
     /** Creates data structures representing basic Cool classes (Object,
@@ -502,6 +525,7 @@ class CgenClassTable extends SymbolTable {
 	stringclasstag = 4;
 
 	tags = new HashMap<CgenNode, Integer>();
+	methodOffsets = new HashMap<CgenNode, ArrayList<String>>();
 
 	enterScope();
 	if (Flags.cgen_debug) System.out.println("Building CgenClassTable");

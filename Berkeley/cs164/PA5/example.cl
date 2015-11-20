@@ -3,6 +3,7 @@
     as possible.
  *)
 class Main inherits IO {
-  main():Object { out_int( 72 ) };
+  i:Int;
+  main():Object { out_int(i) };
 };
 
