@@ -38,9 +38,13 @@ class CgenClassTable extends SymbolTable {
     /** This is the stream to which assembly instructions are output */
     private PrintStream str;
 
-    private int stringclasstag;
+    private int objectclasstag;
+    private int ioclasstag;
     private int intclasstag;
     private int boolclasstag;
+    private int stringclasstag;
+    
+    private HashMap<CgenNode, Integer> tags;
 
 
     // The following methods emit code for constants and global
@@ -156,6 +160,7 @@ class CgenClassTable extends SymbolTable {
 	for(Object o : AbstractTable.stringtable.tbl) {
 	    StringSymbol so = (StringSymbol)o;
 	    String strName = so.str;
+	    //TODO : Make work for ALL classes!
 	    if(strName.equals("Object") ||
 	       strName.equals("IO") ||
 	       strName.equals("Int") ||
@@ -209,6 +214,55 @@ class CgenClassTable extends SymbolTable {
     }
 
     private void codeProtObjs() {
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    ArrayList<attr> attributes = new ArrayList<attr>();
+	    for(int i = 0; i < co.features.getLength(); i++) {
+		Object next = co.features.getNth(i);
+		if(next instanceof attr) {
+		    attributes.add((attr)next );
+		}
+	    }
+
+	    str.println(CgenSupport.WORD + (-1));
+	    str.print(co.name.str + CgenSupport.PROTOBJ_SUFFIX + CgenSupport.LABEL);
+	    str.println(CgenSupport.WORD + tags.get(co));
+	    str.println(CgenSupport.WORD + (3 + attributes.size()) );
+	    str.println(CgenSupport.WORD + co.name.str + CgenSupport.DISPTAB_SUFFIX);
+	    for(attr at : attributes) {
+		str.print(CgenSupport.WORD);
+		if(at.type_decl.equals(TreeConstants.Int))
+		    str.println(CgenSupport.INTCONST_PREFIX + 
+				AbstractTable.inttable.lookup("0").index);
+		else
+		    str.println(0);		    
+	    }
+	}
+    }
+    //TODO : Fix for proper initialization!
+    private void codeObjectInits() {
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    str.print(co.name.str + CgenSupport.CLASSINIT_SUFFIX + CgenSupport.LABEL);
+	    CgenSupport.emitAddiu("$sp", "$sp", -12, str);
+	    CgenSupport.emitStore("$fp", 3, "$sp", str);
+	    CgenSupport.emitStore("$s0", 2, "$sp", str);
+	    CgenSupport.emitStore("$ra", 1, "$sp", str);
+	    CgenSupport.emitAddiu("$fp", "$sp", 16, str);
+	    CgenSupport.emitMove("$s0", "$a0", str);
+	    if(!co.getParentNd().name.equals(TreeConstants.No_class))
+		CgenSupport.emitJal(co.getParentNd().name.str + CgenSupport.CLASSINIT_SUFFIX,
+				    str);
+	    CgenSupport.emitMove("$a0", "$s0", str);
+	    CgenSupport.emitLoad("$fp", 3, "$sp", str);
+	    CgenSupport.emitLoad("$s0", 2, "$sp", str);
+	    CgenSupport.emitLoad("$ra", 1, "$sp", str);
+	    CgenSupport.emitAddiu("$sp", "$sp", 12, str);
+	    CgenSupport.emitReturn(str);
+	}	
+    }
+
+    private void codeClassMethods() {
 	
     }
 
@@ -407,10 +461,11 @@ class CgenClassTable extends SymbolTable {
     // a list of classes.  The graph is implemented as
     // a tree of `CgenNode', and class names are placed
     // in the base class symbol table.
-    
+
     private void installClass(CgenNode nd) {
 	AbstractSymbol name = nd.getName();
 	if (probe(name) != null) return;
+	tags.put(nd, nds.size());
 	nds.addElement(nd);
 	addId(name, nd);
     }
@@ -440,9 +495,13 @@ class CgenClassTable extends SymbolTable {
 
 	this.str = str;
 
-	stringclasstag = 0 /* Change to your String class tag here */;
-	intclasstag =    0 /* Change to your Int class tag here */;
-	boolclasstag =   0 /* Change to your Bool class tag here */;
+	objectclasstag = 0;
+	ioclasstag =     1;
+	intclasstag =    2;
+	boolclasstag =   3;
+	stringclasstag = 4;
+
+	tags = new HashMap<CgenNode, Integer>();
 
 	enterScope();
 	if (Flags.cgen_debug) System.out.println("Building CgenClassTable");
@@ -470,14 +529,12 @@ class CgenClassTable extends SymbolTable {
 	codeNameTab();
 	codeObjTab();
 	codeDispTabs();
-	//                 Add your code to emit
-	//                   - prototype objects
-	//                   - class_nameTab
-	//                   - dispatch tables
+	codeProtObjs();
 
 	if (Flags.cgen_debug) System.out.println("coding global text");
 	codeGlobalText();
-
+	codeObjectInits();
+	codeClassMethods();
 	//                 Add your code to emit
 	//                   - object initializer
 	//                   - the class methods
