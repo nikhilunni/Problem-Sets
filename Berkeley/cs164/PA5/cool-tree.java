@@ -11,6 +11,8 @@
 import java.util.Enumeration;
 import java.io.PrintStream;
 import java.util.Vector;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /** Defines simple phylum Program */
@@ -145,7 +147,7 @@ abstract class Expression extends TreeNode {
     protected Expression(int lineNumber) {
         super(lineNumber);
     }
-    private AbstractSymbol type = null;                                 
+    private AbstractSymbol type = null;
     public AbstractSymbol get_type() { return type; }           
     public Expression set_type(AbstractSymbol s) { type = s; return this; } 
     public abstract void dump_with_types(PrintStream out, int n);
@@ -314,6 +316,8 @@ class class_c extends Class_ {
         parent = a2;
         features = a3;
         filename = a4;
+	TreeNode.currentFilename = filename.str;
+	TreeNode.currentObj = name;
     }
     public TreeNode copy() {
         return new class_c(lineNumber, copy_AbstractSymbol(name), copy_AbstractSymbol(parent), (Features)features.copy(), copy_AbstractSymbol(filename));
@@ -673,12 +677,40 @@ class dispatch extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	for(CgenNode cn : ct.methodOffsets.keySet()) {
-	    System.out.print(cn.name.str + " : [");
-	    for(String str : ct.methodOffsets.get(cn))
-		System.out.print(str + ",");
-	    System.out.println();
+	for(int i = actual.getLength()-1; i >= 0; i--) {
+	    Object next = actual.getNth(i);
+	    Expression e_next = (Expression)next;
+	    e_next.code(ct, s);
+	    CgenSupport.emitPush("$a0", s);
 	}
+	CgenSupport.emitMove("$a0", "$s0", s);
+	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
+
+	CgenSupport.emitLoadString(CgenSupport.ACC,
+                                   (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
+	CgenSupport.emitLoadImm("$t1", 6, s);
+	CgenSupport.emitJal("_dispatch_abort", s);
+	CgenSupport.emitLabelDef(ct.labelNum, s);
+	ct.labelNum++;
+	CgenSupport.emitLoad("$t1", 2, "$a0", s);
+	
+	String typ = expr.get_type().equals(TreeConstants.SELF_TYPE) ? 
+	    TreeNode.currentObj.str:
+	    expr.get_type().str;
+
+
+	ArrayList<String> methods = ct.methodOffsets.get(ct.cgenLookup.get(typ));
+	int offset = -1;
+	for(int i = 0; i < methods.size(); i++) {
+	    String m = methods.get(i);
+	    if(name.str.equals(m.split("\\w+\\.")[1])) {
+		offset = i;
+		break;
+	    }
+	}
+	
+	CgenSupport.emitLoad("$t1", offset, "$t1", s);
+	CgenSupport.emitJalr("$t1", s);
     }
 
 
@@ -730,27 +762,27 @@ class cond extends Expression {
       * @param s the output stream 
       * */
 
-    static int labelNum = 0;
 
     /**
-     *                cgen(pred)
-     *                li $t1 1
-     *                beq $t1 $a0 true_branch
-     * false_branch : cgen(else_expr)
-     *                b end_if
-     * true_branch  : cgen(then_expr)
-     * end_if       : 
+     *          cgen(pred)
+     *          lw $t1 12($a0)
+     *          beqz $t1 label0
+     *          cgen(then_expr)
+     *          b label1
+     * label0 : cgen(else_expr)
+     * label1 : 
      **/
     public void code(CgenClassTable ct, PrintStream s) {
 	pred.code(ct,s);
-	CgenSupport.emitLoadImm("$t1", 1, s);
-	CgenSupport.emitBeq("$t1", "$a0", labelNum, s);
-	CgenSupport.emitLabelDef(labelNum, s);
-	else_exp.code(ct,s);
-	CgenSupport.emitBranch(labelNum+2, s);
-	CgenSupport.emitLabelDef(labelNum+1, s);
-	then_exp.code(ct,s);
-	CgenSupport.emitLabelDef(labelNum+2, s);
+	int ln = ct.labelNum;
+	ct.labelNum += 2;
+	CgenSupport.emitLoad("$t1", 3, "$a0", s);
+	CgenSupport.emitBeqz("$t1", ln, s);
+	then_exp.code(ct, s);
+	CgenSupport.emitBranch(ln+1, s);
+	CgenSupport.emitLabelDef(ln, s);
+	else_exp.code(ct, s);
+	CgenSupport.emitLabelDef(ln+1, s);
     }
 
 
@@ -791,12 +823,27 @@ class loop extends Expression {
 	body.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * label0 : cgen(pred)
+     *          lw $t1 12($a0)
+     *          beqz $t1 label1
+     *          cgen(body)
+     *          b label0
+     * label1 : 
+     *          
+     *          
+     **/
     public void code(CgenClassTable ct, PrintStream s) {
+	int ln = 0;
+	ct.labelNum += 2;
+	CgenSupport.emitLabelDef(ln, s);
+	pred.code(ct, s);
+	CgenSupport.emitLoad("$t1", 3, "$a0", s);
+	CgenSupport.emitBeqz("$t1", ln+1, s);
+	body.code(ct, s);
+	CgenSupport.emitBranch(ln, s);
+	CgenSupport.emitLabelDef(ln+1, s);
+	CgenSupport.emitMove("$a0", "$zero", s);
     }
 
 
@@ -888,6 +935,9 @@ class block extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	for(int i = 0; i < body.getLength(); i++) {
+	    ((Expression)body.getNth(i)).code(ct, s);
+	}
     }
 
 
@@ -984,12 +1034,21 @@ class plus extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * cgen(e1)
+     * push $a0
+     * cgen(e2)
+     * lw $t1 4($sp)
+     * add $a0 $t1 $a0
+     * addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitAdd("$a0", "$t1", "$a0", s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
 
 
@@ -1030,13 +1089,23 @@ class sub extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * cgen(e1)
+     * push $a0
+     * cgen(e2)
+     * lw $t1 4($sp)
+     * sub $a0 $t1 $a0
+     * addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitSub("$a0", "$t1", "$a0", s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
+
 
 
 }
@@ -1076,12 +1145,21 @@ class mul extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * cgen(e1)
+     * push $a0
+     * cgen(e2)
+     * lw $t1 4($sp)
+     * mul $a0 $t1 $a0
+     * addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitMul("$a0", "$t1", "$a0", s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
 
 
@@ -1122,14 +1200,22 @@ class divide extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * cgen(e1)
+     * push $a0
+     * cgen(e2)
+     * lw $t1 4($sp)
+     * div $a0 $t1 $a0
+     * addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitDiv("$a0", "$t1", "$a0", s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
-
 
 }
 
@@ -1163,12 +1249,16 @@ class neg extends Expression {
 	e1.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     * cgen(e1)
+     * li $t1 -1
+     * mul $a0 $a0 $t1
+     **/
+    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitLoadImm("$t1", -1, s);
+	CgenSupport.emitMul("$a0", "$t1", "$a0", s);
     }
 
 
@@ -1209,14 +1299,28 @@ class lt extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     *          cgen(e1)
+     *          push $a0
+     *          cgen(e2)
+     *          lw $t1 4($sp)
+     * 	        la $a0 bool_const1
+     *          blt $t1 $a0 label0
+     * 	        la $a0 bool_const0
+     * label0 : addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
+	CgenSupport.emitBlt("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
-
+    
 
 }
 
@@ -1255,21 +1359,28 @@ class eq extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
-
-    /*TODO!!!!*/
+    /**
+     *          cgen(e1)
+     *          push $a0
+     *          cgen(e2)
+     *          lw $t1 4($sp)
+     * 	        la $a0 bool_const1
+     *          beq $t1 $a0 label0
+     * 	        la $a0 bool_const0
+     * label0 : addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
-	e1.code(ct,s);
+	e1.code(ct, s);
 	CgenSupport.emitPush("$a0", s);
-	e2.code(ct,s);
-	
-	
-	
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
+	CgenSupport.emitBeq("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
+
 
 
 }
@@ -1309,12 +1420,26 @@ class leq extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     *          cgen(e1)
+     *          push $a0
+     *          cgen(e2)
+     *          lw $t1 4($sp)
+     * 	        la $a0 bool_const1
+     *          blt $t1 $a0 label0
+     * 	        la $a0 bool_const0
+     * label0 : addiu $sp $sp 4
+     **/    
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitPush("$a0", s);
+	e2.code(ct, s);
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
+	CgenSupport.emitBlt("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }
 
 
@@ -1350,12 +1475,22 @@ class comp extends Expression {
 	e1.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /** Generates code for this expression.  This method is to be completed 
-      * in programming assignment 5.  (You may add or remove parameters as
-      * you wish.)
-      * @param s the output stream 
-      * */
+    /**
+     *          cgen(e1);
+     *          lw $t1 12($a0)
+     *          la $a0 bool_const0
+     *          beq $t1 $zero label0
+     *          la $a0 bool_const1
+     * label0 : 
+     **/
+
     public void code(CgenClassTable ct, PrintStream s) {
+	e1.code(ct, s);
+	CgenSupport.emitLoad("$t1", 3, "$a0", s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	CgenSupport.emitBeq("$t1", "$zero", ct.labelNum, s);
+	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);	
     }
 
 
@@ -1562,6 +1697,7 @@ class isvoid extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	CgenSupport.emitLoadBool(CgenSupport.ACC, new BoolConst(false), s);
     }
 
 

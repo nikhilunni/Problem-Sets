@@ -3,7 +3,14 @@
     as possible.
  *)
 class Main inherits IO {
-  i:Int;
-  main():Object { out_int(i) };
+  main():Object {{  out_int({ while 4 < 3 loop out_int(4) pool;
+                   4 + 3 + 4*42 +
+                   if (4 + 3 < 10/2) then 7 else 14 fi /
+		   2; });
+
+		   if ({out_int(72); 4/2 < 1;}) then abort() else out_int(73) fi;
+		   while true loop abort() pool;
+		   out_int(~2);
+                }};
 };
 

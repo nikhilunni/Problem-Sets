@@ -43,9 +43,12 @@ class CgenClassTable extends SymbolTable {
     private int intclasstag;
     private int boolclasstag;
     private int stringclasstag;
+
+    public int labelNum = 0;
     
-    private HashMap<CgenNode, Integer> tags;
-    public  HashMap<CgenNode, ArrayList<String>> methodOffsets;
+    public HashMap<String, CgenNode> cgenLookup; 
+    public HashMap<CgenNode, Integer> tags;
+    public HashMap<CgenNode, ArrayList<String>> methodOffsets;
 
     // The following methods emit code for constants and global
     // declarations.
@@ -264,14 +267,21 @@ class CgenClassTable extends SymbolTable {
 	    CgenSupport.emitReturn(str);
 	}	
     }
+
+    //TODO : arguments?
     private void printMethod(CgenNode co, method m_next) {
 	str.print(co.name.str + "." + m_next.name.str + CgenSupport.LABEL);
-	CgenSupport.emitMove("$fp", "$sp", str);
-	CgenSupport.emitPush("$ra", str);
+	CgenSupport.emitAddiu("$sp", "$sp", -12, str);
+	CgenSupport.emitStore("$fp", 3, "$sp", str);
+	CgenSupport.emitStore("$s0", 2, "$sp", str);
+	CgenSupport.emitStore("$ra", 1, "$sp", str);
+	CgenSupport.emitAddiu("$fp", "$sp", 16, str);
+	CgenSupport.emitMove("$s0", "$a0", str);
 	m_next.expr.code(this, str);
+	CgenSupport.emitLoad("$fp", 3, "$sp", str);
+	CgenSupport.emitLoad("$s0", 2, "$sp", str);
 	CgenSupport.emitLoad("$ra", 1, "$sp", str);
-	CgenSupport.emitAddiu("$sp", "$sp", m_next.formals.getLength()*4 + 8, str);
-	CgenSupport.emitLoad("$fp", 0, "$sp", str);
+	CgenSupport.emitAddiu("$sp", "$sp", m_next.formals.getLength()*4 + 12, str);
 	CgenSupport.emitReturn(str);
     }
     private void codeClassMethods() {
@@ -489,6 +499,7 @@ class CgenClassTable extends SymbolTable {
 	AbstractSymbol name = nd.getName();
 	if (probe(name) != null) return;
 	tags.put(nd, nds.size());
+	cgenLookup.put(nd.name.str, nd);
 	nds.addElement(nd);
 	addId(name, nd);
     }
@@ -525,6 +536,7 @@ class CgenClassTable extends SymbolTable {
 	stringclasstag = 4;
 
 	tags = new HashMap<CgenNode, Integer>();
+	cgenLookup = new HashMap<String, CgenNode>();
 	methodOffsets = new HashMap<CgenNode, ArrayList<String>>();
 
 	enterScope();

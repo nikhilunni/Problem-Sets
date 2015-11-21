@@ -2,5 +2,5 @@
 set -e
 
 
-./mycoolc -o out1.s $1
-./runmips out1.s 2> /dev/null | awk '{if(NR>1)print}' | rev | cut -c 35- | rev
+./mycoolc -o out.s $1
+./runmips out.s 2> /dev/null | awk '{if(NR>1)print}' | rev | cut -c 35- | rev
