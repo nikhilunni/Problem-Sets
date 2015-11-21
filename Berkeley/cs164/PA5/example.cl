@@ -9,6 +9,7 @@ class Main inherits IO {
 		   2; });
 
 		   if ({out_int(72); 4/2 < 1;}) then abort() else out_int(73) fi;
+		   out_int( (~62 + 2) / 7);
 		   while true loop abort() pool;
 		   out_int(~2);
                 }};

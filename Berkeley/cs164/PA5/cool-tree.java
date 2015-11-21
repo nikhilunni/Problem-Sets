@@ -834,7 +834,7 @@ class loop extends Expression {
      *          
      **/
     public void code(CgenClassTable ct, PrintStream s) {
-	int ln = 0;
+	int ln = ct.labelNum;
 	ct.labelNum += 2;
 	CgenSupport.emitLabelDef(ln, s);
 	pred.code(ct, s);
@@ -1034,21 +1034,18 @@ class plus extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /**
-     * cgen(e1)
-     * push $a0
-     * cgen(e2)
-     * lw $t1 4($sp)
-     * add $a0 $t1 $a0
-     * addiu $sp $sp 4
-     **/    
     public void code(CgenClassTable ct, PrintStream s) {
 	e1.code(ct, s);
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
-	CgenSupport.emitLoad("$t1", 1, "$sp", s);
-	CgenSupport.emitAdd("$a0", "$t1", "$a0", s);
-	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
+	CgenSupport.emitJal("Object.copy", s);         //Copy 2nd expr
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);      //t1 <- top
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);      //t1 <- e1's int value
+	CgenSupport.emitLoad("$t2", 3, "$a0", s);      //t2 <- e2's int value
+	CgenSupport.emitAdd("$t2", "$t1", "$t2", s);   //op on t2
+	CgenSupport.emitStore("$t2", 3, "$a0", s);     //store t2 back in copy's int value
+
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);     //pop
     }
 
 
@@ -1089,21 +1086,18 @@ class sub extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /**
-     * cgen(e1)
-     * push $a0
-     * cgen(e2)
-     * lw $t1 4($sp)
-     * sub $a0 $t1 $a0
-     * addiu $sp $sp 4
-     **/    
     public void code(CgenClassTable ct, PrintStream s) {
 	e1.code(ct, s);
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
-	CgenSupport.emitLoad("$t1", 1, "$sp", s);
-	CgenSupport.emitSub("$a0", "$t1", "$a0", s);
-	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
+	CgenSupport.emitJal("Object.copy", s);         //Copy 2nd expr
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);      //t1 <- top
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);      //t1 <- e1's int value
+	CgenSupport.emitLoad("$t2", 3, "$a0", s);      //t2 <- e2's int value
+	CgenSupport.emitSub("$t2", "$t1", "$t2", s);   //op on t2
+	CgenSupport.emitStore("$t2", 3, "$a0", s);     //store t2 back in copy's int value
+
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);     //pop
     }
 
 
@@ -1145,21 +1139,18 @@ class mul extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /**
-     * cgen(e1)
-     * push $a0
-     * cgen(e2)
-     * lw $t1 4($sp)
-     * mul $a0 $t1 $a0
-     * addiu $sp $sp 4
-     **/    
     public void code(CgenClassTable ct, PrintStream s) {
 	e1.code(ct, s);
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
-	CgenSupport.emitLoad("$t1", 1, "$sp", s);
-	CgenSupport.emitMul("$a0", "$t1", "$a0", s);
-	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
+	CgenSupport.emitJal("Object.copy", s);         //Copy 2nd expr
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);      //t1 <- top
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);      //t1 <- e1's int value
+	CgenSupport.emitLoad("$t2", 3, "$a0", s);      //t2 <- e2's int value
+	CgenSupport.emitMul("$t2", "$t1", "$t2", s);   //op on t2
+	CgenSupport.emitStore("$t2", 3, "$a0", s);     //store t2 back in copy's int value
+
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);     //pop
     }
 
 
@@ -1200,21 +1191,18 @@ class divide extends Expression {
 	e2.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /**
-     * cgen(e1)
-     * push $a0
-     * cgen(e2)
-     * lw $t1 4($sp)
-     * div $a0 $t1 $a0
-     * addiu $sp $sp 4
-     **/    
     public void code(CgenClassTable ct, PrintStream s) {
 	e1.code(ct, s);
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
-	CgenSupport.emitLoad("$t1", 1, "$sp", s);
-	CgenSupport.emitDiv("$a0", "$t1", "$a0", s);
-	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
+	CgenSupport.emitJal("Object.copy", s);         //Copy 2nd expr
+	CgenSupport.emitLoad("$t1", 1, "$sp", s);      //t1 <- top
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);      //t1 <- e1's int value
+	CgenSupport.emitLoad("$t2", 3, "$a0", s);      //t2 <- e2's int value
+	CgenSupport.emitDiv("$t2", "$t1", "$t2", s);   //op on t2
+	CgenSupport.emitStore("$t2", 3, "$a0", s);     //store t2 back in copy's int value
+
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);     //pop
     }
 
 }
@@ -1249,16 +1237,14 @@ class neg extends Expression {
 	e1.dump_with_types(out, n + 2);
 	dump_type(out, n);
     }
-    /**
-     * cgen(e1)
-     * li $t1 -1
-     * mul $a0 $a0 $t1
-     **/
     
     public void code(CgenClassTable ct, PrintStream s) {
 	e1.code(ct, s);
+	CgenSupport.emitJal("Object.copy", s);
 	CgenSupport.emitLoadImm("$t1", -1, s);
-	CgenSupport.emitMul("$a0", "$t1", "$a0", s);
+	CgenSupport.emitLoad("$t2", 3, "$a0", s);
+	CgenSupport.emitMul("$t2", "$t1", "$t2", s);
+	CgenSupport.emitStore("$t2", 3, "$a0", s);
     }
 
 
@@ -1304,6 +1290,9 @@ class lt extends Expression {
      *          push $a0
      *          cgen(e2)
      *          lw $t1 4($sp)
+     *          move $t2 $a0
+     *          lw $t1 12($sp)
+     *          lw $t2 12($sp)
      * 	        la $a0 bool_const1
      *          blt $t1 $a0 label0
      * 	        la $a0 bool_const0
@@ -1314,8 +1303,11 @@ class lt extends Expression {
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
 	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitMove("$t2", "$a0", s);
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);
+	CgenSupport.emitLoad("$t2", 3, "$t2", s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
-	CgenSupport.emitBlt("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitBlt("$t1", "$t2", ct.labelNum, s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
 	CgenSupport.emitLabelDef(ct.labelNum++, s);
 	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
@@ -1364,8 +1356,11 @@ class eq extends Expression {
      *          push $a0
      *          cgen(e2)
      *          lw $t1 4($sp)
+     *          move $t2 $a0
+     *          lw $t1 12($sp)
+     *          lw $t2 12($sp)
      * 	        la $a0 bool_const1
-     *          beq $t1 $a0 label0
+     *          blt $t1 $a0 label0
      * 	        la $a0 bool_const0
      * label0 : addiu $sp $sp 4
      **/    
@@ -1374,13 +1369,15 @@ class eq extends Expression {
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
 	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitMove("$t2", "$a0", s);
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);
+	CgenSupport.emitLoad("$t2", 3, "$t2", s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
-	CgenSupport.emitBeq("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitBeq("$t1", "$t2", ct.labelNum, s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
 	CgenSupport.emitLabelDef(ct.labelNum++, s);
 	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
-    }
-
+    }  
 
 
 }
@@ -1425,6 +1422,9 @@ class leq extends Expression {
      *          push $a0
      *          cgen(e2)
      *          lw $t1 4($sp)
+     *          move $t2 $a0
+     *          lw $t1 12($sp)
+     *          lw $t2 12($sp)
      * 	        la $a0 bool_const1
      *          blt $t1 $a0 label0
      * 	        la $a0 bool_const0
@@ -1435,12 +1435,15 @@ class leq extends Expression {
 	CgenSupport.emitPush("$a0", s);
 	e2.code(ct, s);
 	CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	CgenSupport.emitMove("$t2", "$a0", s);
+	CgenSupport.emitLoad("$t1", 3, "$t1", s);
+	CgenSupport.emitLoad("$t2", 3, "$t2", s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
-	CgenSupport.emitBlt("$t1", "$a0", ct.labelNum, s);
+	CgenSupport.emitBleq("$t1", "$t2", ct.labelNum, s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
 	CgenSupport.emitLabelDef(ct.labelNum++, s);
 	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
-    }
+    }  
 
 
 }
