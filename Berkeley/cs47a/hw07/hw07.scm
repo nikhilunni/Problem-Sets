@@ -11,26 +11,39 @@
 
 (define (sign x)
   (cond
-     ((x > 0) 1)
-     ((x = 0) 0)
-     ((x < 0) -1))
+     ((> x 0) 1)
+     ((= x 0) 0)
+     ((< x 0) -1))
 )
 
 (define (square x) (* x x))
 
 (define (pow b n)
-  ; YOUR-CODE-HERE
-  nil
+  (cond
+     ((= n 1) b)
+     ((even? n) (pow (* b b) (/ n 2)))
+     ((odd? n) (* b (pow (* b b) (/ (- n 1) 2)))))
 )
 
 (define (ordered? s)
-  ; YOUR-CODE-HERE
-  nil
+  (if (null? (cdr s))
+      'True
+      (and ( >= (cadr s) (car s)) (ordered? (cdr s))))
 )
 
+(define (atom? x) (not (pair? x)))
+
 (define (nodots s)
-  ; YOUR-CODE-HERE
-  nil
+    (cond
+        ((null? s) '())
+        ((atom? s) (list s))
+	((atom? (car s)) (cons (car s) (nodots (cdr s))))
+	(else (cons 
+	          (nodots (car s))
+		  (nodots (cdr s))
+	      )
+	)
+    )
 )
 
 ; Sets as sorted lists
@@ -39,8 +52,9 @@
 
 (define (contains? s v)
     (cond ((empty? s) false)
-          ; YOUR-CODE-HERE
-          (else nil)
+	  ((> (car s) v) false)
+	  ((= (car s) v) true)
+          (else (contains? (cdr s) v))
           ))
 
 ; Equivalent Python code, for your reference:
@@ -60,15 +74,16 @@
 
 (define (add s v)
     (cond ((empty? s) (list v))
-          ; YOUR-CODE-HERE
-          (else nil)
+	  ((< v (car s)) (cons v s))
+	  ((= v (car s)) s)
+          (else (cons (car s) (add (cdr s) v)))
           ))
 
 (define (intersect s t)
-    (cond ((or (empty? s) (empty? t)) nil)
-          ; YOUR-CODE-HERE
-          (else nil)
-          ))
+    (cond ((empty? s) nil)
+	  ((contains? t (car s)) (cons (car s) (intersect (cdr s) t)))
+	  (else (intersect (cdr s) t))
+	  ))
 
 ; Equivalent Python code, for your reference:
 ;
@@ -86,9 +101,10 @@
 
 (define (union s t)
     (cond ((empty? s) t)
-          ((empty? t) s)
-          ; YOUR-CODE-HERE
-          (else nil)
+	  ((empty? t) s)
+	  ((< (car s) (car t)) (cons (car s) (union (cdr s) t)))
+	  ((> (car s) (car t)) (cons (car t) (union s (cdr t))))
+	  ((= (car s) (car t)) (cons (car t) (union (cdr s) (cdr t))))
           ))
 
 
@@ -104,8 +120,8 @@
 
 (define (in? t v)
     (cond ((empty? t) false)
-          ; YOUR-CODE-HERE
-          (else nil)
+	  ((= v (entry t)) true)
+          (else (or (in? (left t) v) (in? (right t) v)))
           ))
 
 ; Equivalent Python code, for your reference:
@@ -120,8 +136,19 @@
 ;     elif s.entry > v:
 ;         return contains(s.left, v)
 
+(define (concat s t)
+    (cond 
+        ((null? s) t)
+        ((null? t) s)
+	((null? (cdr s)) (cons (car s) t))
+	(else (cons (car s) (concat (cdr s) t)))
+	))
+
 (define (as-list t)
-    ; YOUR-CODE-HERE
-    (else nil)
-    )
+    (cond 
+        ((empty? t) '())
+        (else (concat 
+	          (as-list (left t)) 
+                  (cons (entry t) (as-list (right t)))))
+        ))
 

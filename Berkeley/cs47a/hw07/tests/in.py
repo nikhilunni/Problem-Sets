@@ -7,47 +7,42 @@ test = {
         {
           'code': r"""
           scm> (in? odd-tree 1)
-          60c2a5359961375936a02892ac434f71
-          # locked
+          True
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (in? odd-tree 2)
-          30fee613b5f24feb0ea2d5089730e609
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (in? odd-tree 3)
-          60c2a5359961375936a02892ac434f71
-          # locked
+          True
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (in? odd-tree 4)
-          30fee613b5f24feb0ea2d5089730e609
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (in? odd-tree 5)
-          60c2a5359961375936a02892ac434f71
-          # locked
+          True
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,

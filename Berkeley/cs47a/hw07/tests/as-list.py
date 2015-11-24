@@ -7,20 +7,18 @@ test = {
         {
           'code': r"""
           scm> (as-list (right odd-tree))
-          6be41fb4a0d0c6c588d614ead76413ad
-          # locked
+          (5 7 9 11)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (as-list odd-tree)
-          6d4f139fc7bb48dd186eefd7d3f1b46d
-          # locked
+          (1 3 5 7 9 11)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
