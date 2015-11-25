@@ -29,12 +29,15 @@ create table sizes as
 
 -- The size of each dog
 create table size_of_dogs as
-select "REPLACE THIS LINE WITH YOUR SOLUTION";
+  select dogs.name, sizes.size from 
+  dogs join sizes on dogs.height > sizes.min and dogs.height <= sizes.max;
 
 
 -- All dogs with parents ordered by decreasing height of their parent
 create table by_height as
-select "REPLACE THIS LINE WITH YOUR SOLUTION";
+select dogs.name from
+dogs join parents on dogs.name = parents.child
+order by height desc;
 
 
 -- Sentences about siblings that are the same size

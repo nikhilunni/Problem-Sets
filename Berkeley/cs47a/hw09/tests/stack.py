@@ -17,6 +17,7 @@ test = {
           'locked': False
         }
       ],
+      'ordered': False,
       'scored': True,
       'setup': r"""
       sqlite> .read hw09.sql
