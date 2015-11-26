@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+
+./reference-coolc -o out1.s $1
+./runmips out1.s 
