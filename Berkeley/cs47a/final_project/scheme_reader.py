@@ -134,7 +134,7 @@ def scheme_read(src):
     elif val not in DELIMITERS:
         return val
     elif val == "'":
-        return 'quote'
+        return Pair('quote', Pair(scheme_read(src), nil))
     elif val == "(":
         return read_tail(src)
     else:
@@ -167,7 +167,13 @@ def read_tail(src):
             src.pop()
             return nil
         elif src.current() == ".":
-            "*** YOUR CODE HERE ***"
+            src.pop()
+            first = scheme_read(src)
+            rest = read_tail(src)
+            if rest is nil:
+                return first
+            else:
+                raise SyntaxError("Ill-formed pair")
         else:
             first = scheme_read(src)
             rest = read_tail(src)

@@ -17,6 +17,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     >>> scheme_eval(expr, create_global_frame())
     4
     """
+
     # Atoms
     assert expr is not None
     if scheme_symbolp(expr):
@@ -52,8 +53,16 @@ def scheme_apply(procedure, args, env):
 
 def eval_all(expressions, env):
     """Evaluate a Scheme list of EXPRESSIONS & return the value of the last."""
-    "*** YOUR CODE HERE ***"
-    return scheme_eval(expressions.first, env)
+    if not isinstance(expressions, Pair):
+        return okay
+
+    out = None
+    for expression in expressions:
+        try:
+            out = scheme_eval(expression, env)
+        except:
+            out = okay
+    return out
 
 def apply_primitive(procedure, args_scheme_list, env):
     """Apply PrimitiveProcedure PROCEDURE to ARGS_SCHEME_LIST in ENV.
@@ -65,11 +74,21 @@ def apply_primitive(procedure, args_scheme_list, env):
     4
     """
     args = list(args_scheme_list) # Convert a Scheme list to a Python list
-    "*** YOUR CODE HERE ***"
+    if(procedure.use_env):
+        try:
+            return procedure.fn(*args, env=env)
+        except:
+            raise SchemeError("Invalid arguments")
+    else:
+        try:
+            return procedure.fn(*args)
+        except:
+            raise SchemeError("Invalid arguments")
 
 def make_call_frame(procedure, args, env):
-    """Make a frame that binds the formal parameters of PROCEDURE to ARGS."""
-    "*** YOUR CODE HERE ***"
+    """Make a frame that binds the formal parameters of PROCEDURE to ARGS."""    
+    return env.make_child_frame(procedure.formals, args)
+    
 
 ################
 # Environments #
@@ -91,8 +110,12 @@ class Frame:
             return "<{{{0}}} -> {1}>".format(', '.join(s), repr(self.parent))
 
     def lookup(self, symbol):
-        """Return the value bound to SYMBOL.  Errors if SYMBOL is not found."""
-        "*** YOUR CODE HERE ***"
+        curr = self
+        while curr is not None:
+            if(symbol not in curr.bindings):
+                curr = curr.parent
+            else:
+                return curr.bindings[symbol]
         raise SchemeError("unknown identifier: {0}".format(symbol))
 
     def make_child_frame(self, formals, vals):
@@ -107,7 +130,11 @@ class Frame:
         <{a: 1, b: 2, c: 3} -> <Global Frame>>
         """
         frame = Frame(self) # Create a new frame with self as the parent
-        "*** YOUR CODE HERE ***"
+        if(len(formals) is not len(vals)):
+            raise SchemeError("Mismatched number of vals and formals")
+
+        for i in range(len(formals)):
+            frame.bindings[formals[i]] = vals[i]
         return frame
 
     def define(self, symbol, value):
@@ -140,15 +167,19 @@ class LambdaProcedure(UserDefinedProcedure):
 # Special forms #
 #################
 
+
 def do_define_form(expressions, env):
     """Evaluate a define form."""
     check_form(expressions, 2)
     target = expressions[0]
     if scheme_symbolp(target):
         check_form(expressions, 2, 2)
-        "*** YOUR CODE HERE ***"
-    elif isinstance(target, Pair) and scheme_symbolp(target.first):
-        "*** YOUR CODE HERE ***"
+        env.bindings[target] = scheme_eval(expressions[1], env)
+        return target
+    elif isinstance(target, Pair) and scheme_symbolp(target.first):                
+#        env.bindings[target.first] = do_lambda_form(Pair(target.second, Pair(expressions.second, nil)), env)
+        env.bindings[target.first] = do_lambda_form(Pair(target.second, expressions.second), env)
+        return target.first
     else:
         bad = target.first if isinstance(target, Pair) else target
         raise SchemeError("Non-symbol: {}".format(bad))
@@ -156,7 +187,7 @@ def do_define_form(expressions, env):
 def do_quote_form(expressions, env):
     """Evaluate a quote form."""
     check_form(expressions, 1, 1)
-    "*** YOUR CODE HERE ***"
+    return expressions[0]
 
 def do_begin_form(expressions, env):
     """Evaluate begin form."""
@@ -168,20 +199,40 @@ def do_lambda_form(expressions, env):
     check_form(expressions, 2)
     formals = expressions.first
     check_formals(formals)
-    "*** YOUR CODE HERE ***"
+    return LambdaProcedure(formals, expressions.second, env)
 
 def do_if_form(expressions, env):
     """Evaluate an if form."""
     check_form(expressions, 2, 3)
-    "*** YOUR CODE HERE ***"
+    
+    pred = scheme_eval(expressions.first, env)
+
+    if pred is not False:
+        return scheme_eval(expressions.second.first, env)
+    else:
+        try:
+            return scheme_eval(expressions.second.second.first, env)
+        except:
+            return okay
 
 def do_and_form(expressions, env):
     """Evaluate a short-circuited and form."""
-    "*** YOUR CODE HERE ***"
+    out = True
+    for expression in expressions:
+        boolVal = scheme_eval(expression, env)
+        if boolVal is not False:
+            out = boolVal
+        else:
+            return False
+    return out
 
 def do_or_form(expressions, env):
     """Evaluate a short-circuited or form."""
-    "*** YOUR CODE HERE ***"
+    for expression in expressions:
+        boolVal = scheme_eval(expression, env)
+        if boolVal is not False:
+            return boolVal
+    return False
 
 def do_cond_form(expressions, env):
     """Evaluate a cond form."""
@@ -197,7 +248,13 @@ def do_cond_form(expressions, env):
         else:
             test = scheme_eval(clause.first, env)
         if scheme_true(test):
-            "*** YOUR CODE HERE ***"
+            if clause.second is not nil:
+                if clause.second.second is not nil:
+                    return eval_all(clause.second, env)
+                else:
+                    return scheme_eval(clause.second.first, env)
+            else:
+                return test
     return okay
 
 def do_let_form(expressions, env):
@@ -210,7 +267,16 @@ def make_let_frame(bindings, env):
     """Create a frame containing bindings from a let expression."""
     if not scheme_listp(bindings):
         raise SchemeError("bad bindings list in let form")
-    "*** YOUR CODE HERE ***"
+        
+    frame = Frame(env)
+    for binding in bindings:
+        if binding.second.second != nil:
+            raise SchemeError("Bad let expression")
+        if not scheme_symbolp(binding.first):
+            raise SchemeError("Let bound to nonidentifier")
+        frame.define(binding.first, scheme_eval(binding.second.first, env))
+    return frame
+
 
 SPECIAL_FORMS = {
     "and": do_and_form,
@@ -244,7 +310,12 @@ def check_formals(formals):
 
     >>> check_formals(read_line("(a b c)"))
     """
-    "*** YOUR CODE HERE ***"
+    lookup = set()
+    for formal in formals:
+        if not scheme_symbolp(formal) or formal in lookup:
+            raise SchemeError("Invalid argument")
+        else:
+            lookup.add(formal)
 
 #################
 # Dynamic Scope #
