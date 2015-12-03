@@ -8,16 +8,22 @@
 (define (cons-all first rests)
   (apply-to-all (lambda (rest) (cons first rest)) rests))
 
-(define (caar x) (car (car x)))
-(define (cadr x) (car (cdr x)))
+(define (caar x) (car (car x))) 
+(define (cadr x) (car (cdr x))) ;Second 
 (define (cddr x) (cdr (cdr x)))
 (define (cadar x) (car (cdr (car x))))
 
 ; Problem 18
 ;; Turns a list of pairs into a pair of lists
 (define (zip pairs)
-  'YOUR-CODE-HERE
-  '())
+  (if (null? pairs)
+      '(() ())
+      (let 
+	((rest (zip (cdr pairs))))
+	(list (cons (caar pairs) (car rest)) (cons (cadar pairs) (cadr rest)))
+      )
+  )
+)
 
 (zip '((1 2) (3 4) (5 6)))
 ; expect ((1 3 5) (2 4 6))
@@ -30,8 +36,15 @@
 
 ;; List all ways to partition TOTAL without using consecutive numbers.
 (define (list-partitions total)
-  'YOUR-CODE-HERE
+  (if (<= 0 total)
+      '()
+      (
+        (define i 1)
+	()
+       
+      )
   )
+)
 
 ; For these two tests, any permutation of the right answer will be accepted.
 (list-partitions 5)

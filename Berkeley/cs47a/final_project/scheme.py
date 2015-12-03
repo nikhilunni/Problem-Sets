@@ -55,7 +55,7 @@ def eval_all(expressions, env):
     """Evaluate a Scheme list of EXPRESSIONS & return the value of the last."""
     if not isinstance(expressions, Pair):
         return okay
-
+               
     out = None
     for expression in expressions:
         try:
@@ -87,7 +87,10 @@ def apply_primitive(procedure, args_scheme_list, env):
 
 def make_call_frame(procedure, args, env):
     """Make a frame that binds the formal parameters of PROCEDURE to ARGS."""    
-    return env.make_child_frame(procedure.formals, args)
+    if isinstance(procedure, MuProcedure):
+        return env.make_child_frame(procedure.formals, args)
+    else:
+        return procedure.env.make_child_frame(procedure.formals, args)
     
 
 ################
@@ -116,6 +119,7 @@ class Frame:
                 curr = curr.parent
             else:
                 return curr.bindings[symbol]
+        
         raise SchemeError("unknown identifier: {0}".format(symbol))
 
     def make_child_frame(self, formals, vals):
@@ -176,8 +180,7 @@ def do_define_form(expressions, env):
         check_form(expressions, 2, 2)
         env.bindings[target] = scheme_eval(expressions[1], env)
         return target
-    elif isinstance(target, Pair) and scheme_symbolp(target.first):                
-#        env.bindings[target.first] = do_lambda_form(Pair(target.second, Pair(expressions.second, nil)), env)
+    elif isinstance(target, Pair) and scheme_symbolp(target.first):
         env.bindings[target.first] = do_lambda_form(Pair(target.second, expressions.second), env)
         return target.first
     else:
@@ -352,7 +355,7 @@ def do_mu_form(expressions, env):
     check_form(expressions, 2)
     formals = expressions[0]
     check_formals(formals)
-    "*** YOUR CODE HERE ***"
+    return MuProcedure(formals, expressions.second)
 
 SPECIAL_FORMS["mu"] = do_mu_form
 

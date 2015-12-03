@@ -42,7 +42,13 @@ order by height desc;
 
 -- Sentences about siblings that are the same size
 create table sentences as
-select "REPLACE THIS LINE WITH YOUR SOLUTION";
+with lookup(child, size, parent) as (
+     select size_of_dogs.name, size_of_dogs.size, parents.parent from 
+     size_of_dogs join parents on size_of_dogs.name = parents.child
+     )
+select x.child || ' and ' || y.child || ' are ' || x.size || ' siblings'
+from lookup as x, lookup as y
+where x.parent = y.parent and x.child < y.child and x.size = y.size;
 
 
 -- Ways to stack 4 dogs to a height of at least 170, ordered by total height
