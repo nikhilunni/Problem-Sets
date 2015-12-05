@@ -3,4 +3,5 @@ set -e
 
 
 ./mycoolc -o out.s $1
-./runmips out.s 2> /dev/null | awk '{if(NR>1)print}' | rev | cut -c 35- | rev
+#./runmips out.s 2> /dev/null | awk '{if(NR>1)print}' | rev | cut -c 35- | rev
+./runmips out.s

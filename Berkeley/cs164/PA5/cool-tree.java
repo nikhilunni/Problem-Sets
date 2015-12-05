@@ -683,7 +683,9 @@ class dispatch extends Expression {
 	    e_next.code(ct, s);
 	    CgenSupport.emitPush("$a0", s);
 	}
-	CgenSupport.emitMove("$a0", "$s0", s);
+	//	CgenSupport.emitMove("$a0", "$s0", s);
+	expr.code(ct, s);
+
 	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
 
 	CgenSupport.emitLoadString(CgenSupport.ACC,
@@ -1778,6 +1780,12 @@ class object extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	if(name.equals(TreeConstants.self)) {
+	    CgenSupport.emitMove("$a0", "$s0", s);
+	}
+	else {
+	    ct.printObjectCode();
+	}
     }
 
 

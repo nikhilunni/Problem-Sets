@@ -50,6 +50,8 @@ class CgenClassTable extends SymbolTable {
     public HashMap<CgenNode, Integer> tags;
     public HashMap<CgenNode, ArrayList<String>> methodOffsets;
 
+    SymbolTable st;
+
     // The following methods emit code for constants and global
     // declarations.
 
@@ -163,13 +165,7 @@ class CgenClassTable extends SymbolTable {
 	for(Object o : AbstractTable.stringtable.tbl) {
 	    StringSymbol so = (StringSymbol)o;
 	    String strName = so.str;
-	    //TODO : Make work for ALL classes!
-	    if(strName.equals("Object") ||
-	       strName.equals("IO") ||
-	       strName.equals("Int") ||
-	       strName.equals("Bool") ||
-	       strName.equals("String") ||
-	       strName.equals("Main")) {
+	    if(cgenLookup.containsKey(strName)) {
 		str.print(CgenSupport.WORD);
 		so.codeRef(str);
 		str.println();
@@ -219,17 +215,24 @@ class CgenClassTable extends SymbolTable {
 	}	
     }
 
+    private ArrayList<attr> getAttributes(CgenNode co) {
+	if(co.getParentNd() == null || co.getParentNd().name.equals(TreeConstants.No_class)) {
+	    return new ArrayList<attr>();
+	}
+	ArrayList<attr> parentAttrs = getAttributes(co.getParentNd());
+	for(int i = 0; i < co.features.getLength(); i++) {
+	    Object next = co.features.getNth(i);
+	    if(next instanceof attr) {
+		parentAttrs.add((attr)next );
+	    }
+	}
+	return parentAttrs;
+    }
+
     private void codeProtObjs() {
 	for(Object o : nds) {
 	    CgenNode co = (CgenNode)o;
-	    ArrayList<attr> attributes = new ArrayList<attr>();
-	    for(int i = 0; i < co.features.getLength(); i++) {
-		Object next = co.features.getNth(i);
-		if(next instanceof attr) {
-		    attributes.add((attr)next );
-		}
-	    }
-
+	    ArrayList<attr> attributes = getAttributes(co);
 	    str.println(CgenSupport.WORD + (-1));
 	    str.print(co.name.str + CgenSupport.PROTOBJ_SUFFIX + CgenSupport.LABEL);
 	    str.println(CgenSupport.WORD + tags.get(co));
@@ -240,8 +243,9 @@ class CgenClassTable extends SymbolTable {
 		if(at.type_decl.equals(TreeConstants.Int))
 		    str.println(CgenSupport.INTCONST_PREFIX + 
 				AbstractTable.inttable.lookup("0").index);
-		else
+		else {
 		    str.println(0);		    
+		}
 	    }
 	}
     }
@@ -259,6 +263,11 @@ class CgenClassTable extends SymbolTable {
 	    if(!co.getParentNd().name.equals(TreeConstants.No_class))
 		CgenSupport.emitJal(co.getParentNd().name.str + CgenSupport.CLASSINIT_SUFFIX,
 				    str);
+	    ArrayList<attr> classAttrs = getAttributes(co);
+	    for(int i = 0; i < classAttrs.size(); i++) {
+		classAttrs.get(i).init.code(this, str);
+		CgenSupport.emitStore("$a0", 3+i, "$s0", str);
+	    }
 	    CgenSupport.emitMove("$a0", "$s0", str);
 	    CgenSupport.emitLoad("$fp", 3, "$sp", str);
 	    CgenSupport.emitLoad("$s0", 2, "$sp", str);
@@ -317,7 +326,7 @@ class CgenClassTable extends SymbolTable {
 
 	addId(TreeConstants.No_class,
 	      new CgenNode(new class_c(0,
-				      TreeConstants.No_class,
+			  	      TreeConstants.No_class,
 				      TreeConstants.No_class,
 				      new Features(0),
 				      filename),
@@ -539,6 +548,8 @@ class CgenClassTable extends SymbolTable {
 	cgenLookup = new HashMap<String, CgenNode>();
 	methodOffsets = new HashMap<CgenNode, ArrayList<String>>();
 
+	st = new SymbolTable();
+
 	enterScope();
 	if (Flags.cgen_debug) System.out.println("Building CgenClassTable");
 	
@@ -581,6 +592,12 @@ class CgenClassTable extends SymbolTable {
     public CgenNode root() {
 	return (CgenNode)probe(TreeConstants.Object_);
     }
+
+    public void printObjectCode(AbstractSymbol name) {
+	if(st.lookup(name) == null) {
+	    
+	} else {
+	    //TODO : Give integer offset of object on stack!
+	}
+    }
 }
-			  
-    
