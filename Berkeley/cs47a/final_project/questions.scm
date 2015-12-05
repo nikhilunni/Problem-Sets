@@ -41,7 +41,6 @@
       (
         (define i 1)
 	()
-       
       )
   )
 )
@@ -63,28 +62,45 @@
 (define quoted? (check-special 'quote))
 (define let?    (check-special 'let))
 
+
+(define (map fn s)
+  (cond 
+   ((null? s) '())
+   (else (cons (fn (car s)) (map fn (cdr s))))
+  )
+)
+
+(define (concat s t)
+    (cond 
+        ((null? s) t)
+        ((null? t) s)
+	((null? (cdr s)) (cons (car s) t))
+	(else (cons (car s) (concat (cdr s) t)))
+    )
+)
+
 ;; Converts all let special forms in EXPR into equivalent forms using lambda
 (define (analyze expr)
   (cond ((atom? expr)
-         'YOUR-CODE-HERE
+         expr
          )
         ((quoted? expr)
-         'YOUR-CODE-HERE
+         expr
          )
         ((or (lambda? expr)
              (define? expr))
          (let ((form   (car expr))
                (params (cadr expr))
                (body   (cddr expr)))
-           'YOUR-CODE-HERE
+           (list form params (analyze body))
            ))
         ((let? expr)
          (let ((values (cadr expr))
-               (body   (cddr expr)))
-           'YOUR-CODE-HERE
+               (body   (caddr expr)))
+           (concat (list 'lambda (apply-to-all car values) body) (apply-to-all cadr values))
            ))
         (else
-         'YOUR-CODE-HERE
+         expr
          )))
 
 (analyze 1)

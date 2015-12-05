@@ -59,12 +59,21 @@ with four_tuple(fst, snd, thd, fth, total) as (
      where one.height < two.height and two.height < three.height and three.height < four.height
      )
 select fst || ", " || snd || ", " || thd || ", " || fth, total from four_tuple
-where total >= 170; 
+where total >= 170
+order by total; 
 
 
 create table tallest as
-select "REPLACE THIS LINE WITH YOUR SOLUTION";
-
+with 
+tens_place(digit, name, height) as (
+    select (dogs.height / 10 % 10) as digit, dogs.name, dogs.height from dogs
+),
+out(digit, name, height) as (
+    select digit, name, max(height) from tens_place
+    group by digit
+    having count(digit) > 1
+)
+select height, name from out;
 
 -- All non-parent relations ordered by height difference
 create table non_parents as
