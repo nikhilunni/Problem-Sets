@@ -127,16 +127,10 @@ str_const0:
 	.word	4
 	.word	7
 	.word	String_dispTab
-	.word	int_const15
-	.ascii	"example1.cl"
+	.word	int_const3
+	.ascii	"example.cl"
 	.byte	0	
 	.align	2
-	.word	-1
-int_const15:
-	.word	2
-	.word	4
-	.word	Int_dispTab
-	.word	11
 	.word	-1
 int_const14:
 	.word	2
@@ -259,7 +253,16 @@ class_objTab:
 	.word	String_init
 	.word	Main_protObj
 	.word	Main_init
-Int_dispTab:
+Main_dispTab:
+	.word	Object.abort
+	.word	Object.type_name
+	.word	Object.copy
+	.word	IO.out_string
+	.word	IO.out_int
+	.word	IO.in_string
+	.word	IO.in_int
+	.word	Main.main
+Object_dispTab:
 	.word	Object.abort
 	.word	Object.type_name
 	.word	Object.copy
@@ -270,23 +273,6 @@ String_dispTab:
 	.word	String.length
 	.word	String.concat
 	.word	String.substr
-Main_dispTab:
-	.word	Object.abort
-	.word	Object.type_name
-	.word	Object.copy
-	.word	IO.out_string
-	.word	IO.out_int
-	.word	IO.in_string
-	.word	IO.in_int
-	.word	Main.main
-Bool_dispTab:
-	.word	Object.abort
-	.word	Object.type_name
-	.word	Object.copy
-Object_dispTab:
-	.word	Object.abort
-	.word	Object.type_name
-	.word	Object.copy
 IO_dispTab:
 	.word	Object.abort
 	.word	Object.type_name
@@ -295,6 +281,14 @@ IO_dispTab:
 	.word	IO.out_int
 	.word	IO.in_string
 	.word	IO.in_int
+Int_dispTab:
+	.word	Object.abort
+	.word	Object.type_name
+	.word	Object.copy
+Bool_dispTab:
+	.word	Object.abort
+	.word	Object.type_name
+	.word	Object.copy
 	.word	-1
 Object_protObj:
 	.word	0

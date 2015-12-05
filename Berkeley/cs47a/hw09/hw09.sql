@@ -53,7 +53,13 @@ where x.parent = y.parent and x.child < y.child and x.size = y.size;
 
 -- Ways to stack 4 dogs to a height of at least 170, ordered by total height
 create table stacks as
-select "REPLACE THIS LINE WITH YOUR SOLUTION";
+with four_tuple(fst, snd, thd, fth, total) as (
+     select one.name, two.name, three.name, four.name, one.height+two.height+three.height+four.height from
+     dogs as one, dogs as two, dogs as three, dogs as four
+     where one.height < two.height and two.height < three.height and three.height < four.height
+     )
+select fst || ", " || snd || ", " || thd || ", " || fth, total from four_tuple
+where total >= 170; 
 
 
 create table tallest as
