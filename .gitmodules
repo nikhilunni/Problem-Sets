@@ -4,3 +4,6 @@
 [submodule "UIUC/cs374"]
 	path = UIUC/cs374
 	url = https://github.com/nikhilunni/cs374.git
+[submodule "Berkeley/cs194/Project/CS194-project"]
+	path = Berkeley/cs194/Project/CS194-project
+	url = https://github.com/CS194-project/CS194-project

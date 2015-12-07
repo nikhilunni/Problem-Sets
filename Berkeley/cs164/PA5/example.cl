@@ -1,18 +1,8 @@
 (*  Example cool program testing as many aspects of the code generator
     as possible.
  *)
-
-class A inherits IO {
-      a() : Int {3};
-      me : SELF_TYPE <- self;
-};
-
-class B inherits A{
-      b() : Int {7};
-};
-
-class Main inherits B {
-      main(): Object {out_int(b() * a())};
+class Main inherits IO {
+      main(): Int {(if (not (true)) then 12 else 10 fi )};
 };
 
 (*
@@ -30,4 +20,3 @@ class Main inherits IO {
 };
 
 *)
-

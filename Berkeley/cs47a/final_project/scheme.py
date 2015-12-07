@@ -75,8 +75,9 @@ def apply_primitive(procedure, args_scheme_list, env):
     """
     args = list(args_scheme_list) # Convert a Scheme list to a Python list
     if(procedure.use_env):
+        args.append(env)
         try:
-            return procedure.fn(*args, env=env)
+            return procedure.fn(*args)
         except:
             raise SchemeError("Invalid arguments")
     else:

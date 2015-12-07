@@ -10,10 +10,13 @@ test = {
           >>> twos = Pair(2, Pair(2, nil))
           >>> plus = PrimitiveProcedure(scheme_add) # + procedure
           >>> scheme_apply(plus, twos, env)
-          4
+          20bc71417eab0e038125723df967189e
+          # locked
+          # choice: 4
+          # choice: SchemeError
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""
@@ -21,10 +24,14 @@ test = {
           >>> twos = Pair(2, Pair(2, nil))
           >>> oddp = PrimitiveProcedure(scheme_oddp) # odd? procedure
           >>> scheme_apply(oddp, twos, env)
-          SchemeError
+          afe8b0293088a787c654885143501f84
+          # locked
+          # choice: True
+          # choice: False
+          # choice: SchemeError
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""

@@ -7,18 +7,30 @@ test = {
         {
           'code': r"""
           >>> read_line("(a . b)")
-          Pair('a', 'b')
+          cbbe2ccb7cba34e792300000210a2f6c
+          # locked
+          # choice: Pair('a', Pair('b'))
+          # choice: Pair('a', Pair('b', nil))
+          # choice: SyntaxError
+          # choice: Pair('a', 'b')
+          # choice: Pair('a', 'b', nil)
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""
           >>> read_line("(a b . c)")
-          Pair('a', Pair('b', 'c'))
+          38df9234d9ed7ef7689d5922651cf4c7
+          # locked
+          # choice: Pair('a', Pair('b', Pair('c', nil)))
+          # choice: Pair('a', Pair('b', Pair('c')))
+          # choice: Pair('a', 'b', 'c')
+          # choice: Pair('a', Pair('b', 'c'))
+          # choice: SyntaxError
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         }
       ],
       'scored': True,
@@ -33,26 +45,41 @@ test = {
         {
           'code': r"""
           >>> read_line("(a b . c d)")
-          SyntaxError
+          82640ec73ce860e60829be0e1dea9112
+          # locked
+          # choice: Pair('a', Pair('b', Pair('c', 'd')))
+          # choice: Pair('a', Pair('b', 'c'))
+          # choice: Pair('a', Pair('b', Pair('c', Pair('d', nil))))
+          # choice: SyntaxError
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""
           >>> read_line("(a . (b . (c . ())))")
-          Pair('a', Pair('b', Pair('c', nil)))
+          517c16dfcaacc682e57c4a5e91f07a51
+          # locked
+          # choice: Pair('a', Pair('b', Pair('c', nil)))
+          # choice: SyntaxError
+          # choice: Pair('a', Pair('b', Pair('c', Pair(nil, nil))))
+          # choice: Pair('a', 'b', 'c')
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""
           >>> read_line("(a . ((b . (c)))))")
-          Pair('a', Pair(Pair('b', Pair('c', nil)), nil))
+          24558e7cd69096da40da549c2fb7d828
+          # locked
+          # choice: Pair('a', Pair(Pair('b', Pair('c', nil)), nil))
+          # choice: Pair('a', Pair('b', Pair('c', nil)), nil)
+          # choice: Pair('a', Pair('b', Pair('c')), nil)
+          # choice: Pair('a', Pair(Pair('b', Pair('c', nil)), nil), nil)
           """,
           'hidden': False,
-          'locked': False
+          'locked': True
         },
         {
           'code': r"""
