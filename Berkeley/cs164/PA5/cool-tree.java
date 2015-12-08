@@ -1490,12 +1490,20 @@ class comp extends Expression {
      **/
 
     public void code(CgenClassTable ct, PrintStream s) {
+	/**
+	e1.code(ct, s);
+	CgenSupport.emitJal("Object.copy", s);
+	CgenSupport.emitLoad("$t1", 3, "$a0", s);
+	s.println("\tnot\t$t1 $t1"); //No emit not!
+	CgenSupport.emitStore("$t1", 3, "$a0", s);
+	**/
+
 	e1.code(ct, s);
 	CgenSupport.emitLoad("$t1", 3, "$a0", s);
 	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
 	CgenSupport.emitBeq("$t1", "$zero", ct.labelNum, s);
-	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
-	CgenSupport.emitLabelDef(ct.labelNum++, s);	
+	CgenSupport.emitLoadBool("$a0", new BoolConst(true),  s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);
     }
 
 
@@ -1784,7 +1792,7 @@ class object extends Expression {
 	    CgenSupport.emitMove("$a0", "$s0", s);
 	}
 	else {
-	    ct.printObjectCode();
+	    ct.printObjectCode(name);
 	}
     }
 

@@ -2,7 +2,8 @@
     as possible.
  *)
 class Main inherits IO {
-      main(): Int {(if (not (true)) then 12 else 10 fi )};
+(*      main(): Int {(if (not (true)) then 12 else 10 fi )}; *)
+	main() : Object {(if (not true) then out_int(4) else out_int(5) fi)};
 };
 
 (*
