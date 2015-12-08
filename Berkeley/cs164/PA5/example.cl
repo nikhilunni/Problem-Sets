@@ -1,12 +1,7 @@
 (*  Example cool program testing as many aspects of the code generator
     as possible.
  *)
-class Main inherits IO {
-(*      main(): Int {(if (not (true)) then 12 else 10 fi )}; *)
-	main() : Object {(if (not true) then out_int(4) else out_int(5) fi)};
-};
 
-(*
 class Main inherits IO {
   main():Object {{  out_int({ while 4 < 3 loop out_int(4) pool;
                    4 + 3 + 4*42 +
@@ -19,5 +14,3 @@ class Main inherits IO {
 		   out_int(~2);
                 }};
 };
-
-*)
