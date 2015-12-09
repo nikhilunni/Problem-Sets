@@ -562,6 +562,8 @@ class assign extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	expr.code(ct, s);
+	ct.printAssignCode(name);	
     }
 
 
@@ -954,6 +956,9 @@ class let extends Expression {
     protected AbstractSymbol type_decl;
     protected Expression init;
     protected Expression body;
+
+    static int offset = 0;
+
     /** Creates "let" AST node. 
       *
       * @param lineNumber the line in the source file from which this node came.
@@ -996,6 +1001,15 @@ class let extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	init.code(ct, s);
+	ct.enterScope();
+	CgenSupport.emitPush("$a0", s);
+	ct.addId(identifier, (-3 - offset));
+	offset++;
+	body.code(ct, s);
+	ct.exitScope();
+	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
+	offset--;
     }
 
 
@@ -1669,6 +1683,9 @@ class new_ extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	CgenSupport.emitLoadAddress("$a0", type_name.str + CgenSupport.PROTOBJ_SUFFIX, s);
+	CgenSupport.emitJal("Object.copy", s);
+	CgenSupport.emitJal(type_name.str + CgenSupport.CLASSINIT_SUFFIX, s);
     }
 
 
@@ -1710,6 +1727,7 @@ class isvoid extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	//TODO
 	CgenSupport.emitLoadBool(CgenSupport.ACC, new BoolConst(false), s);
     }
 
@@ -1747,6 +1765,7 @@ class no_expr extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	//TODO
     }
 
 
@@ -1795,8 +1814,6 @@ class object extends Expression {
 	    ct.printObjectCode(name);
 	}
     }
-
-
 }
 
 

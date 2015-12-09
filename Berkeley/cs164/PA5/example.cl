@@ -1,23 +1,26 @@
-(*  Example cool program testing as many aspects of the code generator
-    as possible.
- *)
-class Main inherits IO {
-(*      main(): Int {(if (not (true)) then 12 else 10 fi )}; *)
-	main() : Object {(if (not true) then out_int(4) else out_int(5) fi)};
+class A inherits IO {
+  a : Int <- 77;    
 };
 
-(*
-class Main inherits IO {
-  main():Object {{  out_int({ while 4 < 3 loop out_int(4) pool;
-                   4 + 3 + 4*42 +
-                   if (4 + 3 < 10/2) then 7 else 14 fi /
-		   2; });
-
-		   if ({out_int(72); 4/2 < 1;}) then abort() else out_int(73) fi;
-		   out_int( (~62 + 2) / 7);
-		   while true loop abort() pool;
-		   out_int(~2);
-                }};
+class B inherits A {
+  b : Int <- 44;
+  b() : Int {b};
+  print() : Object {out_int(b)};
 };
 
-*)
+
+class Test inherits IO {
+      fun() : Object {{
+      	    let foo:Int <-73, foo:Int <- ~43, foo:Bool in if not foo then
+	    	let foo:Int in out_int(foo+94) else
+		out_int(5)
+		fi;
+      }};
+};
+
+class Main inherits B {
+      main : Int <- 56;
+      main() : Object {{
+      	     (new Test).fun();
+      }};
+};

@@ -482,6 +482,10 @@ class CgenSupport {
 	emitAddiu(SP, SP, -4, s);
     }
 
+    static void emitPop(PrintStream s) {
+	emitAddiu("$sp", "$sp", 4, s);
+    }
+
     /** Emits code to fetch the integer value of the Integer object.
      * @param source a pointer to the Integer object
      * @param dest the destination register for the value
