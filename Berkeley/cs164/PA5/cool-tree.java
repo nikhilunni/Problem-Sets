@@ -563,7 +563,7 @@ class assign extends Expression {
       * */
     public void code(CgenClassTable ct, PrintStream s) {
 	expr.code(ct, s);
-	ct.printAssignCode(name);	
+	ct.printAssignCode(name);
     }
 
 
@@ -624,6 +624,7 @@ class static_dispatch extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	//TODO
     }
 
 
@@ -685,11 +686,8 @@ class dispatch extends Expression {
 	    e_next.code(ct, s);
 	    CgenSupport.emitPush("$a0", s);
 	}
-	//	CgenSupport.emitMove("$a0", "$s0", s);
 	expr.code(ct, s);
-
 	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
-
 	CgenSupport.emitLoadString(CgenSupport.ACC,
                                    (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
 	CgenSupport.emitLoadImm("$t1", 6, s);
@@ -701,6 +699,8 @@ class dispatch extends Expression {
 	String typ = expr.get_type().equals(TreeConstants.SELF_TYPE) ? 
 	    TreeNode.currentObj.str:
 	    expr.get_type().str;
+
+	System.out.println(typ);
 
 
 	ArrayList<String> methods = ct.methodOffsets.get(ct.cgenLookup.get(typ));
@@ -896,6 +896,7 @@ class typcase extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
+	//TODO
     }
 
 
@@ -1001,10 +1002,25 @@ class let extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	init.code(ct, s);
+	if(init instanceof no_expr) {
+	    if(type_decl.equals(TreeConstants.Int)) {
+		CgenSupport.emitLoadInt("$a0", (IntSymbol)AbstractTable.inttable.lookup("0"), s);
+	    }
+	    else if(type_decl.equals(TreeConstants.Str)) {
+		CgenSupport.emitLoadString("$a0", (StringSymbol)AbstractTable.stringtable.lookup(""), s);
+	    }
+	    else if(type_decl.equals(TreeConstants.Bool)) {
+		CgenSupport.emitLoadBool("$a0", BoolConst.falsebool, s);
+	    }
+	    else {
+		CgenSupport.emitLoadImm("$a0", 0, s);
+	    }
+	} else {
+	    init.code(ct, s);
+	}
 	ct.enterScope();
 	CgenSupport.emitPush("$a0", s);
-	ct.addId(identifier, (-3 - offset));
+	ct.addId(identifier, (-4 - offset));
 	offset++;
 	body.code(ct, s);
 	ct.exitScope();
@@ -1757,7 +1773,7 @@ class no_expr extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	//TODO
+	//TODO ?
     }
 
 
@@ -1807,5 +1823,3 @@ class object extends Expression {
 	}
     }
 }
-
-
