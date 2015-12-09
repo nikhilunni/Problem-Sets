@@ -1497,26 +1497,18 @@ class comp extends Expression {
     /**
      *          cgen(e1);
      *          lw $t1 12($a0)
-     *          la $a0 bool_const0
-     *          beq $t1 $zero label0
      *          la $a0 bool_const1
+     *          beq $t1 $zero label0
+     *          la $a0 bool_const0
      * label0 : 
      **/
 
     public void code(CgenClassTable ct, PrintStream s) {
-	/**
-	e1.code(ct, s);
-	CgenSupport.emitJal("Object.copy", s);
-	CgenSupport.emitLoad("$t1", 3, "$a0", s);
-	s.println("\tnot\t$t1 $t1"); //No emit not!
-	CgenSupport.emitStore("$t1", 3, "$a0", s);
-	**/
-
 	e1.code(ct, s);
 	CgenSupport.emitLoad("$t1", 3, "$a0", s);
-	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	CgenSupport.emitLoadBool("$a0", BoolConst.truebool,  s);
 	CgenSupport.emitBeq("$t1", "$zero", ct.labelNum, s);
-	CgenSupport.emitLoadBool("$a0", new BoolConst(true),  s);
+	CgenSupport.emitLoadBool("$a0", BoolConst.falsebool, s);
 	CgenSupport.emitLabelDef(ct.labelNum++, s);
     }
 
