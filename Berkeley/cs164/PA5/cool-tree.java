@@ -626,7 +626,7 @@ class static_dispatch extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	for(int i = actual.getLength()-1; i >= 0; i--) {
+	for(int i = 0; i < actual.getLength(); i++) {
 	    Object next = actual.getNth(i);
 	    Expression e_next = (Expression)next;
 	    e_next.code(ct, s);
@@ -711,7 +711,7 @@ class dispatch extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	for(int i = actual.getLength()-1; i >= 0; i--) {
+	for(int i = 0; i < actual.getLength(); i++) {
 	    Object next = actual.getNth(i);
 	    Expression e_next = (Expression)next;
 	    e_next.code(ct, s);

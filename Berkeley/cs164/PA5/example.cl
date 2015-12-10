@@ -3,12 +3,13 @@ class A inherits IO {
 };
 
 class B inherits A {
+      fun(a:Int, b:Int) : Object {{
+      	 out_int(a);
+	 out_string("\n");
+      	 out_int(b);
+	 out_string("\n");
 
-};
-
-
-class Test inherits IO {
-
+      }};
 };
 
 
@@ -16,24 +17,6 @@ class Main inherits B {
   main : Int <- 33;
   main() : Object
   {
-      case (4432) of
-	i : B => out_string("B!\n");
-	b : A => out_string("A!\n");
-	c : Int => out_int(c);
-	d : Bool => out_string("Bool!\n");
-      esac
+	(new B).fun({out_string("first arg\n"); 0;}, {out_string("second arg\n"); 1;})
   };
 };
-
-class Extension inherits Main {
-
-};
-
-class ExtExtension inherits Extension {
-
-};
-
-class Extension2 inherits Main {
-
-};
-
