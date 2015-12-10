@@ -45,6 +45,7 @@ class CgenClassTable extends SymbolTable {
     private int stringclasstag;
 
     public int labelNum = 0;
+    public int offset = 0;
     
     public HashMap<String, CgenNode> cgenLookup; 
     public HashMap<CgenNode, Integer> tags;
@@ -614,6 +615,26 @@ class CgenClassTable extends SymbolTable {
     /** Gets the root of the inheritance tree */
     public CgenNode root() {
 	return (CgenNode)probe(TreeConstants.Object_);
+    }
+
+    public int getGreatestDescTag(CgenNode root) {
+	int greatestTag = -1;
+	for(Object o : nds) {
+	    CgenNode co = (CgenNode)o;
+	    if(isDescendent(co, root))
+		greatestTag = Math.max(tags.get(co), greatestTag);
+	}
+	
+	return greatestTag;
+    }
+
+    public boolean isDescendent(CgenNode desc, CgenNode ansc) {
+	if(desc.name.equals(TreeConstants.No_class))
+	    return false;
+	if(desc.name.equals(ansc.name))
+	    return true;
+
+	return isDescendent(desc.getParentNd(), ansc);
     }
 
     public void printAssignCode(AbstractSymbol name) {

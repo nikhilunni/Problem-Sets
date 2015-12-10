@@ -13,6 +13,8 @@ import java.io.PrintStream;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /** Defines simple phylum Program */
@@ -634,7 +636,7 @@ class static_dispatch extends Expression {
 	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
 	CgenSupport.emitLoadString(CgenSupport.ACC,
                                    (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
-	CgenSupport.emitLoadImm("$t1", 6, s); //TODO : different number besides 6??
+	CgenSupport.emitLoadImm("$t1", lineNumber, s); //TODO : different number besides 6??
 	CgenSupport.emitJal("_dispatch_abort", s);
 	CgenSupport.emitLabelDef(ct.labelNum, s);
 	ct.labelNum++;
@@ -719,7 +721,7 @@ class dispatch extends Expression {
 	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
 	CgenSupport.emitLoadString(CgenSupport.ACC,
                                    (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
-	CgenSupport.emitLoadImm("$t1", 6, s);
+	CgenSupport.emitLoadImm("$t1", lineNumber, s);
 	CgenSupport.emitJal("_dispatch_abort", s);
 	CgenSupport.emitLabelDef(ct.labelNum, s);
 	ct.labelNum++;
@@ -922,9 +924,57 @@ class typcase extends Expression {
       * you wish.)
       * @param s the output stream 
       * */
-    //TODO : WHEN EXPR IS VOID
+
     public void code(CgenClassTable ct, PrintStream s) {
+	int ln = ct.labelNum;
+	ct.labelNum += cases.getLength() + 2;
+
+	expr.code(ct, s);
+	CgenSupport.emitBne("$a0", "$zero", ln+1, s);
+	CgenSupport.emitLoadString(CgenSupport.ACC,
+                                   (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
+	CgenSupport.emitLoadImm("$t1", lineNumber, s);
+	CgenSupport.emitJal("_case_abort2", s);
+	CgenSupport.emitLabelDef(ln+1, s);
+	CgenSupport.emitLoad("$t1", 0, "$a0", s);
+
+
+	ArrayList<branch> branches = new ArrayList<branch>();
+	for(int i = 0; i < cases.getLength(); i++) {
+	    branches.add((branch)(cases.getNth(i)));
+	}
+	//Ensure classes are reverse-topologically sorted
+	Collections.sort(branches, new Comparator<branch>() {
+	    @Override
+	    public int compare(branch a, branch b) {
+		return ct.tags.get(ct.cgenLookup.get(b.type_decl.str)) - ct.tags.get(ct.cgenLookup.get(a.type_decl.str));
+	    }
+	});
 	
+	for(int i = 0; i < branches.size(); i++) {
+	    branch branch = branches.get(i);
+	    CgenSupport.emitBlti("$t1", ct.tags.get(ct.cgenLookup.get(branch.type_decl.str)), ln+i+2, s);
+	    CgenSupport.emitBgti("$t1", ct.getGreatestDescTag(ct.cgenLookup.get(branch.type_decl.str)), ln+i+2, s);
+
+	    CgenSupport.emitAddiu("$sp", "$sp", -8, s);
+	    CgenSupport.emitStore("$a0", 2, "$sp", s);
+	    CgenSupport.emitStore("$t1", 1, "$sp", s);
+
+	    ct.enterScope();
+	    ct.addId(branch.name, -4 - ct.offset);
+	    ct.offset += 2;	    
+	    branch.expr.code(ct, s);
+	    ct.exitScope();
+	    CgenSupport.emitLoad("$t1", 1, "$sp", s);
+	    CgenSupport.emitLoad("$a0", 2, "$sp", s);
+	    CgenSupport.emitAddiu("$sp", "$sp", 8, s);
+	    ct.offset -= 2;
+	    CgenSupport.emitBranch(ln, s);
+	    CgenSupport.emitLabelDef(ln+i+2, s);
+	}
+	
+	CgenSupport.emitJal("_case_abort", s);
+	CgenSupport.emitLabelDef(ln, s);
     }
 
 
@@ -986,8 +1036,6 @@ class let extends Expression {
     protected Expression init;
     protected Expression body;
 
-    static int offset = 0;
-
     /** Creates "let" AST node. 
       *
       * @param lineNumber the line in the source file from which this node came.
@@ -1048,12 +1096,12 @@ class let extends Expression {
 	}
 	ct.enterScope();
 	CgenSupport.emitPush("$a0", s);
-	ct.addId(identifier, (-4 - offset));
-	offset++;
+	ct.addId(identifier, (-4 - ct.offset));
+	ct.offset++;
 	body.code(ct, s);
 	ct.exitScope();
 	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
-	offset--;
+	ct.offset--;
     }
 
 
@@ -1801,7 +1849,7 @@ class no_expr extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	//TODO ?
+	CgenSupport.emitLoadImm("$a0", 0, s);
     }
 
 
