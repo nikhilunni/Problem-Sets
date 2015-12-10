@@ -565,7 +565,7 @@ class assign extends Expression {
       * */
     public void code(CgenClassTable ct, PrintStream s) {
 	expr.code(ct, s);
-	ct.printAssignCode(name);
+	ct.printAssignCode(name, currentObj);
     }
 
 
@@ -1895,7 +1895,7 @@ class object extends Expression {
 	    CgenSupport.emitMove("$a0", "$s0", s);
 	}
 	else {
-	    ct.printObjectCode(name);
+	    ct.printObjectCode(name, currentObj);
 	}
     }
 }

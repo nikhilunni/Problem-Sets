@@ -317,14 +317,11 @@ class CgenClassTable extends SymbolTable {
 
 	exitScope();
     }
-
-    CgenNode currentClass;
     
     private void codeClassMethods() {
 	for(Object o : nds) {
 	    CgenNode co = (CgenNode)o;
 	    if(!co.basic()) {
-		currentClass = co;
 		for(int i = 0; i < co.features.getLength(); i++) {
 		    Object next = co.features.getNth(i);
 		    if(next instanceof method) {
@@ -637,14 +634,12 @@ class CgenClassTable extends SymbolTable {
 	return isDescendent(desc.getParentNd(), ansc);
     }
 
-    public void printAssignCode(AbstractSymbol name) {
+    public void printAssignCode(AbstractSymbol name, AbstractSymbol className) {
 	Object stackObj = lookup(name);
 	if(stackObj == null) {
-	    ArrayList<attr> attrs = attrOffsets.get(currentClass);
+	    ArrayList<attr> attrs = attrOffsets.get(cgenLookup.get(className.str));
 	    for(int i = 0; i < attrs.size(); i++) {
 		if(attrs.get(i).name.equals(name)) {
-		    //CgenSupport.emitMove("$s0", "$a0", str);
-		    //CgenSupport.emitLoadAddress("$a0", currentClass.name.str + CgenSupport.PROTOBJ_SUFFIX, str);
 		    CgenSupport.emitStore("$a0", 3+i, "$s0", str);
 		    break;
 		}
@@ -654,14 +649,12 @@ class CgenClassTable extends SymbolTable {
 	}	
     }
 
-    public void printObjectCode(AbstractSymbol name) {
+    public void printObjectCode(AbstractSymbol name, AbstractSymbol className) {
 	Object stackObj = lookup(name);
 	if(stackObj == null) {
-	    ArrayList<attr> attrs = attrOffsets.get(currentClass);
+	    ArrayList<attr> attrs = attrOffsets.get(cgenLookup.get(className.str));
 	    for(int i = 0; i < attrs.size(); i++) {
 		if(attrs.get(i).name.equals(name)) {
-		    //CgenSupport.emitMove("$s0", "$a0", str);
-		    //CgenSupport.emitLoadAddress("$a0", currentClass.name.str + CgenSupport.PROTOBJ_SUFFIX, str);
 		    CgenSupport.emitLoad("$a0", 3+i, "$s0", str);
 		    break;
 		}
