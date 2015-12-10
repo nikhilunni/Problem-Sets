@@ -624,7 +624,36 @@ class static_dispatch extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	//TODO
+	for(int i = actual.getLength()-1; i >= 0; i--) {
+	    Object next = actual.getNth(i);
+	    Expression e_next = (Expression)next;
+	    e_next.code(ct, s);
+	    CgenSupport.emitPush("$a0", s);
+	}
+	expr.code(ct, s);
+	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
+	CgenSupport.emitLoadString(CgenSupport.ACC,
+                                   (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
+	CgenSupport.emitLoadImm("$t1", 6, s); //TODO : different number besides 6??
+	CgenSupport.emitJal("_dispatch_abort", s);
+	CgenSupport.emitLabelDef(ct.labelNum, s);
+	ct.labelNum++;
+	
+	String typ = type_name.str;
+
+	CgenSupport.emitLoadAddress("$t1", typ + CgenSupport.DISPTAB_SUFFIX, s);
+	ArrayList<String> methods = ct.methodOffsets.get(ct.cgenLookup.get(typ));
+	int offset = -1;
+	for(int i = 0; i < methods.size(); i++) {
+	    String m = methods.get(i);
+	    if(name.str.equals(m.split("\\w+\\.")[1])) {
+		offset = i;
+		break;
+	    }
+	}
+	
+	CgenSupport.emitLoad("$t1", offset, "$t1", s);
+	CgenSupport.emitJalr("$t1", s);
     }
 
 
@@ -699,8 +728,6 @@ class dispatch extends Expression {
 	String typ = expr.get_type().equals(TreeConstants.SELF_TYPE) ? 
 	    TreeNode.currentObj.str:
 	    expr.get_type().str;
-
-	System.out.println(typ);
 
 
 	ArrayList<String> methods = ct.methodOffsets.get(ct.cgenLookup.get(typ));
@@ -895,8 +922,9 @@ class typcase extends Expression {
       * you wish.)
       * @param s the output stream 
       * */
+    //TODO : WHEN EXPR IS VOID
     public void code(CgenClassTable ct, PrintStream s) {
-	//TODO
+	
     }
 
 

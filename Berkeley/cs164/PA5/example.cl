@@ -1,5 +1,6 @@
 class A inherits IO {
   a : Int <- 11;
+  a() : Int {a};
   print() : Object {{out_int(a); out_string("\n");}};
 };
 
@@ -20,6 +21,6 @@ class Main inherits B {
       main : Int <- 33;
       print() : Object {{out_int(main); out_string("\n");}};
       main() : Object {{
-      	     (new B).print();  
+      	     (new Main)@A.print();  
       }};
 };

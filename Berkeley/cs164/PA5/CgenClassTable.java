@@ -181,17 +181,29 @@ class CgenClassTable extends SymbolTable {
 	}
     }
     
-    private void printMethods(CgenNode name, HashMap<CgenNode, ArrayList<String>> mtds,
-			      CgenNode ancestor) {
+    private ArrayList<String> getMethods(CgenNode name, HashMap<CgenNode, ArrayList<String>> mtds) {	
 	if(name.getParentNd() != null && 
 	   !name.getParentNd().name.equals(TreeConstants.No_class)) {
-	    printMethods(name.getParentNd(), mtds, ancestor);
+	    ArrayList<String> parentMtds = getMethods(name.getParentNd(), mtds);	    
+	    ArrayList<String> myMtds = mtds.get(name);
+
+	    ArrayList<String> out = new ArrayList<String>();
+	    for(String parentMtd : parentMtds) {
+		int myIdx = myMtds.indexOf(name.name.str + "." + parentMtd.split("\\w+\\.")[1]);
+		if(myIdx >= 0)
+		    out.add(myMtds.get(myIdx));
+		else
+		    out.add(parentMtd);
+	    }
+	    for(String myMtd : myMtds) {
+		if(!out.contains(myMtd))
+		    out.add(myMtd);
+	    }
+
+	    return out;
 	}
-	ArrayList<String> mtd = mtds.get(name);
-	for(String s : mtd) {
-	    str.println(CgenSupport.WORD + s);
-	    methodOffsets.get(ancestor).add(s);
-	}
+
+	return mtds.get(name);
     }
     
     private void codeDispTabs() {
@@ -209,9 +221,11 @@ class CgenClassTable extends SymbolTable {
 	}
 	for(CgenNode co : mtds.keySet()) {
 	    str.print(co.name.str + CgenSupport.DISPTAB_SUFFIX + CgenSupport.LABEL);
-	    methodOffsets.put(co, new ArrayList<String>());
-	    printMethods(co, mtds, co);
-	}	
+	    ArrayList<String> mtdDisp = getMethods(co, mtds);
+	    methodOffsets.put(co, mtdDisp);
+	    for(String s : mtdDisp)
+		str.println(CgenSupport.WORD + s);
+	}
     }
 
     private ArrayList<attr> getAttributes(CgenNode co) {
