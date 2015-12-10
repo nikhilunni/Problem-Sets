@@ -52,6 +52,8 @@ class CgenClassTable extends SymbolTable {
     public HashMap<CgenNode, ArrayList<String>> methodOffsets;
     public HashMap<CgenNode, ArrayList<attr>> attrOffsets;
 
+    public CgenNode currentClass = null;
+
     // The following methods emit code for constants and global
     // declarations.
 
@@ -230,7 +232,7 @@ class CgenClassTable extends SymbolTable {
     }
 
     private ArrayList<attr> getAttributes(CgenNode co) {
-	if(co.getParentNd() == null || co.getParentNd().name.equals(TreeConstants.No_class)) {
+	if(co.getParentNd() == null || co.getParentNd().name.equals(TreeConstants.No_class)) {	    
 	    return new ArrayList<attr>();
 	}
 	ArrayList<attr> parentAttrs = getAttributes(co.getParentNd());
@@ -255,20 +257,28 @@ class CgenClassTable extends SymbolTable {
 	    str.println(CgenSupport.WORD + co.name.str + CgenSupport.DISPTAB_SUFFIX);
 	    for(attr at : attributes) {
 		str.print(CgenSupport.WORD);
-		if(at.type_decl.equals(TreeConstants.Int))
+		if(at.type_decl.equals(TreeConstants.Int)) {
 		    str.println(CgenSupport.INTCONST_PREFIX + 
 				AbstractTable.inttable.lookup("0").index);
+		}
+		else if(at.type_decl.equals(TreeConstants.Str)) {
+		    str.println(CgenSupport.STRCONST_PREFIX + 
+				AbstractTable.stringtable.lookup("").index);
+		}
+		else if(at.type_decl.equals(TreeConstants.Bool)) {
+		    str.println(CgenSupport.BOOLCONST_PREFIX + "0");
+		}
 		else {
 		    str.println(0);		    
 		}
 	    }
 	}
     }
-    //TODO : Fix for proper initialization! INITIALIZE ATTRIBUTES!!
-    //TODO : Remove redundant attr initializations!!
+
     private void codeObjectInits() {
 	for(Object o : nds) {
 	    CgenNode co = (CgenNode)o;
+	    currentClass = co;
 	    str.print(co.name.str + CgenSupport.CLASSINIT_SUFFIX + CgenSupport.LABEL);
 	    CgenSupport.emitAddiu("$sp", "$sp", -12, str);
 	    CgenSupport.emitStore("$fp", 3, "$sp", str);
@@ -279,10 +289,31 @@ class CgenClassTable extends SymbolTable {
 	    if(!co.getParentNd().name.equals(TreeConstants.No_class))
 		CgenSupport.emitJal(co.getParentNd().name.str + CgenSupport.CLASSINIT_SUFFIX,
 				    str);
-	    ArrayList<attr> classAttrs = getAttributes(co);
+	    ArrayList<attr> classAttrs = new ArrayList<attr>();
+	    for(int i = 0; i < co.features.getLength(); i++) {
+		if(co.features.getNth(i) instanceof attr)
+		    classAttrs.add((attr)(co.features.getNth(i)));
+	    }
+	    ArrayList<attr> totalAttrs = getAttributes(co);
 	    for(int i = 0; i < classAttrs.size(); i++) {
-		classAttrs.get(i).init.code(this, str);
-		CgenSupport.emitStore("$a0", 3+i, "$s0", str);
+		if(classAttrs.get(i).init instanceof no_expr) {
+		    if(classAttrs.get(i).type_decl.equals(TreeConstants.Int)) {
+			CgenSupport.emitLoadInt("$a0", (IntSymbol)AbstractTable.inttable.lookup("0"), str);
+		    }
+		    else if(classAttrs.get(i).type_decl.equals(TreeConstants.Str)) {
+			CgenSupport.emitLoadString("$a0", (StringSymbol)AbstractTable.stringtable.lookup(""), str);
+		    }
+		    else if(classAttrs.get(i).type_decl.equals(TreeConstants.Bool)) {
+			CgenSupport.emitLoadBool("$a0", BoolConst.falsebool, str);
+		    }
+		    else {
+			CgenSupport.emitLoadImm("$a0", 0, str);
+		    }
+		} else {
+		    classAttrs.get(i).init.code(this, str);
+		}
+
+		CgenSupport.emitStore("$a0", 3+totalAttrs.size()-classAttrs.size()+i, "$s0", str);
 	    }
 	    CgenSupport.emitMove("$a0", "$s0", str);
 	    CgenSupport.emitLoad("$fp", 3, "$sp", str);
@@ -293,7 +324,6 @@ class CgenClassTable extends SymbolTable {
 	}	
     }
 
-    //TODO : arguments?
     private void printMethod(CgenNode co, method m_next) {
 	enterScope();
 	for(int i = 0; i < m_next.formals.getLength(); i++) {
@@ -322,6 +352,7 @@ class CgenClassTable extends SymbolTable {
 	for(Object o : nds) {
 	    CgenNode co = (CgenNode)o;
 	    if(!co.basic()) {
+		currentClass = co;
 		for(int i = 0; i < co.features.getLength(); i++) {
 		    Object next = co.features.getNth(i);
 		    if(next instanceof method) {
@@ -634,10 +665,10 @@ class CgenClassTable extends SymbolTable {
 	return isDescendent(desc.getParentNd(), ansc);
     }
 
-    public void printAssignCode(AbstractSymbol name, AbstractSymbol className) {
+    public void printAssignCode(AbstractSymbol name) {
 	Object stackObj = lookup(name);
 	if(stackObj == null) {
-	    ArrayList<attr> attrs = attrOffsets.get(cgenLookup.get(className.str));
+	    ArrayList<attr> attrs = attrOffsets.get(currentClass);
 	    for(int i = 0; i < attrs.size(); i++) {
 		if(attrs.get(i).name.equals(name)) {
 		    CgenSupport.emitStore("$a0", 3+i, "$s0", str);
@@ -649,10 +680,10 @@ class CgenClassTable extends SymbolTable {
 	}	
     }
 
-    public void printObjectCode(AbstractSymbol name, AbstractSymbol className) {
+    public void printObjectCode(AbstractSymbol name) {
 	Object stackObj = lookup(name);
 	if(stackObj == null) {
-	    ArrayList<attr> attrs = attrOffsets.get(cgenLookup.get(className.str));
+	    ArrayList<attr> attrs = attrOffsets.get(currentClass);
 	    for(int i = 0; i < attrs.size(); i++) {
 		if(attrs.get(i).name.equals(name)) {
 		    CgenSupport.emitLoad("$a0", 3+i, "$s0", str);

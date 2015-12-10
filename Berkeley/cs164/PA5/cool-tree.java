@@ -565,7 +565,7 @@ class assign extends Expression {
       * */
     public void code(CgenClassTable ct, PrintStream s) {
 	expr.code(ct, s);
-	ct.printAssignCode(name, currentObj);
+	ct.printAssignCode(name);
     }
 
 
@@ -636,7 +636,7 @@ class static_dispatch extends Expression {
 	CgenSupport.emitBne("$a0", "$zero", ct.labelNum, s);
 	CgenSupport.emitLoadString(CgenSupport.ACC,
                                    (StringSymbol)AbstractTable.stringtable.lookup(TreeNode.currentFilename), s);
-	CgenSupport.emitLoadImm("$t1", lineNumber, s); //TODO : different number besides 6??
+	CgenSupport.emitLoadImm("$t1", lineNumber, s);
 	CgenSupport.emitJal("_dispatch_abort", s);
 	CgenSupport.emitLabelDef(ct.labelNum, s);
 	ct.labelNum++;
@@ -728,12 +728,12 @@ class dispatch extends Expression {
 	CgenSupport.emitLoad("$t1", 2, "$a0", s);
 	
 	String typ = expr.get_type().equals(TreeConstants.SELF_TYPE) ? 
-	    TreeNode.currentObj.str:
-	    expr.get_type().str;
-
+	             ct.currentClass.name.str:
+	             expr.get_type().str;
 
 	ArrayList<String> methods = ct.methodOffsets.get(ct.cgenLookup.get(typ));
 	int offset = -1;
+
 	for(int i = 0; i < methods.size(); i++) {
 	    String m = methods.get(i);
 	    if(name.str.equals(m.split("\\w+\\.")[1])) {
@@ -966,7 +966,6 @@ class typcase extends Expression {
 	    branch.expr.code(ct, s);
 	    ct.exitScope();
 	    CgenSupport.emitLoad("$t1", 1, "$sp", s);
-	    CgenSupport.emitLoad("$a0", 2, "$sp", s);
 	    CgenSupport.emitAddiu("$sp", "$sp", 8, s);
 	    ct.offset -= 2;
 	    CgenSupport.emitBranch(ln, s);
@@ -1478,16 +1477,20 @@ class eq extends Expression {
 	e2.code(ct, s);
 	CgenSupport.emitLoad("$t1", 1, "$sp", s);
 	CgenSupport.emitMove("$t2", "$a0", s);
-	CgenSupport.emitLoad("$t1", 3, "$t1", s);
-	CgenSupport.emitLoad("$t2", 3, "$t2", s);
-	CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
-	CgenSupport.emitBeq("$t1", "$t2", ct.labelNum, s);
-	CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
-	CgenSupport.emitLabelDef(ct.labelNum++, s);
+	if(e1.get_type().equals(TreeConstants.Int) ||
+	   e1.get_type().equals(TreeConstants.Str) ||
+	   e1.get_type().equals(TreeConstants.Bool)) {
+	    CgenSupport.emitLoadBool("$a0", BoolConst.truebool, s);
+	    CgenSupport.emitLoadBool("$a1", BoolConst.falsebool, s);
+	    CgenSupport.emitJal("equality_test", s);
+	} else {
+	    CgenSupport.emitLoadBool("$a0", new BoolConst(true), s);
+	    CgenSupport.emitBeq("$t1", "$t2", ct.labelNum, s);
+	    CgenSupport.emitLoadBool("$a0", new BoolConst(false), s);
+	    CgenSupport.emitLabelDef(ct.labelNum++, s);
+	}
 	CgenSupport.emitAddiu("$sp", "$sp", 4, s);
     }  
-
-
 }
 
 
@@ -1767,9 +1770,20 @@ class new_ extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	CgenSupport.emitLoadAddress("$a0", type_name.str + CgenSupport.PROTOBJ_SUFFIX, s);
-	CgenSupport.emitJal("Object.copy", s);
-	CgenSupport.emitJal(type_name.str + CgenSupport.CLASSINIT_SUFFIX, s);
+	if(type_name.equals(TreeConstants.SELF_TYPE)) {
+	    CgenSupport.emitLoadAddress("$t2", "class_objTab", s);
+	    CgenSupport.emitLoad("$t1", 0, "$s0", s); //Get class tag
+	    CgenSupport.emitSll("$t1", "$t1", 3, s); //x2 to skip over *_init, and x4 for the word skip
+	    CgenSupport.emitAdd("$t2", "$t2", "$t1", s);
+	    CgenSupport.emitLoad("$a0", 0, "$t2", s);
+	    CgenSupport.emitJal("Object.copy", s);
+	    CgenSupport.emitLoad("$t1", 1, "$t2", s); //Init is 4 away from protObj
+	    CgenSupport.emitJalr("$t1", s);	    
+	} else {
+	    CgenSupport.emitLoadAddress("$a0", type_name.str + CgenSupport.PROTOBJ_SUFFIX, s);
+	    CgenSupport.emitJal("Object.copy", s);
+	    CgenSupport.emitJal(type_name.str + CgenSupport.CLASSINIT_SUFFIX, s);
+	}
     }
 
 
@@ -1811,8 +1825,11 @@ class isvoid extends Expression {
       * @param s the output stream 
       * */
     public void code(CgenClassTable ct, PrintStream s) {
-	//TODO
-	CgenSupport.emitLoadBool(CgenSupport.ACC, new BoolConst(false), s);
+	e1.code(ct, s);
+	CgenSupport.emitLoadBool("$a0", BoolConst.falsebool, s);
+	CgenSupport.emitBeqz("$a0", ct.labelNum, s);
+	CgenSupport.emitLoadBool("$a0", BoolConst.truebool, s);
+	CgenSupport.emitLabelDef(ct.labelNum++, s);
     }
 
 
@@ -1895,7 +1912,7 @@ class object extends Expression {
 	    CgenSupport.emitMove("$a0", "$s0", s);
 	}
 	else {
-	    ct.printObjectCode(name, currentObj);
+	    ct.printObjectCode(name);
 	}
     }
 }
