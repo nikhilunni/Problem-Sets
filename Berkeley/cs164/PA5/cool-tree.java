@@ -925,7 +925,7 @@ class typcase extends Expression {
       * @param s the output stream 
       * */
 
-    public void code(CgenClassTable ct, PrintStream s) {
+    public void code(final CgenClassTable ct, PrintStream s) {
 	int ln = ct.labelNum;
 	ct.labelNum += cases.getLength() + 2;
 
