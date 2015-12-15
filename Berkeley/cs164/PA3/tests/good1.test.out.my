@@ -1,0 +1,16 @@
+#
+_program
+  #
+  _class
+    Hello
+    Object
+    "tests/good1.test"
+    (
+    )
+  #
+  _class
+    Goodbye
+    Object
+    "tests/good1.test"
+    (
+    )

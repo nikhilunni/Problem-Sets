@@ -1,0 +1,2 @@
+"tests/bad3.test", line 3: parse error at or near ESAC
+Compilation halted due to lex and parse errors

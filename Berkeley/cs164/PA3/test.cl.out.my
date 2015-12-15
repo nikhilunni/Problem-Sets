@@ -1,0 +1,55 @@
+#
+_program
+  #
+  _class
+    A
+    Object
+    "test.cl"
+    (
+    #
+    _method
+      thing
+      Int
+      #
+      _let
+        x
+        Int
+        #
+        _no_expr
+        : _no_type
+        #
+        _let
+          y
+          Int
+          #
+          _no_expr
+          : _no_type
+          #
+          _let
+            z
+            Int
+            #
+            _no_expr
+            : _no_type
+            #
+            _plus
+              #
+              _plus
+                #
+                _object
+                  x
+                : _no_type
+                #
+                _object
+                  y
+                : _no_type
+              : _no_type
+              #
+              _object
+                z
+              : _no_type
+            : _no_type
+          : _no_type
+        : _no_type
+      : _no_type
+    )
