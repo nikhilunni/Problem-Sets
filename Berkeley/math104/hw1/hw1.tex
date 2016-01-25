@@ -26,8 +26,8 @@
 
     So next we have to show that for any $P_{n+1}$, if $P_n$ is true, that $P_{n+1}$ must be true as well. So we can make the following substitution:\\
     $$(1^2 + 2^2 + \cdots + n^2) + (n+1)^2 = \frac{1}{6}n(n+1)(2n+1) + (n+1)^2$$
-    Then:
-    $$\frac{n(n+1)(2n+1) + 6(n+1)^2}{6} = \frac{(n+1)[(n(2n+1) + 6(n+1))]}{6}$$
+    Then, grouping together with a common denominator:
+    $$ = \frac{n(n+1)(2n+1) + 6(n+1)^2}{6} = \frac{(n+1)[(n(2n+1) + 6(n+1))]}{6}$$
     $$ = \frac{(n+1)(2n^2+7n+6)}{6}$$
     $$ = \frac{(n+1)(n+2)(2n+3)}{6} = \frac{1}{6}(n+1)(n+2)(2(n+1) + 1)$$
     Since we've proved the statement for $P_1$, and that any $P_{n+1}$ is true when $P_n$ is true, by the principle of mathematical induction, the statement is true for all positive integers n.\\\\
@@ -58,12 +58,13 @@
         \item
           If $P_n$ is true, we can show that $P_{n+1}$ is true, for some $n \geq$. So we know that:
           $$(n+1)! = n!(n+1) > n^2(n+1)$$
-          From part (a) we know that $n^2 > n + 1$, and since $n \geq 4 \geq 2$, we know this is true for any of our $n$.
+          From part (a) we know that $x^2 > x + 1, x \geq 2$, and since $n \geq 4 \geq 2$, we know this is true for any of our $n$.
           $$(n+1)! > n^2(n+1) > (n+1)(n+1) = (n+1)^2$$ \\\\
       \end{itemize}
   \item [1.11]
     For each $n \in \mathds{N}$, let $P_n$ denote the assertion ``$n^2 + 5n + 1$ is an even integer.''
     \item [a] Prove $P_{n+1}$ is true whenever $P_n$ is true.\\\\
+
       If $P_n$ is true, then $n^2 + 5n + 1$ is even and can be represented as $2k$, for some $k \in \mathds{Z}$.
       Then:
       $$(n+1)^2 + 5(n+1) + 1 = n^2 + 2n + 1 + 5n + 5 + 1 = (n^2+5n+1) + 2n + 6 = 2k + 2n + 6 = 2(k + n + 6)$$
@@ -100,7 +101,17 @@
       $$(x+y)^{n+1} = (x+y)(x+y)^n = (x+y)(\Sigma_{k=0}^n \binom{n}{k} x^ky^{n-k})$$
       Distributing the x and y we get:
       $$= \Sigma_{k=0}^n \binom{n}{k} x^{k+1}y^{n-k} + \Sigma_{k=0}^n \binom{n}{k} x^ky^{n-k+1}$$
-      $$= \Sigma_{k=0}^n \binom{n}{k} x^{k+1}y^{n-k} + \Sigma_{k=0}^n \binom{n}{k} x^ky^{n-k+1}$$
+      Changing around the indexing, this is equal to:
+      $$= (\Sigma_{k=1}^n \binom{n}{k-1} x^k y^{n-(k-1)}) + \binom{n}{n} x^{n+1} + (\Sigma_{k=1}^n \binom{n}{k} x^k y^{n-k+1}) + \binom{n}{0}y^{n+1} $$
+      Then, if we group together the summations:
+      $$= (\Sigma_{k=1}^n x^k y^{n+1-k} (\binom{n}{k-1} + \binom{n}{k})) + \binom{n}{n} x^{n+1} + \binom{n}{0} y^{n+1}$$
+      Now, from part (b), we know that $\binom{n}{k-1} + \binom{n}{k} = \binom{n+1}{k}$.\\
+      Also, from the definition, we know that $\binom{n}{n} = \frac{n!}{n!0!} = 1$ and that $\binom{n}{0} = \frac{n!}{0!n!} = 1$. So we can say that $\binom{n}{n} = \binom{n+1}{n+1}$, and $\binom{n}{0} = \binom{n+1}{0}$. This gives us :
+      $$= (\Sigma_{k=1}^n \binom{n+1}{k} x^k y^{n+1-k}) + \binom{n+1}{n+1}x^{n+1} + \binom{n+1}{0} y^{n+1}$$
+      Finally, we can group all the terms together to get:
+      $$= \Sigma_{k=0}^{n+1} \binom{n+1}{k} x^k y^{n+1-k}$$
+      So, given that $P_n$ is true, we can show that $P_{n+1}$ is true as well, and we've already proven $P_1$. So by the principle of mathematical induction, the binomial theorem is true for $n = 1, 2, \cdots$.
+      
     \end{itemize}
     
 \end{itemize}
