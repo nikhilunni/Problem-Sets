@@ -7,17 +7,14 @@ test = {
         {
           'code': r"""
           scm> (analyze 1)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (analyze 'a)
-          89071e830e420b7da43a9a51f7a3f447
-          # locked
+          a
           scm> (analyze '(+ 1 2))
-          4e53a14d84c3aa6eb632f21334d56423
-          # locked
+          (+ 1 2)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""

@@ -7,53 +7,40 @@ test = {
         {
           'code': r"""
           scm> (define (f) False)
-          5e9740437eba0d6fc4d5ab5f9dd3d30b
-          # locked
+          f
           scm> (if (f) 1 0)
-          9815d8391210230341d3c0942b067539
-          # locked
+          0
           scm> (if f 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (if True 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if False 1 0)
-          9815d8391210230341d3c0942b067539
-          # locked
+          0
           scm> (if 1 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if 0 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if 'a 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if (cons 1 2) 1 0)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if True 1)
-          7107157269a542fea41c45a208299f75
-          # locked
+          1
           scm> (if False 1)
-          567dc50b5f172929c23f03f6621d0d6b
-          # locked
+          okay
           scm> (eval (if False 1))
-          567dc50b5f172929c23f03f6621d0d6b
-          # locked
+          okay
           scm> (if True '(1))
-          9f90814c29b45aacdbe10436cf085857
-          # locked
+          (1)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,

@@ -10,18 +10,12 @@ test = {
           ....    (let ((x 2)
           ....          (y x))
           ....        (+ y (* x 2))))
-          a7d60ae9b0b81fce195ed5b13796867a
-          # locked
+          9
           scm> (let ((x 1) (y x)) y)
-          afe8b0293088a787c654885143501f84
-          # locked
-          # choice: SchemeError
-          # choice: 1
-          # choice: x
-          # choice: y
+          SchemeError
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""

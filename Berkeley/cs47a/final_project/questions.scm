@@ -32,15 +32,40 @@
 (zip '())
 ; expect (() ())
 
+(define (concat s t)
+    (cond 
+        ((null? s) t)
+        ((null? t) s)
+	((null? (cdr s)) (cons (car s) t))
+	(else (cons (car s) (concat (cdr s) t)))
+    )
+)
+
+
+(define (last l)
+  (if (null? (cdr l))
+      (car l)
+      (last (cdr l))))
+
+
 ; Problem 19
 
 ;; List all ways to partition TOTAL without using consecutive numbers.
 (define (list-partitions total)
-  (if (<= 0 total)
+  (if (= 0 total)
       '()
       (
-        (define i 1)
-	()
+	(define out (list (list total)) )
+	(define (list-partitions-helper out i)
+	  (define next-partition (list-partitions (- total i)))
+	  (define (append_i s) (concat s (list i)))
+
+	  (if (or (null? next-partition) (= (- total (last next-partition)) 1) )
+	      (out)
+	      (concat out next-partition)
+          )
+	)	
+	(list-partitions-helper out 1)
       )
   )
 )
@@ -70,38 +95,34 @@
   )
 )
 
-(define (concat s t)
-    (cond 
-        ((null? s) t)
-        ((null? t) s)
-	((null? (cdr s)) (cons (car s) t))
-	(else (cons (car s) (concat (cdr s) t)))
-    )
-)
 
 ;; Converts all let special forms in EXPR into equivalent forms using lambda
 (define (analyze expr)
   (cond ((atom? expr)
          expr
-         )
+        )
         ((quoted? expr)
          expr
-         )
+        )
         ((or (lambda? expr)
              (define? expr))
          (let ((form   (car expr))
                (params (cadr expr))
                (body   (cddr expr)))
-           (list form params (analyze body))
+           (cons form (cons params (analyze body)))
            ))
         ((let? expr)
          (let ((values (cadr expr))
-               (body   (caddr expr)))
-           (concat (list 'lambda (apply-to-all car values) body) (apply-to-all cadr values))
+               (body   (cddr expr)))
+	   (let ((forms (car (zip (analyze values))))
+		 (actuals (cadr (zip (analyze values)))))
+	     (cons (cons 'lambda (cons forms (analyze body))) actuals)
+	   )
            ))
         (else
-         expr
+         (map analyze expr)
          )))
+
 
 (analyze 1)
 ; expect 1
