@@ -1,0 +1,2 @@
+"tests/bad1.test", line 2: parse error at or near ')'
+Compilation halted due to lex and parse errors

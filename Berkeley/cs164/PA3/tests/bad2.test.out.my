@@ -1,0 +1,3 @@
+"tests/bad2.test", line 6: parse error at or near OBJECTID = extends
+"tests/bad2.test", line 15: parse error at or near OBJECTID = implements
+Compilation halted due to lex and parse errors

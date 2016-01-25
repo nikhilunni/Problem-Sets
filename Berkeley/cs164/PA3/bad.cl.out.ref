@@ -1,0 +1,7 @@
+"bad.cl", line 17: parse error at or near OBJECTID = c
+"bad.cl", line 26: parse error at or near LE
+"bad.cl", line 36: parse error at or near OBJECTID = b
+"bad.cl", line 40: parse error at or near OBJECTID = a
+"bad.cl", line 44: parse error at or near OBJECTID = inherts
+"bad.cl", line 49: parse error at or near ';'
+Compilation halted due to lex and parse errors
