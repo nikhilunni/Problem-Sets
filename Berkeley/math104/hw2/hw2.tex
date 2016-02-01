@@ -1,0 +1,162 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#2}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{itemize}
+  \item[2.3]
+    Show $\sqrt{2 + \sqrt{2}}$ is not a rational number.\\\\
+
+    First, we need to find an integer-cofficient polynomial such that $\sqrt{2 + \sqrt{2}}$ is a solution.\\
+    Let $x = \sqrt{2 + \sqrt{2}}$. Then:
+    $$x^4 = (2 + \sqrt{2})(2 + \sqrt{2}) = 4 + 4\sqrt{2} + 2$$
+    $$x^4 - 4x^2 = (4 + 4\sqrt{2} + 2) - 4(2 + \sqrt{2}) = -2$$
+    $$x^4 - 4x^2 + 2 = 0$$
+
+    From Corollary 2.3, the only rational solutions can be $\pm 1, \pm 2$, and since  $\sqrt{2 + \sqrt{2}}$ is a solution, it cannot be rational.\\\\
+
+  \item[2.6]
+    Discuss why $4 - 7b^2$ is rational if b is rational.\\\\
+
+    If b is rational, it can be expressed as a fraction of two integers : $\frac{c}{d}$. Then:
+     $$4-7b^2 = 4 - 7(\frac{c}{d})^2 = 4 - 7\frac{c^2}{d^2}$$
+     $$= \frac{4d^2}{d^2} - \frac{7c^2}{d^2} = \frac{4d^2 - 7c^2}{d^2}$$
+
+     Since integers are closed under multiplication and subtraction, both the numerator and denominator are valid integers, making $4 - 7b^2$ a rational if b is rational.\\
+
+  \item[2.7]
+    Show the following irrational-looking expressions are actually rational numbers:
+    \begin{itemize}
+      \item [a.]
+        $\sqrt{4 + 2\sqrt{3}} - \sqrt{3}$\\\\
+
+        Like the proof in 2.3, let $x = \sqrt{4 + 2\sqrt{3}} - \sqrt{3}$.\\
+        Then, notice that $4 + 2\sqrt{3} = (1 + 2\sqrt{3} + \sqrt{3}^2) = (1 + \sqrt{3})^2$.\\
+        So then, $x = \sqrt{(1+\sqrt{3})^2} - \sqrt{3} = 1 + \sqrt{3} - \sqrt{3} = 1$. 1 is clearly a rational number ($\frac{1}{1}$), so $x = \sqrt{4 + 2\sqrt{3}} - \sqrt{3}$ is a rational number.
+
+      \item [b.]
+        $\sqrt{6 + 4\sqrt{2}} - \sqrt{2}$\\\\
+
+        Along the same lines: 
+        $$6 + 4\sqrt{2} = 4 + 4\sqrt{2} + \sqrt{2}^2 = (2 + \sqrt{2})^2$$
+        Then:
+        $$\sqrt{6 + 4\sqrt{2}} - \sqrt{2} = \sqrt{(2 + \sqrt{2})^2} - \sqrt{2}$$
+        $$\sqrt{6 + 4\sqrt{2}} - \sqrt{2} = 2 + \sqrt{2} - \sqrt{2} = 2$$
+        And since $2 = \frac{2}{1}$ is a rational number, $\sqrt{6 + 4\sqrt{2}} - \sqrt{2}$ is a rational number as well.\\\\
+    \end{itemize}
+  \item[2.8]
+    Find all rational solutions of the equation $x^8 - 4x^5 + 13x^3 - 7x + 1 = 0$.\\\\
+
+    Luckily, in the polyonmial, ``$c_0$'' is just 1, so by Corollary 2.3, the only possible rational solutions are $\pm 1$. Let $f(x)$ be the evaluation homomorphism of the polynomial. Plugging in our candidates, we get:
+    $$f(1) = 1 - 4 + 13 - 7 + 1 = 4 \neq 0$$
+    $$f(-1) = 1 + 4 - 13 + 7 + 1 = 0$$
+
+    So the only rational root to the polynomial is -1.
+  \item[3.1]
+    Which of the properties A1-A4, M1-M4, DL, O1-O5 fail for $\mathds{N}$?
+
+    \begin{itemize}
+      \item [A4] ``For each a, there is an element $-a$ such that $a + (-a) = 0$.''\\
+        This is not true, because for $1 \in \mathds{N}$, there is no $-1 \in \mathds{N}$ s.t. $1 + (-1) = 0$.
+      \item [M4] ``For each $a \neq 0$, there is an element $a^{-1}$ such that $aa^{-1} = 1$.''\\
+        This is not true for any element in $\mathds{N}$ except 1.
+    \end{itemize}
+  \item[3.3]
+    Prove (iv) and (v) of Theorem 3.1
+    \begin{itemize}
+      \item [(iv)] $(-a)(-b) = ab$ for all a,b\\\\
+        First, we have to prove that $a + c = b + c$ implies $a = b$ (which is also (i) of 3.1). But from A4, we know that $a + c + (-c) = b + c + (-c)$ is equivalent to $a + 0 = b + 0$. And with A3, we finally get $a = b$.\\
+
+
+        Next, we can easily prove that $-(-a) = a$. If there's an element $-a$ s.t. $a + (-a) = 0 (A4)$, we can just label $-a$ as b. Now there has to be a $-b$ s.t. $b + (-b) = 0$. From the commutativity of addition from A2, we know that $(-b) + b = 0 = a + (-a)$. Since $b = -a$, from our previous proof, we know that $-b = a$, which shows that $-(-a) = a$.\\
+
+        Next, we can show that there exists an element $-1$ such that $-1 * a = -a$. From DL and A4, we know that $0 = a(1 + (-1)) = a*1 + a*(-1)$. From M3, we know that $a * 1 = a$, and so we have $a + a*(-1) = 0$. And from our first proof along with A4, we know that $a*(-1) = -a$. (And the commutative version $(-1)*a = -a$, because of M2.)\\
+
+        Next, we can show that there exists an element $0$ such that $a * 0 = 0$. From A4, this is equivalent to $a(b + (-b)) = ab + a(-b)$. From our last proof, plus commutativity and associativity, we know this is equivalent to:
+        $$ab + a(-1 * b) = ab + -1(ab) = ab + (-ab)$$
+        From M4, we know that $ab + (-ab) = 0$. Hence $0a = 0$.\\
+        
+        \textbf{Finally}, we can prove the original question.
+        $$(-a)(-b) = (-1*a)(-1*b)$$
+        From M2, we can re-associate the multiplications:
+        $$= ((-1*a)*-1)(b)$$
+        And since we proved that $-1 * a = -a$, and $-(-a) = a$, with commutativity of multiplication, we know that this is equivalent to:
+        $$= -(-a)(b) = ab$$        
+        
+      \item [(v)] $ac = bc$ and $c \neq 0$ imply $a = b$.\\\\
+        Since $c \neq 0$, there must exist a $c^{-1}$ s.t. $cc^{-1} = 1$ from M4.
+        This is equivalent to:
+        $$(ac)c^{-1} = (bc)c^{-1}$$
+        From M1 and M4, we can reassociate, and eliminate c:
+        $$a(cc^{-1}) = b(cc^{-1})$$
+        $$a*1 = b*1$$
+        Finally, from M3:
+        $$a = b$$
+    \end{itemize}
+  \item[3.4]
+    Prove (v) and (vii) of Theorem 3.2
+    \begin{itemize}
+      \item [(v)] $0 < 1$\\\\
+
+        Suppose that $1 \leq 0$. For some $0 < a$, from O5, we know that $1a \leq 0a$, and from our previous proofs, we know this is equivalent to $a \leq 0$. \\
+        But from the definition of a, we know this is not true. So the statement $1 \leq 0$ cannot be true. From O1, this means that $0 \leq 1$.\\
+        But we know that $0 \neq 1$ (which we can derive from the fact that $0a = 0$ and $1a = a$, which are not equal for all values of a), so then we know that $0 < 1$.
+      \item [(vii)] If $0 < a < b$, then $0 < b^{-1} < a^{-1}$.\\\\
+
+        First, we show that $a^{-1}$ and $b^{-1}$ are greater than 0. If $a$ and $b$ are greater than 0, and from M4 we know that $aa^{-1} = 1$ and $bb^{-1} = 1$. If either $a^{-1}$ or $b^{-1}$ were negative, they could be represented as $-x$ and $-y$ respectively, for some $x > 0, y > 0$. But since $a$ and $b$ are positive, and $x$ and $y$ are positive, there's no way that $a(-1*x)$ or $b(-1*y)$ could be 1, a positive number. Thus, they must be nonnegative numbers. But they cannot be 0 either, since that goes against M4, so they must be positive. So $a^{-1} > 0$ and $b^{-1} > 0$.\\
+
+        Next, we show that $(ab)^{-1} = a^{-1}b^{-1}$. By definition, $(ab)(ab)^{-1} = 1$. But we also know that:
+        $$(ab)(b^{-1}a^{-1}) = a(bb^{-1})a = a*1*a^{-1} = aa^{-1} = 1$$. Since $(ab)(ab)^{-1} = (ab)(a^{-1}b^{-1})$, we know that $(ab)^{-1} = a^{-1}b^{-1}$ (by multiplying by $(ab)^{-1}$ on both sides).
+
+        Next, we show that $b^{-1} < a^{-1}$. This is more straightforward:
+        $$a < b$$
+        From our previous proof, we know that since $ab > 0$, $(ab)^{-1} > 0$, and with O5 we know that:
+        $$a(ab)^{-1} < b(ab)^{-1}$$
+        $$(aa^{-1})b^{-1} < (bb^{-1})a^{-1}$$
+        $$b^{-1} < a^{-1}$$
+
+        Since $0 < b^{-1}$ and $b^{-1} < a^{-1}$, by transitivity, $0 < b^{-1} < a^{-1}$.
+    \end{itemize}
+  \item[3.5]
+    \begin{itemize}
+      \item [(a)] Show $\abs{b} \leq a$ if and only if $-a \leq b \leq a$.\\\\
+
+        If $\abs{b} \leq a$: then $a \geq 0$, because $\abs{x} \geq 0, x \in \mathds{R}$. If $b$ is positive, then $b \leq a$ implying $\abs{b} \leq a$ is tautological, since $\abs{x} = x$ for some $0 \leq x \in \mathds{R}$. Conversely, if $b$ is negative, then $b \leq \abs{b}$. By transitivity, we know that $b \leq a$.\\
+
+        Similarly, if $b < 0$, then $-b \leq a$. If we add $b$ and $-a$ to both sides, we get $-b + b + (-a) \leq a + (-a) + b$, and then $-a \leq b$.\\
+
+        Thus, if $\abs{b} \leq a$, then $-a \leq b \leq a$.\\
+
+        Conversely, if $-a \leq b \leq a$, we can easily show $\abs{b} \leq a$. Suppose $b$ is positive, then, tautologically, $\abs{b} \leq a$. Otherwise, if $b$ is negative, $b$ cannot be less than $-a$, since $-a \leq b$. Since the distance to b is less than the distance to $-a$ as well, $\abs{b} \leq a$.\\\\
+
+
+      \item [(b)] Prove $\abs{a} - \abs{b} \leq \abs{a - b}$ for all $a, b \in \mathds{R}$.\\\\
+
+        If both $a$ and $b$ are positive, then the statement is either $a - b \leq a - b$ if $a-b \geq 0$, which is true since $a-b = a-b$. If $a-b$ is negative, then $a - b \leq 0 \leq \abs{a - b}$, so by transitivity, that's true as well.\\
+
+        If both $a$ and $b$ are negative, the LHS becomes $b - a$, and the RHS becomes $\abs{b - a}$. And by symmetry, we have the same scenario as when $a$ and $b$ were both positive, so we know that the statement is true.\\
+
+        If the signs of $a$ and $b$ differ, we see that we can just rearrange $a$ and $b$, and the symmetry argument still holds.\\
+
+    \end{itemize}
+  \item[3.8]
+    Let $a,b \in \mathds{R}$. Show if $a \leq b_1$ for every $b_1 > b$, then $a \leq b$.\\\\
+
+    Suppose the contrapositive, that $a > b$. However, for whichever value of $a$ we pick, we can always pick a $b_1$ that is smaller $a$. For an arbitrarily small $\delta$, let $b + \delta = a$. We can always find a $b_1 > b$ s.t. $b_1 = b + frac{\delta}{2}$. This would mean $b_1 - a = -\frac{\delta}{2} < 0$, and so $b_1$ cannot be greater than $a$, thus disproving the contrapositive.\\
+
+    If $a > b$ cannot be true, then $a \leq b$.
+\end{itemize}
+
+\end{document}
