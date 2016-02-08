@@ -1,0 +1,148 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#3}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{itemize}
+  \item [4.3] For each set in Exercise 4.1, give its supremum if it has none. Otherwise write ``NO sup.''
+    \begin{itemize}
+      \item [(a)] $[0,1]$\\
+        1
+      \item [(b)] $(0,1)$\\
+        1
+      \item [(c)]  $\{2, 7\}$\\
+        7
+      \item [(d)]  $\{\pi, e\}$\\
+        $\pi$
+      \item [(e)]  $\{\frac{1}{n} : n \in \mathds{N}\}$\\
+        $\frac{1}{1} = 1$
+      \item [(f)]  $\{0\}$\\
+        0
+      \item [(g)] $[0,1] \cup [2,3]$\\
+        3
+      \item [(h)] $\cup_{n=1}^\infty [2n, 2n+1]$\\
+        NO sup
+      \item [(i)] $\cap_{n=1}^\infty [-\frac{1}{n}, 1 + \frac{1}{n}]$\\
+        Since the bound approaches $(0,1)$, the supremum is \textbf{1}       
+      \item [(j)] $\{1 - \frac{1}{3^n} : n \in \mathds{N}$\\
+        1
+      \item [(k)] $\{n + \frac{(-1)^n}{n} : n \in \mathds{N}$\\
+        NO sup
+      \item [(l)] $\{r \in \mathds{Q} : r < 2\}$\\
+        2
+      \item [(m)] $\{r \in \mathds{Q} : r^2 < 4\}$\\
+        2
+      \item [(n)] $\{r \in \mathds{Q} : r^2 < 2\}$\\
+        $\sqrt{2}$
+      \item [(o)] $\{x \in \mathds{R} : x < 0\}$\\
+        0
+      \item [(p)] $\{1, \frac{\pi}{3}, \pi^2, 10\}$\\
+        10
+      \item [(q)] $\{0,1,2,4,8,16\}$\\
+        16
+      \item [(r)] $\cap_{n=1}^\infty (1 - \frac{1}{n}, 1 + \frac{1}{n})$\\
+        1
+      \item [(s)] $\{\frac{1}{n} : n \in \mathds{N}$ and $n$ is prime$\}$\\
+        $\frac{1}{2}$
+      \item [(t)] $\{x \in \mathds{R} : x^3 < 8\}$\\
+        2
+      \item [(u)] $\{x^2 : x \in mathds{R}\}$\\
+        NO sup
+      \item [(v)] $\{cos(\frac{n\pi}{3}) : n \in mathds{N}\}$\\
+        1
+      \item [(w)] $\{sin(\frac{n\pi}{3}) : n \in mathds{N}\}$\\
+        $\frac{\sqrt{3}}{2}$
+    \end{itemize}
+
+  \item [4.7] Let S and T be nonempty bounded subsets of $\mathds{R}$.
+    \begin{itemize}
+      \item [(a)] Prove if $S \subseteq T$, then $\text{inf } T \leq \text{inf } S \leq \text{sup } S \leq \text{sup } T$.\\
+        \begin{itemize}
+          \item Let there be some element $x \in S$. Since $S \subseteq T$, $x \in T$. Because x is a member of T, $x \geq \inf T$, for all elements in $S$, making it a lower bound on $S$. And because $\inf S$ is the largest possible lower bound for S, $\inf T$ cannot be larger, meaning $\inf T \leq \inf S$.
+
+          \item Let there be some element $x \in S$. Since $S \subseteq T$, $x \in T$. Because x is a member of T, $x \leq \sup T$, for all elements in $S$, making it an upper bound on $S$. And because $\sup S$ is the lowest possible upper bound for S, $\sup T$ cannot be smaller, meaning $\sup S \leq \sup T$.
+
+          \item Let there be some element $x \in S$. Then we know that $\text{inf } S \leq x \leq \text{sup } S$ by the definition of infimum and supremum. By transitivity, $\text{inf } S \leq \text{sup } S$.\\
+
+          Having shown all 3 inequalities, by the transitive law we know that $\text{inf } T \leq \text{inf } S \leq \text{sup } S \leq \text{sup } T$.
+        \end{itemize}
+      \item [(b)] Prove sup$(S \cup T)$ = max$\{\text{sup } S, \text{sup } T\}$\\\\
+
+        Let there be some element $x \in S \cup T$. By definition we know that $x$ must be a member of either $S$ or $T$ (or both). It follows that either $x \leq \sup S$ or $x \leq \sup T$, or both. Furthermore, we know that max$\{\text{sup } S, \text{sup } T\}$ is greater than or equal to every element in $S \cup T$, precisely because $x$ must belong to either S or T. But more than that, we know that the supremum of the intersection can't be a number smaller than max$\{\text{sup } S, \text{sup } T\}$ because if there was a number smaller that was still greater than every element in S and T, then it must've been larger than every element in the set with the larger supremum, making \textbf{it} the supremum, so it cannot be larger than the suprmum itself.\\
+        Since there can't be another element smaller than max $\{\sup S, \sup T\}$ that is still bigger than every element in $S \cup T$, we know that max $\{\sup S, \sup T\}$ must be the supremum of $S \cup T$.
+    \end{itemize}
+
+  \item [4.10]
+    Prove that if $a > 0$, then there exists $n \in \mathds{N}$ such that $\frac{1}{n} < a < n$.\\\\
+
+    By the Archimedean Property, we know that since $a > 0$ and $1 > 0$, there must be some $n_1 \in \mathds{N}$ s.t. $n_1a > 1$, and therefore $a > \frac{1}{n_1}$. Similarly, there must be some $n_2 \in \mathds{N}$ s.t. $n_2*1 > a$. We know for sure that $a < \max \{n_1, n_2\}$. Let $n_{\text{max}} = \max \{n_1, n_2 \}$. We also know that $\frac{1}{n_{\text{max}}} < \frac{1}{n_{\text{min}}}$ and $\frac{1}{n_{\text{max}}} = \frac{1}{n_{\text{max}}}$. Thus, $\frac{1}{n_{\text{max}}} \leq \frac{1}{n_1}$. By the same reasoning, we know that $n_{\text{max}} \geq n_2$.\\
+
+    Finally, this means that $\frac{1}{n_{\text{max}}} \leq \frac{1}{n_1} < a < n_2 \leq n_{\text{max}}$, and therefore there exists $n \in \mathds{N}$ such that $\frac{1}{n} < a < n$ for any $a \in \mathds{R}$.
+  \item [4.11]
+    Consider $a,b \in \mathds{R}$ where $a < b$. Use Denseness of $\mathds{Q}$ 4.7 to show there are infinitely many rationals between $a$ and $b$.\\\\
+
+    By theorem 4.7, we can find a rational number $r_0$ inbetween a and b s.t. $a < r_0 < b$. This means we can find a \textbf{distinct} number $r_0 < b$. Now, if we recursively ``enter'' the problem again. We have r as a, and b as b. And so repeatedly, we'll be able to find a new distinct rational number $r_n$ greater than $r_{n-1}$ and less than b. Since this process can never end, $n$ will approach infinity, producing an infinite amount of rational numbers.
+  \item [4.15]
+    Let $a,b \in \mathds{R}$. Show if $a \leq b + \frac{1}{n}$ for all $n \in \mathds{N}$, then $a \leq b$.\\\\
+
+    Suppose the opposite. That if $a \leq b + \frac{1}{n} : \forall n \in \mathds{N}$, $a > b$. $a > b$, so we know that $a-b > 0$. And since $1 > 0$, by the Archimedean Property, there is some $n \in \mathds{N}$ s.t. $n(a-b) > 1$, or $a > b + \frac{1}{n}$. But this contradicts our original assumption and so, by proof by contradiction, the opposite is true.
+  \item [4.16]
+    Show sup$\{r \in \mathds{Q} : r < a\} = a$ for each $a \in \mathds{R}$.\\\\
+
+    For the rest of the problem, I'll refer to the set as $S_a$, for some arbitrary $a \in \mathds{R}$. By definition of the set, we know that $a$ is larger than every element $x \in S_a$, so it is a valid upper bound. Now, suppose that there is some $b \in \mathds{R}$ s.t. $b < a$ and $b \geq x, \forall x \in S_a$, that is, that there's a smaller upper bound than a.\\
+
+    However, by theorem 4.7, there exists a rational number inbetween b and a, meaning that b is not a valid upper bound on $S_a$ for all $b < a$. So for any $b < a$ we can find a rational number inbetween b and a. Since there cannot exist a smaller upper bound on $S_a$, we know that $a$ is the supremum.
+  \item [7.1]
+    Write out the first five terms of the following sequences.
+    \begin{itemize}
+      \item [(a)] $s_n = \frac{1}{3n+1}$\\
+        $$\frac{1}{4}, \frac{1}{7}, \frac{1}{10}, \frac{1}{13}, \frac{1}{17}$$
+      \item [(b)] $b_n = \frac{3n+1}{4n-1}$
+        $$\frac{4}{3}, 1, \frac{10}{11}, \frac{13}{15}, \frac{17}{19}$$
+      \item [(c)] $c_n = \frac{n}{3^n}$
+        $$\frac{1}{3}, \frac{2}{9}, \frac{3}{27}, \frac{4}{81}, \frac{5}{243}$$
+      \item [(d)] $sin(\frac{n\pi}{4})$
+        $$sin(\frac{\pi}{4}), sin(\frac{2\pi}{4}), sin(\frac{3\pi}{4}), sin(\frac{4\pi}{4}), sin(\frac{5\pi}{4})$$
+        $$=\frac{\sqrt{2}}{2}, 1, \frac{\sqrt{2}}{2}, 0, -\frac{\sqrt{2}}{2}$$
+    \end{itemize}
+  \item [7.2]
+    For each sequence in 7.1, determine whether it converges. If it converges, give its limit.
+    \begin{itemize}
+      \item [(a)] $s_n = \frac{1}{3n+1}$\\\\
+        $0$
+      \item [(b)] $b_n = \frac{3n+1}{4n-1}$\\\\
+        $\frac{3}{4}$
+      \item [(c)] $c_n = \frac{n}{3^n}$\\\\
+        $0$
+      \item [(d)] $sin(\frac{n\pi}{4})$\\\\
+        Does not converge.
+    \end{itemize}
+  \item [7.4]
+    Give examples of
+    \begin{itemize}
+      \item [(a)] A sequence ($x_n$) of irrational numbers having a limit $\lim x_n$ that is a rational number.\\\\
+        The sequence $x_n = \frac{\pi}{n}$ has a limit of $0$, a rational number. And we can easily prove that $\frac{\pi}{n}$ is irrational, for all natural numbers $n \in \mathds{N}$. Assume that it's rational. Then, we can say:
+        $$\frac{\pi}{n} = \frac{p}{q}$$
+        But then we can represent $\pi$ as a fraction of integers:
+        $$\pi = \frac{pn}{q}$$
+        And this is impossible since $\pi$ is irrational, so $\frac{\pi}{n}$ must be irrational.
+        
+      \item [(b)] A sequence ($r_n$) of rational numbers having a limit $\lim r_n$ that is an irrational number.\\\\
+        The decimal expansion of any irrational number approaches the irrational number, while having rational number terms of the series. For example:
+        $$s_{\pi} = 3, 3.1, 3.14, 3.141, \cdots$$
+    \end{itemize}
+\end{itemize}
+
+\end{document}
