@@ -1,0 +1,94 @@
+\input{../ee126.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW1}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item N couples enter a casino. After two hours, $N$ of the original $2N$ people remain. Each person decides to leave with probability $p$ independent of others' decisions. What is the expected number of couples still in the casino at the end of two hours?\\\\
+
+    Four each couple, indexed by $i$, we have a match at the end if both independently decide to stay. The probability of this is just $(1-p)^2$. At this point, we just have a binomial distribution with $n = N, p = (1-p)^2$. We know the expected value of a binomial distribution is just np, or in this case $N(1-p)^2$ couples.\\
+
+
+  \item A bin contains balls numbered $1,2, \cdots, n$. You reach in and select $k$ balls at random. Let $T$ be the sum of numbers on the balls you picked.
+
+    \begin{enumerate}      
+      \item Say $k = 1$, what is $E[T]$?\\\\
+        
+        If $k = 1$, we know the sum is just the number of the ball we pick. And since we're picking randomly just once, the distribution of the number that we pick is uniform with probability $\frac{1}{n}$.
+
+        $$P(T = a) = \frac{1}{n}$$
+        $$E[T] = \Sigma_{a=1}^n \frac{a}{n} = \frac{\Sigma_{a=1}^n a}{n}$$
+        $$= \frac{n(n+1)}{2n} = \frac{n+1}{2}$$
+
+      \item Find $E[T]$ for general values of k.\\\\
+
+      \item What is Var($T$)?\\\\      
+    \end{enumerate}
+
+  \item Consider a binary tree with n levels. Suppose that each link in this tree works with probability $p$, and is defective with probability $1-p$, independently of other links. Find the probability that there is a working path from the root node to a leaf.\\\\
+
+    We know that the probability that there's a path from R to a leaf is governed by whether or not there's a path from a leaf to either of my children, and if I can connect to the respective child. So a natural recurrence relation arises.\\
+    Let $X(n)$ be a random boolean function denoting the probability that there's a path from the root to a leaf in an n-level binary tree.\\
+
+    P(either child has a path from a leaf) = $2X(n-1) - X(n-1)^2$ (probability of both, minus the double-counted overlap). And whether or not we have a path to this child is given by $p$. So the recurrence relation becomes:
+    $$X(n) = 2pX(n-1) - pX(n-1)^2$$
+    And naturally, if the root has no children, or if $n = 0$, then probability is 1, because the root is trivially a leaf as well. So:
+    $$X(0) = 1$$\\\\
+
+  \item Two envelopes are placed in front of you, each of which contains a different positive, integer amount. You randomly select one of the envelopes and peek inside so that you see the amount in that envelope. You may either keep the amount in this envelope, or switch to the other envelope, but at that point your choice is fixed. Your friend tells you that if you toss a coin until you see heads and add $\frac{1}{2}$ to the number of tosses it took to see a heads \textbf{and} that number is greater than the number in the envelope, you should switch and select the other envelope. Is your friend correct?\\\\
+
+    My friend is incorrect merely on the fact that we know nothing about the distribution of the two integers placed in front of me. Regardless of whether or not it's possible to pick the bigger number more than half the time, the specific strategy that my friend listed is arbitrary. The expected number of flips until heads is merely 2 (bernoulli trial expected value). However, the range of possible integers is unbounded, and so the number of flips until heads + $\frac{1}{2}$ is not going to make a difference.
+
+
+  \item Consider $n$ students. For each pair of students, say student $i$ and student $j$, they are friends with probability $p$, independently of other pairs. Here we assume that friendship is mutual, then we can see that the friendship among the $n$ students can be represented by an undirected graph G. Let $N(i)$ be the number of friends of student $i$, and $T(i)$ be the number of triangles attached to student $i$. We define the clustering coefficient, $C(i)$ for student $i$ as :
+    $$C(i) = \frac{T(i)}{\binom{N(i)}{2}}$$
+
+    Find $\mathds{E}[C(i) | N(i) \geq 2]$.\\\\
+
+    First, we can more precisely define a ``triangle'' of friendship. You get a triangle every time that one of your friends becomes friends with another one of your friends. Then, it's simply (removing all the $i$ indices for neatness-sake):
+    $$\mathds{E}[C | N \geq 2] = \Sigma_{k=2}^{n-1} \mathds{E}[C | N = k] P(N = k)$$
+    Which we can finally simplify, because we can calculate the expectation, given the new formulation of a triangle friendship:
+    $$=\Sigma_{k=2}^{n-1} \frac{p \binom{k}{2}}{\binom{k}{2}} P(N = k)$$
+    $$=p \Sigma_{k=2}^{n-1} P(N = k)$$
+    Because this spans the range of all possible values, we know that this summation must add to 1 yielding:
+    $$E[C(i) | N(i) \geq 2] = p$$
+
+
+  \item Consider a balls-and-bins model with K balls and M bins. For each pair of ball and bin, the ball is thrown into the bin with probability $p$, independently from other pairs.
+    \begin{enumerate}
+      \item Find the distribution of the degree of the bin.\\\\
+        Since all of the edges are independent, we know that the number of edges going into a bin is just a binomial variable, with p = p, n = K (K balls have probability p of having an edge to any given bin). Concretely, this is just:
+        $$P(n \text{ lead to the bin}) = \binom{K}{n} p^n (1-p)^{K-n}$$
+      \item What is the expected degree of a bin?
+        We know that the expected value of a binomial variable is just $np$, and we already know $n$ and $p$, so the expected degree of a bin is just $Kp$.\\
+
+      \item Now suppose you pick a random edge in the graph. What is the distribution of the degree of the right node connected to this edge? Is it the same as part (a)?\\\\
+
+        The result won't necessarily be the result as part (a) just because we've already conditioned on there being at least 1 edge leading to the bin. This results in:
+        $$P(n \text{ lead to the bin} | n \geq 1)$$
+        $$\frac{P(n \text{ lead to the bin})P(n \geq 1 | n \text{ lead to the bin})}{P(n \geq 1)}$$
+
+        For $n \geq 1$ the condition simplifies to $1$. And for $n = 0$, the condition simplifies to $0$. And the expected value is the summation over the probabilities mult. by their edge values. This is:
+        $$\Sigma_{n=1}^K \frac{P(n \text{ lead to the bin})}{Kp}$$
+        $$=\Sigma_{n=1}^K \frac{\binom{K}{n} p^n (1-p)^{K-n}}{Kp}$$
+      \item We call a bin with degree 1 a singleton. What is the average number of singletons in a random balls-and-bins model?\\\\
+
+        Again, this is just a binomial variable, since all the edges are independent. We know that the probability that a bin is a singleton is just $P(\text{1 leads to bin}) = Kp(1-p)^{K-1}$. And there are M bins, so we have binom$(M, Kp(1-p)^{K-1})$. The expected value of this variable is just np, or:
+        $$MKp(1-p)^{K-1}$$
+      \item Find the average number of balls that are connected to at least one singleton.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

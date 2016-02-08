@@ -1,0 +1,71 @@
+\input{../ee126.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW1}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item Find an example of 3 events A, B, and C such that each pair of them are independent, but they are not mutually independent. Show the calculations.\\\\
+    An example of this would be when P(A,B) = P(A)P(B), and P(A,C) = P(A)P(C), and P(B,C) = P(B)P(C), yet $P(A,B,C) \neq P(A)P(B)P(C)$
+    
+  \item There are two coins in front of you, one is fair, and the other is biased
+such that the probability of heads is $\frac{3}{4}$. You pick one of the two at random and flip it 4 times. The coin comes up heads twice. What is the probability that the coin is fair?\\\\
+
+  The problem is a straigtforward application of Bayes theorem.\\
+  $$\text{P(fair } \given \text{2 heads)} = \frac{\text{P(fair) * P(2 heads } \given \text{ fair)}}{\text{P(2 heads)}}$$
+  Applying the Total Law of Probability:
+  $$= \frac{\text{P(fair) * P(2 heads } \given \text{ fair)}}{\text{P(fair) * P(2 heads } \given \text{ fair)} + \text{P(unfair) * P(2 heads } \given \text{ unfair)}}$$
+
+  Since you picked one of the coins at random, P(fair) $ = \frac{1}{2}$. And the probability of getting 2 successes out of 4 trials is given by : $\binom{4}{2}p^2(1-p)^2$, where p represents the probability of a success (which is difference for each coin).\\
+
+  So plugging in the numbers, the previous expression becoms:
+  $$\frac{\frac{1}{2} * \binom{4}{2} \frac{1}{2}^2 \frac{1}{2}^2}{\frac{1}{2} * \binom{4}{2} \frac{1}{2}^2 \frac{1}{2}^2 + \frac{1}{2} * \binom{4}{2} \frac{3}{4}^2 \frac{1}{4}^2} = \frac{16}{25} = 0.64$$
+
+  
+
+
+  \item Jim and George are setting up venture capital portfolios. Suppose that Jim picks $n + 1$ startups to fund and George picks $n$ startups to fund. Suppose that the probability of any startup succeeding is $\frac{1}{2}$ and all of the startups succeed or fail independently. What is the probability that Jim picks more successful startups than George?\\\\
+
+    For this problem, I'll separate the first n startups they compete with with Jim's (n+1)th startup. So then:
+    $$\text{P(Jim wins) = P(Jim wins within n) + P(Jim draws within n) * P(n+1 succeeds)}$$
+    $$\text{P(Jim draws within n = 1 - P(Jim wins within n) - P(George wins within n))}$$
+
+    P(n+1 succeeds) is just an independent odd that the last startup of Jim's wins. And we know this is just $\frac{1}{2}$.
+    Since both George and Jim and equal chances of winning, we have symmetry, and we know that P(Jim wins within n) = P(George wins within n). Let's call this $x$. Then we have:
+    $$\text{P(Jim wins) = } x + \frac{1}{2} * (1 - 2x) = x + \frac{1}{2} - x = \frac{1}{2}$$
+
+  \item Alice and Bob are playing a game where an unfair coin with probability p of heads is tossed n times. Alice wins the game if the coin comes up heads an even amount of times and Bob wins the game if the coin comes up heads an odd number
+of times. What is the probability that Alice wins?\\\\
+
+  Then, let E represent the probability of an even number of heads, and F represent the probability of an odd heads, where $E + F = 1$. Since the total number of heads is binomial, we can represent the probability with:
+  $$1 = \Sigma_{k=0}^n \binom{n}{k} \frac{1}{2}^k \frac{1}{2}^{n-k}$$
+  And all values of k to n should add up to 1.\\
+
+  However, we can split this sum up to define E and F. Instead of adding up all numbers, we can selectively add up even or odd giving:
+  $$E = \Sigma_{k=0}^{\frac{n}{2}} \binom{n}{2k} p^{2k} (1-p)^{n-2k}$$
+  $$F = \Sigma_{k=0}^{\frac{n}{2}} \binom{n}{2k+1} p^{2k+1} (1-p)^{n-2k-1}$$
+
+  We can't easily simplify E or F, but we know E+F = 1. Similarly, we know how the sum is 1 because of the binomial theorem:
+  $$\Sigma_{k=0}^n \binom{n}{k} \frac{1}{2}^k \frac{1}{2}^{n-k} = (p+1-p)^n = 1$$
+  
+
+  \item The NBA is looking to expand to another city. In order to decide which city will receive a new team, the commissioner interviews potential owners from each of the N potential cities one at a time. Unfortunately, the owners would like to know immediately after the interview whether their city will receive the team or not. The commissioner decides to use the following strategy: she will interview the first m owners and reject all of them. After the mth owner is interviewed, she will pick the first city that is better than all previous cities. What is the probability that the best city is selected? Assume that the commissioner has an objective method of scoring each city and that each city receives a unique score.\\\\
+
+  The probability that we pick the best city is the P(optimal city is after the mth city) * P(we pick the city first). Let $b$ be the position of the best city. We're only concerned with when $b > r$, and so we take the summation of the city's probability of being in the spot:
+  $$\Sigma_{n=r}^N \frac{r}{n} = r \Sigma_{n=r}^N \frac{1}{n}$$
+
+  \item Consider two strange countries, A and B. There are n cities with airports in country A and m cities with airports in country B. Let us call these cities $A1, A2, \cdots , An$ and $B_1, B_2, \cdots , B_m$. The airports are such that no domestic flights are possible, i.e. there are no flights between $(A_i,A_j)$ and $(B_i,B_j)$. For each pair of cities in different groups, i.e., $(A_i,B_j)$, there is a flight between these two cities with probability p, independently from all other pairs. An example of the flight connection (n = 4, m = 4) is shown in Figure 1(a). Now, suppose a person lives in city $A_1$, and let $N_2(A_1)$ be the set of cities that this person can reach by taking at most 2 flights. We call $N_2(A_1)$ the two-flight neighborhood of $A_1$. What is the probability that there is at least one city other than $A_1$ in $N_2(A_1)$, and at the same time, for every city in $N_2(A1)$ other than $A_1$ itself, there is a unique flight route with at most 2 flights from $A_1$ to that city?\\\\
+\end{enumerate}
+
+\end{document}
