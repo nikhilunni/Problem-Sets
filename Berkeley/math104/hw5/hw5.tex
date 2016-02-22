@@ -1,0 +1,101 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#5}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{itemize}
+  \item [10.2]
+    Prove Theorem 10.2 for bounded decreasing sequences.\\\\
+
+    Copying the 10.2 proof almost exactly, we can get a similar proof for decreasing sequences:
+
+    Let $(s_n)$ be a bounded decreasing sequence. Let S denote the set $\{ s_n : n \in \mathds{N} \}$, and let $l = \sup S$. Since $S$ is bounded, $l$ represents a real number. We show $\lim s_n = l$. Let $\epsilon > 0$. Since $l + \epsilon$ is not a lower bound for S, there exists $N$ such that $s_N < l - \epsilon$. Since $(s_n)$ is decreasing, we have $s_N \geq s_n$ for all $n \geq N$. Of course, $s_n \geq l$ for all $n$, so $n > N$ implies $l + \epsilon > s_n \geq l$, which implies $\abs{s_n - l} < \epsilon$. This shows $\lim_{} s_n = l$.
+  \item [10.3]
+    For a decimal expansion $K.d_1d_2d_3 \cdots$, let $(s_n)$ be defined as in Discussion 10.3. Prove $s_n < K + 1$ for all $n \in \mathds{N}$. Hint: $\frac{9}{10} + \frac{9}{10^2} + \cdots + \frac{9}{10^n} = 1 - \frac{1}{10^n}$ for all $n$.\\\\
+
+    If $K.d_1d_2d_3 \cdots < K + 1$, then, subtracting K from both sides, we get:
+    $$\frac{d_1}{10} + \frac{d}{10^2} + \cdots \frac{d_n}{10^n} < 1, d_i \in \{0, \cdots , 9 \}$$
+
+    We can easily show that for any index $i$, if we pick any digit other than $9$, the resulting number will be less than the number resulting if we picked $9$ as the digit. Pick any $n \in \{0, \cdots, 8 \}$. Then, $\frac{9}{10^i} - \frac{n}{10^i} = \frac{9-n}{10^i} > 0$. So for a fixed $K$, the maximum number we can obtain for any decimal expansion is $K.999 \cdots$.\\
+
+    And as the hint points out, $\frac{9}{10} + \frac{9}{10^2} + \cdots + \frac{9}{10^n} = 1 - \frac{1}{10^n}$ for all $n$. And since $\frac{1}{10^n} > 0$ for all $n$, we know that $0.999 \cdots = \frac{9}{10} + \cdots + \frac{9}{10^n} < 1$, for all $n$. And so adding back $K$ to both sides, we get that $K.d_1d_2d_3 \cdots < K + 1$.\\
+
+  \item [10.4]
+    Discuss why Theorems 10.2 and 10.11 would fail if we restricted our world of numbers to the set $\mathds{Q}$ of rational numbers.
+    \begin{itemize}
+      \item [10.2:]
+        We know this will fail because we cannot always converge to rational numbers. For example, take the decimal expansion of $\sqrt{2} : 1.4, 1.41, \cdots$. This is bounded (by $\sqrt{2}$) and monotonically increasing (since $\frac{d_i}{10^n} > 0$ for all $n$). However, if we limit ourselves to just $\mathds{Q}$, we know we cannot converge to $\sqrt{2}$ since it is not in our set. However, if we assume that there is some $q \in \mathds{Q}$ limit of the sequence, by the denseness of $\mathds{Q}$, Theorem 4.7, we know we can find another $q_1 \in \mathds{Q}$ s.t. $q < q_1 < \sqrt{2}$, so there is no rational number that can be the limit.\\
+
+     \item [10.11:]
+       This is just an application of 10.2 failing. Taking the last sequence (decimal expansion of $\sqrt{2}$) as an example: we see that it is still a Cauchy sequence, since terms \textbf{are} getting closer to $\sqrt{2}$ (which is a simple proof to show, with $N = -\log(\epsilon)$). However, as we showed earlier, the sequence does not converge. Thus, we have a Cauchy sequence that does not converge, breaking the iff statement.\\
+    \end{itemize}
+  \item [10.5]
+    Prove Theorem 10.4(ii).\\\\
+    Following the proof of 10.4(i):\\
+
+    Let $(s_n)$ be an unbounded decreasing sequence. Let $M < 0$. Since the set $\{ s_n : n \in mathds{N} \}$ is unbounded and it is bounded above by $s_1$, it must be unbounded below. Hence for some $N$ in $\mathds{N}$ we have $s_N < M$. So then $n > N$ implies $s_n \leq s_N < M$, and so $\lim_{} s_n = - \infty$.\\
+
+  \item [10.6]
+    \begin{itemize}
+      \item [(a)] Let $(s_n)$ be a sequence such that
+        $$\abs{s_{n+1} - s_n} < 2^{-n}, \forall n \in \mathds{N}$$
+        Prove $(s_n)$ is a Cauchy sequence and hence a convergent sequence.\\\\
+
+        Let $\epsilon > 0$. Let $N \in \mathds{N}$ be a natural number s.t. $2^{-N} < \epsilon$. In other words, let $N > -log_2(\epsilon)$. And we know that, for some $n,m \in \mathds{N}$ :
+        $$s_n - s_m = (s_n - s_{n-1}) + (s_{n-1} - s_{n-2}) + \cdots + (s_{m+1} - s_m) < \Sigma_{i=m+1}^{n} 2^{-i} = 2^{-m} - 2^{-n}$$
+        So:
+        $$\abs{s_n - s_m} < \abs{2^{-m} - 2^{-n}}$$
+        So we know that $n,m > N$ implies $\abs{s_n - s_m} < \epsilon$ for our choice of some $N > -log_2(\epsilon)$.
+      \item [(b)] Is the result in (a) true if we only assume $\abs{s_{n+1} - s_n} < \frac{1}{n}$ for all $n \in \mathds{N}$?\\\\
+
+        It is not true, since to do the calculation, we have to calculate $\Sigma_{i = m+1}^n \frac{1}{i}$, which approaches $\infty$ as $n-m$ approaches $\infty$, so $n,m > N$ cannot imply that $\abs{s_n - s_m} < \epsilon$, since $\abs{s_n - s_m}$ can be arbitrarily large.\\
+
+    \end{itemize}
+  \item [10.7]
+    Let $S$ be a bounded nonempty subset of $\mathds{R}$ such that $\sup S$ is not in $S$. Prove there is a sequence $(s_n)$ of points in $S$ such that $\lim_{} s_n = \sup S$. See also Exercise 11.11.\\\\
+
+    Since $\sup S$ is the least upper bound, $\sup S - \frac{1}{n^2}$ must be less than some $s_n$ for all $n \in \mathds{N}$ (or else \textbf{it} would be the supremum of the set). Since there's always an $s_n$ s.t. $\sup S - \frac{1}{n^2} < s_n < \sup S$. And the limit $\lim_{n \to\ \infty} \sup S - \frac{1}{n^2} = \sup S$, and clearly $\lim_{} \sup S = \sup S$. By the squeeze theorem, we know that the limit of the sequence is $\sup S$.
+  \item [10.8]
+    Let $(s_n)$ be an increasing sequence of positive numbers and define $\sigma_n = \frac{1}{n}(s_1 + s_2 + \cdots + s_n)$. Prove $(\sigma_n)$ is an increasing sequence.\\\\
+
+    From Definition 10.1, we know that $(\sigma_n)$ is an increasing sequence if $\sigma_n \leq \sigma_{n+1}$ for all $n$.
+    So we have:
+    $$\sigma_n = \frac{1}{n}(s_1 + \cdots s_n)$$
+    $$\sigma_{n+1} = \frac{1}{n}(s_1 + \cdots s_{n+1}) = \sigma_n + \frac{1}{n} s_{n+1}$$
+    Since $(s_n)$ is an increasing sequence of positive numbers, $\frac{1}{n} s_{n+1}$ for all $n \in \mathds{N}$ is nonnegative, and thus $\sigma_n \leq \sigma_{n+1}$ for all $n$.
+  \item [10.10]
+    Let $s_1 = 1$ and $s_{n+1} = (\frac{n}{n+1})s_n^2$ for $n \geq 1$.
+    \begin{itemize}
+      \item [(a)] Find $s_2, s_3$ and $s_4$.\\
+
+        $$s_2 = \frac{1}{2}(1)^2 = \frac{1}{2}$$
+        $$s_3 = \frac{2}{3}(\frac{1}{2})^2 = \frac{1}{6}$$
+        $$s_4 = \frac{3}{4}(\frac{1}{6})^2 = \frac{1}{48}$$
+      \item [(b)] Show $\lim_{} s_n$ exists.\\\\
+
+        We can first easily show that the sequence $(s_n)$ is decreasing. For any number $0 \leq n \leq 1$, $n^2 \leq n$. It is clear that multiplying any positive number by a number $0 \leq n \leq 1$ will yield a smaller number than the original positive number. If we pick that positive number to be $n$ itself, then we see that $n^2 \leq n$. Similarly, $0 < \frac{n}{n+1} < 1$ for all $n$, so this yields a smaller number still. So if $\frac{n}{n+1}(s_n)^2 < s_n$ for all $n$, $s_{n+1} \leq s_n$ for all $n$, meaning it is a decreasing sequence.\\
+
+        Similarly, we can show that $(s_n)$ is bounded by 0. $s_1 = 1 \geq 0$. Assume that $s_n \geq 0$. Then:\\
+        $s_n^2 \geq 0$, since $s_n$ is positive. Similarly, $s_{n+1} = \frac{n}{n+1} s_n^2 \geq 0$, since $\frac{n}{n+1}$ is positive as well, for all $n$. So by induction, $s_n > 0$ for all $n \geq 1$, and so $(s_n)$ is bounded by 0.\\
+
+        Since the sequence is decreasing and bounded, $(s_n)$ converges, and so $\lim_{} s_n$ exists.\\
+        
+      \item [(c)] Prove $\lim_{} s_n = 0$.\\\\
+
+        For all $\epsilon > 0$ we can find an $N$ such that $n > N$ implies $\abs{s_n - 0} < \epsilon$. Since $(s_n)$ is a decreasing sequence and bounded by 0 (as proved in part b), we can always find a smaller $s_n$ until finally $s_N < \epsilon$. Since all following terms are smaller than or equal to $s_N$, we know that $n > N$ implies that $s_n < \epsilon$ and clearly that $\abs{s_n - 0} < \epsilon$. Then by Definition 7.1, $\lim_{} s_n = 0$.
+    \end{itemize}
+\end{itemize}
+
+\end{document}
