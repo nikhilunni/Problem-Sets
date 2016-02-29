@@ -1,0 +1,116 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#6}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{itemize}
+  \item [11.1]
+    Let $a_n = 3 + 2(-1)^n$ for $n \in \mathds{N}$.
+    \begin{itemize}
+      \item [(a)] List the first eight terms of the sequence $(a_n)$.        
+        $$a_1 = 1, a_2 = 5, a_3 = 1, a_4 = 5, a_5 = 1, a_6 = 5, a_7 = 1, a_8 = 5$$
+
+
+      \item [(b)] Give a subsequence that is constant [takes a single value]. Specify the selection function $\sigma$.\\\\
+
+        The selection function $\sigma(k) = 2k$ will be the subsequence of only even-indexed terms, so that $t(\sigma(n)) = 5$, for all $n \in \mathds{N}$.
+    \end{itemize}
+  \item [11.2]
+    Consider the sequences defined as follows:
+    $$a_n = (-1)^n, b_n = \frac{1}{n}, c_n = n^2, d_n = \frac{6n+4}{7n-3}$$
+    \begin{itemize}
+      \item [(a)] For each sequence, give an example of a monotone subsequence.\\\\
+
+        For $(a_n)$, with the selection function $\sigma(k) = 2k$, we get a constant sequence of $1$, which is monotonic, since $1 \geq 1$.\\\\
+        For $(b_n)$, the trivial subsequence, $\sigma(k) = k$ is monotonic, since each term is decreasing.\\\\
+        For $(c_n)$, is monotonic as well, the trivial subsequence is monotonic.
+        For $(d_n)$, like $\frac{1}{n}$, this sequence is monotonically decreasing, so we can, again, select the original sequence as the subsequence.\\
+      \item [(b)] For each sequence, give its set of subsequential limits.\\\\
+        
+        For $(a_n)$, the only limits it can possibly have are $1$ and $-1$, and both are possible, if you just select even or odd indeces. So $\{-1, 1\}$.\\\\
+        For $(b_n)$, since the limit of the entire sequence is $0$, by Theorem 11.3, all subsequences converge to $0$, so the set is just $\{0\}$.\\\\
+        For $(c_n)$, again, since the limit is $+ \infty$, the set is $\{+ \infty \}$.\\\\
+        For $(d_n)$, the limit of the sequence is $\frac{6}{7}$, so the set is $\{ \frac{6}{7} \}$.\\
+      \item [(c)] For each sequence, give its lim sup and lim inf.\\\\
+
+        For $(a_n)$, regardless of how large $N$ is, the sup is $1$, since the only possible values of $a_{n>N}$ are $-1$ and $1$, with an arbitrarily large $N$. Similarly, the lim sup is $-1$.\\\\
+        For $(b_n)$, by Theorem 10.7, both the lim inf $b_n$ = lim sup $b_n$ = lim $b_n$ = 0.\\\\
+        For $(c_n)$, by Theorem 10.7, lim inf $c_n$ = lim sup $c_n$ = lim $c_n$ = $+ \infty$.
+        For $(d_n)$, by Theorem 10.7, lim inf $d_n$ = lim sup $d_n$ = lim $d_n$ = $\frac{6}{7}$.\\
+      \item [(d)] Which of the sequences converges? diverges to $+\infty$? diverges to $-\infty$?
+        $$(a_n) \text{ is not convergent, and does not diverge to $+\infty$ or $-\infty$.}$$
+        $$(b_n) \text{ is convergent to 0, and thus not divergant to anything.}$$
+        $$(c_n) \text{ is not convergant, but is divergant to $+ \infty$.}$$
+        $$(d_n) \text{ is convergant to $\frac{6}{7}$, and is not divergant to anything.}$$
+      \item [(e)] Which of the sequences is bounded?\\\\
+
+        $(a_n)$ is bounded, $(b_n)$ is bounded, $(c_n)$ is unbounded, and $(d_n)$ is bounded.
+    \end{itemize}
+  \item [11.5]
+    Let $(q_n)$ be an enumeration of all the rationals in the interval $(0,1]$.
+    \begin{itemize}
+      \item [(a)] Give the set of subsequential limits for $(q_n)$.\\\\
+
+        Since there are an infinite amount of rationals between real numbers, by the Denseness of $\mathds{Q}$ Theorem, the set includes every value between 0 and 1. Even though $0$ is not in $(q_n)$, there are an infinite amount of rationals close to $0$, so $0$ is a valid limit. Concretely, the set is $[0,1]$.\\
+
+      \item [(b)] Give the values of lim sup $q_n$ and lim inf $q_n$.
+        $$\lim_{} \sup q_n = 1$$
+        $$\lim_{} \inf q_n = 0$$
+
+        The reasoning being that, if you include enough terms in the subsequence (selected by indices $n > N$), you'll include rational numbers arbitrarily close to $0$ and $1$.\\
+
+    \end{itemize}
+  \item [11.6]
+    Show every subsequence of a subsequence of a given sequence is itself a subsequence of the given sequence.\\\\
+
+    Let's define a subsequence $t(k)$ as the composition of the given sequence $s_n$ with some selection function $\sigma(k)$ so that:
+    $$t(k) = s(\sigma_1(n)), \text{ for $n \in \mathds{N}$ (from Definition 11.1).}$$ 
+    Then, the subsequence of a subsequence would be:
+    $$u(k) = t(\sigma_2(n)) = s(\sigma_1(\sigma_2(n)))$$
+    But note that $\sigma_3 = \sigma_1 \circ \sigma_2$ is a valid function as well. Then, the subsequence's subsequence, $u(k)$ is a subsequence of the given sequence $s(k)$ by selection function $\sigma_3 = \sigma_1 \circ \sigma_2$. In other words:
+    $$u = s \circ \sigma_3 (k) = s \circ (\sigma_1 \circ \sigma_2) (k)$$
+  \item [11.9]
+    \begin{itemize}
+      \item [(a)] Show the closed interval $[a, b]$ is a closed set.\\\\
+
+        If we can find a sequence $(s_n)$ where the set of subsequential limits is $[a,b]$, then we've showed that $[a,b]$ is closed. But we've already found this in 11.5 part (a). Let $(q_n)$ be an enumeration of all the rationals in the interval $(a,b]$. Then, as we showed in 11.5, the set of subsequential limits is $[a,b]$. Thus $[a,b]$ is a closed set.\\
+
+      \item [(b)] Is there a sequence $(s_n)$ such that $(0,1)$ is its set of subsequential limits?\\\\
+
+        There cannot possibly be one, since $(0,1)$ is an open set.
+    \end{itemize}
+  \item [11.10]
+    Let $(s_n)$ be the sequence of numbers in Fig. 11.2 listed in the indicated order.
+    \begin{itemize}
+      \item [(a)] Find the set $S$ of subsequential limits of $(s_n)$.\\\\
+
+        All the values are $\frac{1}{n}, n \in \mathds{N}$. And there are a countably infinite amount of each $\frac{1}{n}$. We can also just select $t_n = \frac{1}{n}$ as a valid subsequence. So the set of subsequential limits is given by:
+        $$\{ \frac{1}{n} : n \in \mathds{N} \} \cup \{ 0 \}$$
+      \item [(b)] Determine lim sup $s_n$ and lim inf $s_n$.
+        
+        $$\lim_{} \sup s_n = 1$$
+        $$\lim_{} \inf s_n = 0$$
+
+        This is evident by the same reasoning as 11.5.\\
+    \end{itemize}
+  \item [11.11]
+    Let $S$ be a bounded set. Prove there is an increasing sequence $(s_n)$ of points in $S$ such that $\lim_{} s_n = \sup S$. Compare Exercise 10.7. \textbf{Note:} if $\sup S$ is in $S$, it's sufficient to define $s_n = \sup S$ for all $n$.\\\\
+
+    As shown in the hint, if $\sup S$ is in $S$, $s_n = \sup S$ is a valid increasing sequence. So, assume $\sup S$ is not in $S$. But the set is upper bounded by $\sup S$, so there must be an infinite number of points less than $\sup S$.\\
+
+    So let $s_1$ be some arbitrary element in $S$. And let every following $s_k$ be some element larger than all $s_{n < k}$. Since it's the supremum, there has to be an infinite number of points between $s_1$ and $\sup S$. So just call a countably finite \textbf{ordered} subset of them $(s_n)$.
+\end{itemize}
+
+\end{document}
