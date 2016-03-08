@@ -1,0 +1,100 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#7}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{itemize}
+  \item [13.4]
+    Prove (iii) and (iv) in Discussion 13.7.
+    \begin{itemize}
+      \item [(iii)]
+        Given the union of open sets : $\bigcup \{E_i\}$, take any point in the union : $e \in \bigcup \{E_i\}$. We know that $e \in E_i$, for some $i$ from the definition of set union. Since $E_i$ is open, for some $r > 0, \{ e_1 \in E : d(e,e_1) < r \} \subseteq E_i \subseteq \bigcup \{E_i\}$. Since any $e \in \bigcup \{E_i\}$ is interior to $\bigcup \{E_i\}$, $\bigcup \{E_i\}$ must be open.\\
+
+      \item[(iv)]
+        Given the intersection of a finite number of open sets : $\bigcap_{i=1}^n \{E_i\}$, take any point $e \in \bigcap_{i=1}^n \{E_i\}$. So we have $n$ ``r'' values, since $e$ is interior to all $\{E_i\}$. If we pick $r = \min(r_1,\cdots,r_n)$, which has to be an actual real number, since $n$ is finite, then we see that $\{e_1 \in \bigcap_{i=1}^n \{E_i\} : d(e,e_1) < r \} \in \bigcap_{i=1}^n$.\\
+    \end{itemize}
+  \item [13.5]
+    \begin{enumerate}
+      \item [(a)] Verify one of DeMorgan's Laws for sets:
+        $$\bigcap \{S \setminus U : U \in \mathds{U} \} = S \setminus \bigcup \{U : U \in \mathds{U} \}$$\\\\
+
+        For $S = [0,1]$, $\mathds{U} = \{[0,0.25], [0.75, 1]\}$:
+        $$\bigcap \{S \setminus U : U \in \mathds{U} \} = \{[0,1] \setminus [0,0.25]\} \cap \{[0,1] \setminus [0.75,1]\}$$
+        $$= (0.25, 1] \cap [0, 0.75) = (0.25, 0.75) $$
+        $$= [0,1] \setminus ([0,0.25] \cup [0.75,1])$$
+        $$= S \setminus \bigcup \{U : U \in \mathds{U} \}$$\\
+
+      \item [(b)] Show that the intersection of any collection of closed sets is a closed set.\\\\
+
+        A collection of closed sets is equivalent to a set of the total metric set $S$ minus some open set $U$.
+        So:
+        $$\bigcap \{C_i \} = \bigcap \{S \setminus U_i \}$$
+        From that DeMorgan Law:
+        $$= S \setminus \bigcup \{U_i\}$$
+        And the union of any collection of open sets is open from 13.4(iii). And $S$ minus any open set is a closed set, meaning the intersection of any collection of closed sets is a closed set as well.\\        
+    \end{enumerate}
+  \item [13.6]
+    Prove Proposition 13.9.
+    \begin{itemize}
+      \item [(a)] The set E is closed iff $E = E^{-}$.\\\\
+
+        If $E = E^{-}$: since $E^{-}$ is the intersection of all closed sets containing $E$, from 13.5b, we know that $E^{-}$ is closed. So then $E$ must be closed.\\
+
+        If $E$ is closed: note that the intersection of all closed sets containing E now contains E itself. So we know that the intersection is the smallest such set, which we know has to be $E$ itself. So by definition, if $E$ is the intersection of all closed sets containing $E$, meaning that $E = E^{-}$.\\
+
+      \item [(b)] The set E is closed iff it contains the limit of every convergent sequence of points in E.
+      \item [(c)] An element is in $E^{-}$ iff it is the limit of some sequence of points in E.
+      \item [(d)] A point is in the boundary of E iff it belongs to the closure of both E and its complement.
+    \end{itemize}
+  \item [13.10]
+    Show that the interior of each of the following sets is the empty set.\\
+
+    For conciseness, I'll refer to each set as ``E'' in each problem.
+    \begin{itemize}
+
+      \item [(a)] $\{ \frac{1}{n} : n \in \mathds{N} \}$\\\\
+        
+        Suppose that the interior is not the empty set. Then there must be some $s_1 \in E$ s.t. for some $r > 0$, $\{s \in \mathds{R} : \abs{s_1 - s} < r \} \subseteq E$. We know that $s_1 = \frac{1}{n_1}$, for some $n_0$. We also know the closest point to $s_1$ is $\frac{1}{n_1+1}$. The smallest $r$ that will contain another point in E has to be $r = \abs{\frac{1}{n_1} - \frac{1}{n_1+1}}$, but all points $s \in \mathds{R}$ s.t. $\frac{1}{n_1+1} < s < \frac{1}{n_1}$ are \textbf{not} in E, and we know that there are an infinite number of such points from the Denseness of $\mathds{Q}$ theorem. Since there cannot be such a point, the interior is the empty set.\\
+
+      \item [(b)] $\mathds{Q}$, the set of rational numbers\\\\
+
+        Again, let's prove that there cannot exist a point interior to $\mathds{Q} = E$. If we pick some $q \in \mathds{Q}$, example the interval $(q - r, q + r)$, for any $r > 0$. Since the set of all rationals in a nonempty interval is a strict subset of the interval itself, there must exist irrational numbers in the interval. Because there are elements in the neighborhood \textbf{not} in $\mathds{Q}$, then, for any $q$, $q$ cannot be interior to $\mathds{Q}$, meaning the interior is the empty set.\\
+
+      \item [(c)] The Cantor set in Example 5.
+    \end{itemize}
+  \item [13.11]
+    Let E be a subset of $\mathds{R}^k$. Show that E is compact if and only if every sequence in E has a subsequence converging to a point in E.\\\\
+
+    If every sequence in E has a subsequence converging to a point in E : from 13.6b, we know that $E$ is closed. Also, we know that if E was unbounded, then it would have to contain a sequence s.t. $\lim d(s_n,0)$ diverges, and obviously would not be a convergant sequence. So if E is closed and unbounded, by Theorem 13.12, we know E is compact.\\
+
+    If E is compact : by theorem 13.12, E is bounded and closed. By Theorem 13.5, we know that any sequence $(s_n)$ in E will converge. Since $E$ is closed, every such convergance point must be inside E.\\
+    
+  \item [13.12]
+    Let (S,d) be any metric space.
+    \begin{itemize}
+      \item [(a)] Show that if E is a closed subject of a compact set F, then E is also compact.
+      \item [(b)] Show that the finite union of compact sets in S is compact.
+    \end{itemize}
+  \item [13.13]
+    Let E be a compact nonempty subset of $\mathds{R}$. Show $\sup E$ and $\inf E$ belong to E.\\\\
+    
+    We know that $E$ is closed and bounded from Theorem 13.12, and so must contain a sequence that converges to $\sup E$ and $\inf E$. And since $E$ is closed, from 13.6b, we know that the limits of every convergant sequence is in E itself, and thus $\sup E, \inf E \in E$.\\
+  \item [13.14]
+    Let E be a compact nonempty subset of $\mathds{R}^k$, and let $\delta = \sup \{d(x,y) : x,y \in E \}$. Show E contains points $x_0, y_0$ such that $d(x_0,y_0) = \delta$.\\\\
+
+    Again, from Theorem 13.12, we know E is closed and bounded. Since E is closed and bounded, we know that set $\{d(x,y) : x,y \in E\}$ is closed, and is bounded by $\delta$. Since the set is closed and bounded, then $\delta$ must be an element of $\{d(x,y) : x,y \in E\}$, meaning that there must exist some $x_0, y_0$ s.t. $d(x_0,y_0) = \delta$.
+\end{itemize}
+
+\end{document}
