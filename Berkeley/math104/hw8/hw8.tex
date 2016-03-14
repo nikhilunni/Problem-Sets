@@ -1,0 +1,158 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#8}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [14.1]
+    Determine which of the following series converge. Justify your answers.
+    \begin{enumerate}
+      \item $\sum \frac{n^4}{2^n}$
+
+        $$\lim_{} \sup \abs{a_{n+1} / a_n} = \lim_{} \sup \abs{\frac{(n+1)^4}{2^{n+1}} \frac{2^n}{n^4}}$$
+        $$\lim_{} \abs{\frac{(n+1)^4}{2^{n+1}} \frac{2^n}{n^4}} = \frac{1}{2} \lim_{} \frac{(n+1)^4}{n^4} = \frac{1}{2}$$
+        Since the limit exists and is 1/2, lim sup is 1/2, meaning the series converges by the Ratio Test.
+      \item $\sum \frac{2^n}{n!}$
+
+        $$\lim_{} \sup \abs{a_{n+1} / a_n} = \lim_{} \sup \abs{\frac{2^{n+1}}{(n+1)!} \frac{n!}{2^n}}$$
+        $$\lim_{} \abs{\frac{2^{n+1}}{(n+1)!} \frac{n!}{2^n}} = \lim_{} \frac{2}{n+1} = 0$$
+        Since the limit exists and is 0, lim sup is 0, meaning the series converges by the Ratio Test.
+      \item $\sum \frac{n^2}{3^n}$
+        
+        $$\lim_{} \sup \abs{a_{n+1} / a_n} = \lim_{} \sup \abs{\frac{(n+1)^2}{3^{n+1}} \frac{3^n}{n^2}}$$
+        $$\lim_{} \abs{\frac{(n+1)^2}{3^{n+1}} \frac{3^n}{n^2}} = \frac{1}{3} \lim_{} \frac{(n+1)^2}{n^2} = \frac{1}{3}$$
+        Since the limit exists and is 1/3, lim sup is 1/3, meaning the series converges by the Ratio Test.
+      \item $\sum \frac{n!}{n^4 + 3}$\\\\
+
+        Since $n!$ grows faster than $n^4$, we know that $\lim_{} a_n = + \infty \neq 0$, meaning that the series cannot converge. 
+        
+      \item $\sum \frac{\cos^2 n}{n^2}$\\\\
+
+        Since $\abs{cos^2(n)}$ is bounded by $0$ and $1$, we know that every term $\abs{\frac{cos^2(n)}{n^2}} < \frac{1}{n^2}$, by the Comparison Test, the series converges.\\
+
+      \item $\sum_{n=2}^\infty \frac{1}{\log n}$\\\\
+
+        Since $\log n < n$, we know that $\frac{1}{\log n} > \frac{1}{n}$, meaning that each term is larger than $\frac{1}{n}$, which is a divergent series. By the Comparison Test, the series diverges.\\
+    \end{enumerate}
+  \item [14.6]
+    \begin{enumerate}
+      \item Prove that if $\sum \abs{a_n}$ converges and $(b_n)$ is a bounded sequence, then $\sum a_nb_n$ converges. (Hint : Use Theorem 14.4.)\\\\
+
+        Since $(b_n)$ is bounded, we know that $\{\abs{b} \leq x : b \in (b_n)$, for some $x \in \mathds{R}$. Take the absolute value of any term, $\abs{a_nb_n} = \abs{a_n}{b_n}$. Since $b_n < x$, we know that $\abs{a_n}\abs{b_n} \leq x \abs{a_n}$.\\
+
+        But note that $\sum M \abs{a_n} = M \sum \abs{a_n}$, which is absolutely convergent. So if every term is less than the term of a convergent series, and $\lim_{} a_n b_n = 0$ (since $\lim_{} b_n$ is some bound, and $\lim_{} a_n = 0$ since absolutely convergent series are convergent), by the Comparison Test, the limit converges.\\
+
+      \item Observe that Corollary 14.7 is a special case of part (a).\\\\
+
+        If we set $b_n = 1$, then we arrive at Corollary 14.7, but part (a) works for \textbf{any} bounded sequence.
+    \end{enumerate}
+  \item [14.7]
+    Prove that if $\sum a_n$ is a convergent series of nonnegative numbers and $p > 1$, then $\sum a_n^p$ converges.\\\\
+
+    Since $\sum a_n$ is a convergence series, by definition 14.3, there exists a number $N$ s.t. $n \geq m > N$ implies $\abs{\sum_{k=m}^n a_k} < 1$. Since all the terms are nonnegative, this is equivalent to saying $\sum_{k=m}^n a_k < 1$. Again, since all the terms are nonnegative, this means each $a_k$ for $k > N$, $0 \leq a_k < 1$. (This is also evident by the fact that all terms are nonnegative and $\lim_{} a_n = 0$ from 14.5.)\\
+
+    After $N$, since all the terms are less than 1, we know that $a_n^p < a_n$, since $p > 1$, and by the Comparison Test, the sequence starting from $N+1$ converges. Since $\sum_{k=N+1}^\infty a_k$ converges, and the finite sum $\sum_{k=1}^N$ clearly converges, the entire sum must converge.
+  \item [14.12]
+    Let $(a_n)_{n \in \mathds{N}}$ be a sequence such that $\lim_{} \inf \abs{a_n} = 0$. Prove there is a subsequence $(a_{n_k})_{k \in \mathds{N}}$ such that $\sum_{k=1}^\infty a_{n_k}$ converges. 
+  \item [14.13]
+    We have seen that it is often a lot harder to find the value of an infinite sum than to show it exists. Here are some sums that can be handled.
+    \begin{enumerate}
+      \item Calculate $\sum_{n=1}^\infty (\frac{2}{3})^n$ and $\sum_{n=1}^\infty (- \frac{2}{3})^n$\\\\
+
+        Applying the standard geometric series formula, we get $\sum_{n=1}^\infty (\frac{2}{3})^n = 2$, and $\sum_{n=1}^\infty (- \frac{2}{3})^n = - \frac{2}{5}$.
+      \item Prove $\sum_{n=1}^\infty \frac{1}{n(n+1)} = 1$.\\\\
+
+        Looking at an individual term, $a_n$:
+        $$a_n = \frac{1}{n(n+1)} = \frac{(n+1) - n}{n(n+1)} = \frac{1}{n} - \frac{1}{n+1}$$
+
+        So now our summation looks like:
+        $$(1 - \frac{1}{2}) + (\frac{1}{2} - \frac{1}{3}) + (\frac{1}{3} - \frac{1}{4}) + \cdots$$
+        Regrouping, we get:
+        $$= 1 + (- \frac{1}{2} + \frac{1}{2}) + (- \frac{1}{3} + \frac{1}{3}) + (- \frac{1}{4} + \cdots$$
+        $$= 1 + 0 + 0 + \cdots$$
+        Since, for every $\frac{1}{n}$ in our summation $- \frac{1}{n}$ exists as well, \textbf{except} for $1$, the total must be $1$.
+        
+      \item Prove $\sum_{n=1}^\infty \frac{n-1}{2^{n+1}} = \frac{1}{2}$.\\\\
+        
+        Looking at the term $a_n$, we have:
+        $$a_n = \frac{n-1}{2^{n+1}} = \frac{2k}{2^{k+1}} - \frac{k+1}{2^{k+1}} = \frac{k}{2^k} - \frac{k+1}{2^{k+1}}$$
+        So now our series becomes:
+        $$1/2 + (-2/4 + 2/4) + (-3/8 + \cdots)$$
+        Since every term is cancelled except the first, $\frac{1}{2}$, we know that must be the sum of the series.
+        
+      \item Use (c) to calculate $\sum_{n=1}^\infty \frac{n}{2^n}$.
+        $$\sum_{n=1}^\infty \frac{n}{2^n}$$
+        $$= \sum_{n=2}^\infty \frac{n-1}{2^{n-1}}$$
+        $$= 4 \sum_{n=2}^\infty \frac{n-1}{2^{n+1}}$$
+        $$= 4 ([\sum_{n=1}^\infty \frac{n-1}{2^{n+1}}] - \frac{1-1}{2^{1+1}})$$
+        $$= 4(\frac{1}{2} - 0) = 2$$
+    \end{enumerate}
+  \item [14.14]
+    Prove $\sum_{n=1}^\infty \frac{1}{n}$ diverges by comparing with the series $\sum_{n=2}^\infty a_n$ where $(a_n)$ is the sequence
+    $$(1/2,1/4,1/4,1/8,1/8,1/8,1/8,\cdots)$$
+  \item [15.1]
+    Determine which of the following series converge. Justify your answers.
+    \begin{enumerate}
+      \item $\sum \frac{(-1)^n}{n}$\\\\
+        Since $\frac{1}{n} \geq \frac{1}{n+1} \geq \cdots \geq 0$, and $\lim_{} \frac{1}{n} = 0$, by the Alternating Series Theorem, the series converges.
+      \item $\sum \frac{(-1)^n n!}{2^n}$\\\\
+
+        Clearly $\lim_{} \frac{n!}{2^n} = + \infty$ ($n!$ grows almost as quickly as $n^n$), so $\lim_{} a_n \neq 0$, and so it diverges.
+    \end{enumerate}
+  \item [15.4]
+    Determine which of the following series converge. Justify your answers.
+    \begin{enumerate}
+      \item $\sum_{n=2}^\infty \frac{1}{\sqrt{n} \log n}$\\\\
+        First, let's prove that $\sum_{n=2}^\infty \frac{1}{n \log n}$ diverges. We know that since $y = \frac{1}{x \log x}$ is a decreasing function past $x = 0$, we know:
+        $$\sum_{n=2}^\infty \frac{1}{n \log n} \geq \int_{2}^\infty \frac{1}{x \log x} dx$$
+        And:
+        $$\int_{2}^\infty \frac{1}{x \log x} dx = \log \log x |_{2}^\infty $$
+        And that integral diverges, so we know that $\sum_{n=2}^\infty \frac{1}{n \log n}$ must diverge.\\
+
+        And since $\frac{1}{\sqrt{n} \log n} > \frac{1}{n \log n}$ (since $\sqrt{n} < n$), we know it must diverge as well by the Comparison Test.\\
+      \item $\sum_{n=2}^\infty \frac{\log n}{n}$\\\\
+        The series diverges. After $n=10$, for all $n > 10$, $\log n > 1$, and so by the Comparison Test with $\frac{1}{n}$, $\sum_{n=10}^\infty \frac{\log n}{n}$ diverges. And if that sum diverges, then $\sum_{n=2}^\infty \frac{\log n}{n}$ diverges as well.
+      \item $\sum_{n=4}^\infty \frac{1}{n(\log n)(\log \log n)}$\\\\
+
+        Again, we have a decreasing function, and so we have $\sum_{n=4}^\infty \frac{1}{n(\log n)(\log \log n)} > \int_{x=4}^\infty \frac{1}{x(\log x)(\log \log x)} dx$
+        And:
+        $$\int_{x=4}^\infty \frac{1}{x(\log x)(\log \log x)} dx = \log \log \log x |_{x=4}^\infty$$
+        And that integral diverges, meaning $\sum_{n=4}^\infty \frac{1}{n(\log n)(\log \log n)}$ diverges.
+      \item $\sum_{n=2}^\infty \frac{\log n}{n^2}$\\\\
+        Again, we can compare with $\int_{n=2}^\infty \frac{\log x}{x^2} dx$, and taking ``right sums'', we get : $\sum_{n=2}^\infty \frac{\log n}{n^2} \leq 1 + \int_{n=2}^\infty \frac{\log x}{x^2} dx$. Integrating by parts we get:        
+        $$\int_{n=2}^\infty \frac{\log x}{x^2} dx = \frac{-1 - \log x}{x} |_{x=2}^\infty$$
+        which converges, so we know $\sum_{n=2}^\infty \frac{\log n}{n^2}$ converges.
+    \end{enumerate}
+  \item [15.6]
+    \begin{enumerate}
+      \item Give an example of a divergent series $\sum a_n$ for which $\sum a_n^2$ converges.\\\\
+        The obvious example of $a_n = \frac{1}{n}$ diverges, while $a_n^2 = \frac{1}{n^2}$ converges.\\
+
+      \item Observe that if $\sum a_n$ is a convergent series of nonnegative terms, then $\sum a_n^2$ also converges. See Exercise 14.7.\\\\
+
+        We already proved this in 14.7. The gist being that after a finite $N$, $a_{n > N} < 1$, and so all subsequent $a_{n>N}^2$ are smaller than $a_{n>N}$, making the infinite series past $N$ converge by the Comparison Test.\\
+
+      \item Give an example of a convergent series $\sum a_n$ for which $\sum a_n^2$ diverges.\\\\
+
+        $(a_n) = \frac{(-1)^n}{\sqrt{n}}$ converges by the Alternating Series Theorem, since $\frac{1}{\sqrt{1}} \geq \frac{1}{\sqrt{2}} \geq \cdots 0$, and $\lim_{} \frac{1}{\sqrt{n}} = 0$. But its square, $(a_n^2) = \frac{(-1)^{2n}}{n} = \frac{(-1^2)^n}{n} = \frac{1}{n}$ is the harmonic series, and thus diverges.
+    \end{enumerate}    
+  \item [15.7]
+    \begin{enumerate}
+      \item Prove if $(a_n)$ is a decreasing sequence of real numbers and if $\sum a_n$ converges, then $\lim_{} n a_n = 0$.
+      \item Use (a) to give another proof that $\sum \frac{1}{n}$ diverges.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
