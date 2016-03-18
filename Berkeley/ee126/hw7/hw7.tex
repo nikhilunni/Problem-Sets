@@ -1,0 +1,158 @@
+\input{../ee126.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW7}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item Michael misses shots with probability $\frac{1}{4}$, independent of other shots.
+    \begin{enumerate}
+      \item What is the expected number of shots that Michael will make before he misses three times?\\\\
+
+        We want $E[\text{time until 3 misses}]$, which is just $E[3(\text{time until 1 miss})] = 3E[\text{time until 1 miss}]$. And this is just a Geometric R.V., which has expectation of $\frac{1}{p} = 4$. So $E[\text{time until 3 misses}] = 4(3) = 12$\\
+
+      \item What is the probability that the second and third time Michael makes a shot will occur when he takes his eigth and ninth shots, respectively?\\\\
+
+        This is the probability that: (1) Michael makes exactly 1 ball in the first 7 shots, (2) Michael makes a ball on the 8th shot, and (3) Michael makes a ball on the 9th shot. Luckily, these are all independent, meaning:
+        $$P(X) = P(\text{1 ball in first 7})P(\text{makes 8th})P(\text{makes 9th})$$
+        $$P(X) = [7(\frac{1}{4})^6(\frac{3}{4})][\frac{3}{4}][\frac{3}{4}]$$
+        $$P(X) = \frac{189}{262144} \approx 0.072\%$$
+      \item What is the probability that Michael misses two shots in a row before he makes two shots in a row?\\\\
+
+        Call the event A. We know that A occurs when Michael misses 2 shots in a row after a (potentially zero-long) string of alternating misses and shots. Noting X as a miss and Y as a score, an example event in A is ``XYXYXY $\cdots$ YXX''. The chain can be any length. With this in mind:
+        $$P(A) = (\frac{1}{4})^2 + \frac{3}{4}(\frac{1}{4})^2 + \frac{1}{4} \frac{3}{4}(\frac{1}{4})^2 + \frac{3}{4} \frac{1}{4} \frac{3}{4}(\frac{1}{4})^2 + \cdots$$
+        $$P(A) =[\frac{3}{4}(\frac{1}{4})^2 + \frac{3}{16} \frac{3}{4}(\frac{1}{4})^2 + (\frac{3}{16})^2 \frac{3}{4}(\frac{1}{4})^2 + \cdots] + [(\frac{1}{4})^2 + \frac{3}{16}(\frac{1}{4})^2 + (\frac{3}{16})^2(\frac{1}{4})^2 + \cdots]$$
+        Notice that these are just geometric series, which sum to:
+        $$P(A) =[\frac{\frac{3}{4}(\frac{1}{4})^2}{1 - \frac{3}{16}}] + [\frac{(\frac{1}{4})^2}{1 - \frac{3}{16}}]$$
+        $$P(A)= \frac{7}{52}$$
+        
+        
+    \end{enumerate}
+  \item Starting at time 0, the F line makes stops at Cory Hall according to a poisson process of rate $\lambda$. Students arrive at the stop according to an independent Poisson process of rate $\mu$. Every time the bus arrives, all students waiting get on.
+    \begin{enumerate}
+      \item Given that the interarrival time between bus $i-1$ and bus $i$ is $x$, find the distribution for the number of students entering the $i$th bus.\\\\
+
+        The number of students that enter the $i$th bus are going to be the number of students that queue up after $i-1$ arrives and before $i$ arrives. This length of time is $x$. Because of the memoryless property of Poisson Processes, we know $N(x)$, the distribution of the number of jumps in $[0,x]$, is equal to the distribution of the number of jumps in $[y, y+x]$, where $y$ is the time that bus $i-1$ arrived. And we know:
+        $$N(x) \sim \text{Poisson}(\lambda x)$$
+      \item Given that a bus arrived at 9:30 AM, find the distribution for the number of students that will get on the next bus.\\\\
+
+        Again, because of the memoryless property, we know that the time between 9:30AM and the next bus is exponentially distributed with parameter $\lambda$. So we have:
+        $$P(\text{n students on next bus}) = \int_{x=0}^\infty P(\text{bus arrives at time x})P(\text{n students on next bus given x time inbetween}) dx$$
+        We already solved the second distribution in part (a) (which is Poisson with parameter $\mu x$), and we know the first distribution is just exponential, so we have:
+        $$=\int_{x=0}^\infty [\lambda e^{- \lambda x}][\frac{(\mu x)^n}{n!} e^{- \mu x}] dx$$
+        $$=\frac{\lambda \mu^n}{n!} \int_{x=0}^\infty e^{(-\lambda - \mu)x} x^n dx$$
+        Integrating by parts (with a little trickery to get factorial)
+        $$=\frac{\lambda \mu^n}{n!} [n! (\lambda + \mu)^{-n-1}]$$
+        $$=\lambda \mu^n (\mu + \lambda)^{-n-1}$$
+      \item Find the distribution of the number of students getting on the next bus to arrive after 11:00 AM.\\\\
+
+        Say we arrive at some time $t$ inside a bus interval $[L,U)]$. By the Random Incidence Paradox (and because time-reversed Poisson processes are Poisson processes as well), the time $t-L$ is exponentially distributed with $\lambda$ and the time $U-t$ is exponentially distibuted with $\lambda$. Let A be the length of $t-L$ and let B be the time $U-t$. Let their sum be $X = A+B$. So the distribution of our total time interval is now:        
+        $$f_X(x) = \int_{b=0}^x f_A(x-b) f_B(b) db = \int_{b=0}^x [\lambda e^{- \lambda (x-b)}][\lambda e^{- \lambda b}] db$$
+        $$=\lambda^2 \int_{b=0}^x e^{-\lambda x} db = \lambda^2 x e^{- \lambda x}$$
+        Now we can integrate like part (b) to find the distribution of the number of students:
+        $$P(\text{n students on next bus}) = \int_{x=0}^\infty P(\text{x time inbetween})P(\text{n students on next bus given x time inbetween}) dx$$
+        $$=\int_{x=0}^\infty [\lambda^2 x e^{-\lambda x}][\frac{(\mu x)^n}{n!} e^{- \mu x}] dx$$
+        $$= \frac{\lambda^2 \mu^n}{n!} \int_{x=0}^\infty e^{(-\lambda - \mu) x} x^{n+1}$$
+        $$= \frac{\lambda^2 \mu^n}{n!} [(n+1)! (\lambda + \mu)^{-n-2}]$$
+        $$= \lambda^2 n \mu^n (\lambda + \mu)^{-n-2}$$
+    \end{enumerate}
+
+  \item Consider a Poisson process $\{N_t, t \geq 0\}$ with rate $\lambda = 1$. Let random variable $S_i$ denote the time of the $i$-th arrival.
+    \begin{enumerate}
+      \item Given $S_3 = s$, find the joint distribution of $S_1$ and $S_2$.\\\\
+
+        For all future notation, note that $S_n = \sum_{i=1}^n X_i$, where $X_i$ are the independent exponentially distributed interarrival times.\\
+        As discussed in Bertsekas, the distribution of the $n$th arrival time is the Erlang Distribution:
+        $$f_{S_n}(t) = \frac{\lambda^n t^{n-1} e^{-\lambda t}}{(n-1)!} = \frac{t^{n-1}e^{-t}}{(n-1)!}$$
+        Now note that $f_{X_1, S_2}(x_1,s_2) = f_{X_1}(x_1) f_{X_2} (s_2-x_1) = e^{-x_1} e^{-s_2+x_1} = e^{-s_2}$, since $X_i$ are i.i.d. This does \textbf{not} depend on $x_1$ at all. If we continue with this pattern, we note that:
+        $f_{X_1,X_2,S_3}(x_1,x_2,s_3) = e^{-s_3}$. With this information we can solve the problem:c
+
+        $$f_{S_1,S_2|S_3 = s}(s_1,s_2) = \frac{f_{S_1,S_2,S_3}(s_1,s_2,s)}{f_{S_3}(s)}$$
+        $$=\frac{e^{-s}}{\frac{s^2 e^{-s}}{2!}} = \frac{2}{s^2}$$
+      \item Find $E[S_2 | S_3 = s]$.\\\\
+
+        First of all:
+        $$P(S_2 = s_2 | S_3 = s) = \frac{P(S_2 = s_2, S_3 = s)}{P(S_3 = s)}$$
+        Looking at the R.H.S:
+        $$P(S_2 = s_2, S_3 = s) = P(S_2 = s_2)P(X_3 = s-s_2) = (s_2e^{-s_2})(e^{-s + s_2}) = s_2e^{-s}$$
+        We already solved for $P(S_3 = s)$ in part (a), so we have:
+        $$P(S_2 = s_2 | S_3 = s) = \frac{s_2 e^{-s}}{\frac{s^2 e^{-s}}{2}} = \frac{2s_2}{s^2}$$
+        Integrating for expectation, we get:
+        $$E[S_2 | S_3 = s] = \int_{s_2=0}^s s_2 \frac{2s_2}{s^2} ds_2 = \frac{2}{s^2} \int_{s_2=0}^s s_2^2 ds_2$$
+        $$=\frac{2}{s^2}(\frac{s^3}{3}) = \frac{2}{3} s$$
+      \item Find $E[S_3 | N_1 = 2]$.\\\\
+
+        Since $N_1 = 2$, we know that at time $t=1$, we've landed somewhere between the 2nd and the 3rd. Because of the ``memorylessness'', we've reset at time $t=1$, so it's as if we just had the 2nd arrival at $t=1$, even though that's not necessarily the case. So then, the interval between $t=1$ and $S_3$ is exponentially distributed with $\lambda=1$, meaning that the expected time in the interval is $\frac{1}{\lambda} = 1$. Thus:
+        $$E[S_3 | N_1 = 2] = 1 + 1 = 2$$
+    \end{enumerate}
+
+  \item Each morning, as you pull out of your driveway, you would like to make a U-turn rather than drive around the block. Unfortunately, U-turns are illegal and police cars drie by according to a Poisson process with rate $\lambda$. You decide to make a U-turn once you see that the road has been clear of police cars for $\tau$ units of time. Let $N$ be the number of police cars you see before you make a U-turn.
+    \begin{enumerate}
+      \item Find $E[N]$.\\\\
+
+        Notice this is just a Bernoulli Trial, and we want the number of failures before a first success, making this a Geometric distribution. We know the expected number of trials total in a Geometric distribution is $\frac{1}{p}$. $p$ in this case is the probability that a time interval between cop cars is greater than $\tau$. So:
+        $$p = 1 - (1 - e^{-\lambda \tau}) = e^{-\lambda \tau}$$
+        Then:
+        $$E[N] = \frac{1}{e^{-\lambda \tau}} - 1 = e^{\lambda \tau} - 1$$
+      \item Find the conditional expectation of the time elapsed between police cars $n-1$ and $n$, given that $N \geq n$.\\\\
+
+        We want to know $E[X_n | N \geq n]$. Remember that if $N \geq n$, then $n$ is ``too short'' and is less than $\tau$. So we want to find $E[X_n | X_n < \tau]$. From total expectation we have:
+        $$E[X_n] = E[X_n | X_n < \tau]P(X_n < \tau) + E[X_n | X_n \geq \tau]P(X_n \geq \tau)$$
+        $E[X_n]$ is $\frac{1}{\lambda}$, since it's exponentially distributed. And from the ``memorylessness'' property of the exponential distribution we know that $E[X_n | X_n > \tau] = \tau + \frac{1}{\lambda}$, since how long we waited doesn't determine how much more we have to wait. So now we have:
+        $$\frac{1}{\lambda} = E[T_n | T_n < \tau](1 - e^{-\lambda \tau}) + (\tau + \frac{1}{\lambda})(e^{-\lambda \tau})$$
+        $$E[T_n | T_n < \tau] = \frac{\frac{1}{\lambda} - (\tau + \frac{1}{\lambda})(e^{-\lambda \tau})}{1 - e^{-\lambda \tau}}$$
+      \item Find the expected time that you wait until you make a U-turn.\\\\
+
+        Call the amount of time I have to wait $X$. Then:
+        $$X = X_1 + X_2 + \cdots + X_N + \tau$$
+        $$E[X] = \tau + \sum_{n=0}^\infty E[X_1 + \cdots + X_n | N=n] P(N=n) = \tau + \sum_{n=0}^\infty P(N=n)(n E[X_n | X_n < \tau])$$
+        Remember that $E[T_n | T_n < \tau]$ doesn't depend on $n$. So we can rearrange this to:
+        $$E[X] = \tau + E[T_n | T_n < \tau] \sum_{n=0}^\infty P(N=n) n = \tau + E[T_n | T_n < \tau]E[N]$$
+        Combining with our previous answers:
+        $$E[X] = \tau + \frac{\frac{1}{\lambda} - (\tau + \frac{1}{\lambda})(e^{-\lambda \tau})}{1 - e^{-\lambda \tau}}(e^{\lambda \tau} - 1)$$
+    \end{enumerate}
+  \item Team A and Team B are playing an untimed basketball game in which the two team score points according to independent Poisson processes. Team A scores points according to a Poisson process with rate $\lambda_A$ and Team B scores points according to a Poisson process with rate $\lambda_B$. The game is over when one of the teams has scored $k$ more points than the other team. Find the probability that A wins.\\\\
+    
+    Notice that this the Gambler's ruin problem from Bertsekas. Suppose we start with $k$ points. At each point scored, if A scores, we get $+1$ points, and if B scores, we get $-1$ points. We win if we reach $2k$, and we lose if we reach $0$. Let $A$ be the probability of winning, let $w_k$ be the probability of winning from $k$ points, and let $F$ denote the event that we win the very next point. Then:
+    $$P(A) = w_k$$
+    $$w_k = P(A|F)P(F) + P(A|F^C)P(F^C)$$
+    Now we need $P(F)$, the probability of Team A scoring the first point. As noted in the book, since the merging of Poisson processes are Poisson processes themselves, we know the probability that Team A scoring first is $\frac{\lambda_A}{\lambda_A + \lambda_B}$. So we have:
+    $$w_k = w_{k+1} \frac{\lambda_A}{\lambda_A + \lambda_B} + w_{k-1} \frac{\lambda_B}{\lambda_A + \lambda_B}$$
+    Solving the recurrence, we get:
+    $$P(A) = w_k = \frac{1-(\frac{\lambda_A}{\lambda_B})^k}{1-(\frac{\lambda_A}{\lambda_B})^{2k}}$$
+    In the special case of $\lambda_A = \lambda_B$:
+    $$P(A) = \frac{1}{2}$$
+\end{enumerate}
+
+\end{document}
