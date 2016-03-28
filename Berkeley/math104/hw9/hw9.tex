@@ -1,0 +1,157 @@
+\input{../math104.tex}
+\usepackage{amsmath, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#8}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [17.1]
+    Let $f(x) = \sqrt{4 - x}$ for all $x \leq 4$ and $g(x) = x^2$ for all $x \in \mathds{R}$.
+    \begin{enumerate}
+      \item Give the domains of $f+g$, $fg$, $f \circ g$, and $g \circ f$.\\\\
+
+        The domains of $f+g$ and $fg$ are just the intersection of the two domains, or $(- \infty, 4]$. The domain of $f \circ g$ is $[-2,2]$, and the domain of $g \circ f$ is $(- \infty, 4]$.
+      \item Find the values of $f \circ g(0), g \circ f(0), f \circ g(1), g \circ f(1), f \circ g(2),$ and $g \circ f(2)$.
+        $$f \circ g(0) = 2$$
+        $$g \circ f(0) = 4$$
+        $$f \circ g(1) = \sqrt{3}$$
+        $$g \circ f(1) = 3$$
+        $$f \circ g(2) = 0$$
+        $$g \circ f(2) = 2$$
+        
+      \item Are the functions $f \circ g$ and $g \circ f$ equal?\\\\
+
+        \textbf{No}, since $f \circ g(0) \neq g \circ f(0)$.
+      \item Are $f \circ g(3)$ and $g \circ f(3)$ meaningful?\\\\
+
+        $f \circ g(3)$ is not meaningful, since $3$ is outside the domain, but $g \circ f(3)$ is meaningful since $3$ \textbf{is} inside the domain.
+    \end{enumerate}
+  \item [17.2]
+    Let $f(x) = 4$ for $x \geq 0$, $f(x) = 0$ for $x < 0$, and $g(x) = x^2$ for all $x$. Thus dom($f$) = dom($g$) = $\mathds{R}$.
+    \begin{enumerate}
+      \item Determine the following functions: $f + g, f \circ g, g \circ f$. Be sure to specify their domains.
+
+        $$(f + g)(x) = 4+x^2 \text{ for } x \geq 0, (f+g)(x) = x^2 \text{ for } x < 0. \text{ dom}(f + g) = \mathds{R}$$
+        $$(f \circ g)(x) = 4. \text{ dom}(f \circ g) = \mathds{R}$$
+        $$(g \circ f)(x) = 16 \text{ for } x \geq 0, (g \circ f)(x) = 0 \text{ for } x < 0. \text { dom}(g \circ f) = \mathds{R}$$
+      \item Which of the functions $f, g, f + g, fg, f \circ g, g \circ f$ is continuous?\\\\
+
+        Clearly $g, f \circ g$ are continuous, while $f, f + g,$ and $g \circ f$ are not continuous. But I'll show that $fg$ is continuous at $x=0$, since it's clearly continuous everywhere else. 
+        $$(fg)(x) = 0 \text { for } x \leq 0, (fg)(x) = 4x^2 \text{ for } x > 0. \text{ dom}(fg) = \mathds{R}$$
+
+        We can prove its continuity with a $\delta - \epsilon$ proof. Let $\epsilon > 0$. If $fg$ is continuous at $0$, then:
+        $$\abs{x} < \delta \implies \abs{f(x)} < \epsilon$$
+        If $x <= 0$, then clearly any value of $x$ will result in $\abs{f(x)} < \epsilon$. So we can safetly assume that $x > 0$, and with that we can also assume that $f(x) = 4x^2 > 0$. So setting $\delta = \frac{1}{2} \sqrt{\epsilon}$ will mean that $x < \delta \implies 4x^2 < \epsilon$. Since, for every $\epsilon > 0$, we can find a $\delta > 0$ such that the implication holds true, the function is continuous at $0$. This means that $fg$ is continuous everywhere.
+    \end{enumerate}
+  \item [17.5]
+    \begin{enumerate}
+      \item Prove that if $m \in \mathds{N}$, then the function $f(x) = x^m$ is continuous on $\mathds{R}$.\\\\
+
+        Going from the definition of continuity, suppose we have a sequence $(s_n)$ whose limit is $s_0$. Then:
+        $$\lim_{} f(x_n) = \lim_{} (x_n^m) = \lim_{}(x_n)^m = x_0^m = f(x_0)$$
+        Because all $m$ are natural numbers, we know that the domains match up, and we won't get any imaginary numbers.
+        
+      \item Prove every polynomial function $p(x) = a_0 + a_1x + \cdots + a_nx^n$ is continuous on $\mathds{R}$.\\\\
+
+        Again, going from the definition of continuity, suppose we have a sequence $(s_m)$ whose limit is $s_0$. Then:
+        $$\lim_{} f(x_m) = \lim_{} (a_0 + a_1x_m + \cdots + a_nx_m^n) $$
+        $$ = a_0 + a_1(\lim_{} x_m) + \cdots + a_n (\lim_{} x_m)^n = a_0 + a_1x_0 + \cdots + a_nx_0^m = f(x_0)$$
+    \end{enumerate}
+  \item [17.9]
+    Prove each of the following functions is continuous at $x_0$ by verifying the $\epsilon-\delta$ property of Theorem 17.2
+    \begin{enumerate}
+      \item $f(x) = x^2, x_0 = 2$;\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x - 2} < \delta$ implies $\abs{x^2 - 4} < \epsilon$. Notice this also implies:
+        $$\abs{(x-2)(x+2)} < \epsilon$$
+        Or
+        $$\abs{x-2} \abs{x+2} < \epsilon$$
+        Suppose that $\delta < 1$. Even if there exists a $\delta_0 \geq 1$ that satisfies the same inequality, we know that all $0 < \delta_1 \leq \delta_0$ must satisfy the same inequality. So the constraint is a valid one. Continuing, this means:
+        $$\abs{x-2} < \delta < 1$$
+        $$-1 < x-2 < 1$$
+        $$3 < \abs{x+2} < 5$$
+        Now we need $5 \abs{x-2} < \epsilon$. So set $\delta = \min \{1, \frac{\epsilon}{5} \}$. Now:
+        $$\abs{x^2 - 4} = \abs{x-2} \abs{x+2} < 5 \delta \leq \epsilon$$
+      \item $f(x) = \sqrt(x), x_0 = 0$;\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $x \in [0, + \infty), \abs{x} < \delta$ implies $\abs{\sqrt{x}} < \epsilon$. Since the domain and image of the square root function is the set of nonnegative real numbers, this is equivalent to $x \in [0, + \infty), x < \delta$ implying $\sqrt{x} < \epsilon$.\\
+
+        If we pick $\delta = \epsilon^2$, then:
+        $$x < \delta = \epsilon^2 \implies \sqrt{x} < \epsilon$$
+      \item $f(x) = x \sin(\frac{1}{x})$ for $x \neq 0$ and $f(0) = 0, x_0 = 0$;\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x} < \delta \implies \abs{x \sin(\frac{1}{x})} < \epsilon$. The right-side implication is equivalent to:
+        $$\abs{x} \abs{\sin(\frac{1}{x})}$$
+        We know that the sin function is bounded by -1 and 1, so $\abs{x} < \delta \implies \abs{x \sin(\frac{1}{x})} < \delta * 1$. So any $0 < \delta \leq \epsilon$ will work. For the sake of the proof, say $\delta = \epsilon$. Then:
+        $$\abs{x} < \delta \implies \abs{x \sin(\frac{1}{x})} < \epsilon$$
+      \item $g(x) = x^3, x_0$ arbitrary. Hint : $x^3 - x_0^3 = (x-x_0)(x^2 + x_0x + x_0^2)$.\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x - x_0} < \delta \implies \abs{x^3 - x_0^3} < \epsilon$. Following the tip, the right-side implication is equivalent to:
+        $$\abs{x - x_0} \abs{x^2 + x_0x + x_0^2} < \epsilon$$
+        Say $\delta < 1$. Then $\abs{x - x_0} < \delta \implies \abs{x} < \abs{x_0} + 1$, and:
+        $$\abs{x - x_0} \abs{x^2 + x_0x + x_0^2} < \delta(\abs{x^2} + \abs{x_0x} + \abs{x_0^2}) < \delta[(\abs{x_0} + 1)^2 + (\abs{x_0} + 1) \abs{x_0} + x_0^2] = \delta(3x_0^2 + 3 \abs{x_0} + 1)$$
+        So if we set $\delta = \min \{1, \epsilon / (3x_0^2 + 3 \abs{x_0} + 1) \}$, we satisfy the implication.
+    \end{enumerate}
+  \item [17.10]
+    Prove the following functions are discontinuous at the indicated points. You may use either Definition 17.1 or the $\epsilon-\delta$ property in Theorem 17.2.
+    \begin{enumerate}
+      \item $f(x) = 1$ for $x > 0$ and $f(x) = 0$ for $x \leq 0, x_0 = 0$;\\\\
+
+        Suppose we have the sequence $s_n = \frac{1}{n}$. Clearly, for any $n \in \mathds{N}$, $f(s_n) = \frac{1}{n} > 0$, so $\lim_{n \to\ \infty} f(s_n) = 1$. However, $f(0) = 0$, so by the definition of continuity, the function is discontinuous at $0$.
+        
+      \item $g(x) = \sin(\frac{1}{x})$ for $x \neq 0$ and $g(0) = 0, x_0 = 0$;\\\\
+
+        Again, let's work with the sequence $s_n = \frac{1}{n}$. Then:
+        $$\lim_{n \to \infty} f(x_n) = \lim_{n \to \infty} \sin(n)$$
+        Since this limit is undefined, it cannot be $g(0) = 0$, meaning the function is discontinuous at $0$.
+      \item $sgn(x) = -1$ for $x < 0$, $sgn(x) = 1$ for $x > 0$, and $sgn(0) = 0, x_0 = 0$. Note $sgn(x) = \frac{x}{\abs{x}}$ for $x \neq 0$.\\\\
+        
+        Yet again, let's use the sequence $s_n = \frac{1}{n}$. For any $n \in \mathds{N}$, $0 < \frac{1}{n}$, so $\lim_{n \to \infty} sgn(\frac{1}{n}) = 1$. However, $f(0) = 0$, so by the definition of continuity, the function is discontinuous at $0$.
+    \end{enumerate}
+  \item [17.11]
+    Let $f$ be a real-valued function with dom($f$) $\subseteq \mathds{R}$. Prove $f$ is continuous at $x_0$ if and only if, for every monotonic sequence $(x_n)$ in dom($f$) converging to $x_0$, we have $\lim_{} f(x_n) = f(x_0)$. Hint : Don't forget Theorem 14.4.\\\\
+
+    If $f$ is continuous at $x_0$, of course, for every monotonic sequence $(x_n)$ in the domain converging to $x_0$, $\lim_{} f(x_n) = f(x_0)$, from the definition of continuity. (The set of all monotonic sequences in the domain converging to $x_0$ is a subset of the set of all sequences in the domain converging to $x_0$, clearly.)\\
+
+    Conversely, suppose that if a monotonic subsequence $(s_n)$ in the domain converges to $x_0$, then $\lim_{n} f(s_n) = f(s_0)$. Suppose that $f$ is \textbf{not} continuous at $x_0$. Then there must be a subsequence $(y_{n_k})$ s.t. $\abs{f(y_{n_k}) - f(x_0)} \geq 0$. However, we know from Theorem 14.4, that $y_{n_k}$ must have a monotonic subsequence $(y_{n_{k_l}})$. However, since its a monotonic sequence, $\lim_{n} f(y_{n_{k_l}}) = f(s_0)$, and so we have a contradiction. This means that $f$ must be continuous at $x_0$.
+
+    
+  \item [17.12]
+    \begin{enumerate}
+      \item Let $f$ be a continuous real-valued function with domain $(a,b)$. Show that if $f(r) = 0$ for each rational number $r$ in $(a,b)$, then $f(x) = 0$ for all $x \in (a,b)$.\\\\
+
+        Suppose $f(y) \neq 0$ for all irrational $y$. As explained in 17.13(a), for any $x \in \mathds{R}$, we can find both irrational and rational sequences, $(r_n)$ and $(q_n)$ respectively, such that their limit is $x$. Then, $\lim_{n} f(q_n) = 0$, but $\lim_{n} f(r_n) \neq 0$, since $f$ at every rational number is not $0$. Thus, we have a contradiction, since $f$ is continuous at every point, and so $f(y) : y \in \mathds{R} \setminus \mathds{Q}$ can't be any value other than 0. Since $f(x) = 0$ for all rational and irrational numbers, and $\mathds{Q} \cup (\mathds{R} \setminus \mathds{Q}) = \mathds{R}$, $f(x) = 0$ for all $x \in \mathds{R}$.
+        
+      \item Let $f$ and $g$ be continuous real-valued functions on $(a,b)$ such that $f(r) = g(r)$ for each rational number $r$ in $(a,b)$. Prove $f(x) = g(x)$ for all $x \in (a,b)$.\\\\
+
+        This is mostly the same as part (a). Suppose $f(y) \neq g(y)$ for each irrational number $q$ in $(a,b)$. For any $x$, we can find  irrational and irational sequences $(r_n)$ and $(q_n)$ whose limits are $x$. Then, $\lim_{n} f(q_n) = g(y)$, yet $\lim_{n} f(r_n) \neq g(y)$, so we have a contradiction, since $f$ is continuous across the entire interval. Thus, $f(y)$ has to be $g(y)$ for all irrational numbers in $(a,b)$. This means that $f(x) = g(x)$ for all $x \in (a,b)$.
+    \end{enumerate}
+  \item [17.13]
+    \begin{enumerate}
+      \item Let $f(x) = 1$ for rational numbers $x$ and $f(x) = 0$ for irrational numbers. Show $f$ is discontinuous at every $x \in \mathds{R}$.\\\\
+
+        For each $x \in \mathds{R}$, there exists at least one rational sequence $(q_n)$ whose limit is $x$, and at least on irrational sequence $(r_n)$ whose limit is $x$. This follows from the denseness of both the rational and irrational numbers. (Concretely, there are an infinite number of irrational and rational numbers between $0$ and $x$, so we can find at least one monotonic sequence converging to $x$ for both.)\\\
+
+        However, $\lim_{n} f(q_n) = 1 \neq \lim_{n} f(r_n) = 0$. Thus, not all sequences in the domain converging to $x$ converge to the same $f(x)$, and by definition is not continuous at $x$.\\
+
+        Since this holds true for an arbitrary $x \in \mathds{R}$, $f$ is discontinuous at every $x \in \mathds{R}$.
+      \item Let $h(x) = x$ for rational numbers $x$ and $h(x) = 0$ for irrational numbers. Show $h$ is continuous at $x = 0$ and at no other point.\\\\
+
+        Again, for each point $x$, let's take a rational sequence $(q_n)$ converging to $x$, and an irrational sequence $(r_n)$ converging to $x$.\\
+
+        Then, $\lim_{n} h(q_n) = x$, since the sequence of $h(q_n)$ is the same sequence as $(q_n)$, which converges to $x$. However, $\lim_{n} h(r_n) = 0$, since every term in the sequence is $0$. Since, trivially, $x \neq 0$ for every point except for $x=0$, $h$ is discontinuous at every point other than $x=0$.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
