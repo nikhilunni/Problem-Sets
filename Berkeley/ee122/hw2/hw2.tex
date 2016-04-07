@@ -1,0 +1,151 @@
+\input{../ee122.tex}
+\usepackage{amsmath, dsfont, tikz, float}
+
+\usetikzlibrary{arrows,automata,positioning}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW1}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+  \begin{enumerate}   
+  \item [1.1] Just writing out the probabilities in order, it's simply:
+    $$
+      \begin{pmatrix}[ccc]
+        0 & 1-p & p\\
+        1 & 0   & 0\\
+        0 & \alpha & 1-\alpha\\
+      \end{pmatrix}
+    $$
+
+  \item [1.2] We have paths to all points from all points (it is irreducible) as long as both $p > 0$ and $\alpha > 0$. And it is also aperiodic under the same conditions.
+  \item [1.3]
+    $$
+      \begin{pmatrix}[ccc]
+        0 & 1-p & p\\
+        1 & 0   & 0\\
+        0 & \alpha & 1-\alpha\\
+      \end{pmatrix}
+      \begin{pmatrix}[c]
+        x\\
+        y\\
+        z\\
+      \end{pmatrix}
+      = 
+      \begin{pmatrix}[c]
+        x\\
+        y\\
+        z\\
+      \end{pmatrix}
+    $$
+
+    Separating it out as a system of equations we get:
+    $$(1-p)y + pz = x$$
+    $$x = y$$
+    $$\alpha y + (1 - \alpha)z = z$$
+
+    Solving it, we find that $x = y = z$. So:
+    $$\pi =       
+    \begin{pmatrix}[c]
+        1/3\\
+        1/3\\
+        1/3\\
+      \end{pmatrix}
+    $$
+  \end{enumerate}
+
+  \item
+    \begin{enumerate}
+      \item [2.1] The states of the system are $\{0, 1, \cdots, k\}$.
+      \item [2.2] 
+
+    \end{enumerate}
+  \item We can calculate this with Little's Result. First we need to find the average occupancy. The packets coming in on average have $\frac{4000+400}{2} = 2200$ bits. And the average Mbps is $0.8*4 + 0.2*1 = 3.4$ Mbps. So the average occupancy should be $2200 * \frac{1}{3.4} * \frac{1}{10^6} = .000647059$ seconds. So then, average delay is $\frac{.000647059}{100} = .000006471$ seconds, or $.006471$ ms.
+
+  \item 
+    \begin{enumerate}
+      \item [4.1] It can be modeled with a CTMC because, if we're at any number of lines, call it $k$, with probability $\lambda$, we could get another call at any point in time, but with probability $\mu$, they could finish a call at any point in time. And because of the ``memoryless'' property of the Poisson process and the Exponential distribution, the amount of time we've already waited for a new call to come in, or for a call to finish does not change the probability of when the call is going to finish or when a new call is going to come in. Given all of these Markov properties, it can be modeled with a CTMC.
+
+      \item [4.2] With $\lambda = \frac{30}{60} = 1/2$ call/min, and $\mu = 4$ min, the matrix would look like:
+    $$Q =       
+    \begin{pmatrix}[cccc]
+        -1/2 & 1/2 & 0 & 0\\
+        4 & -9/2 & 1/2 & 0\\
+        0 & 4 & -9/2 & 1/2\\
+        0 & 0 & 4 & -9/2\\
+      \end{pmatrix}
+    $$
+      
+      \item [4.3] We can show it by Little's Result.
+      \item [4.4] From the lecture slides, we know $\pi(n) = (1-\rho)^n \rho^n$. So we get:
+        $$\pi = 
+        \begin{pmatrix}[c]
+          1 - \rho\\
+          \rho - \rho^2\\
+          \rho^2 - \rho^3\\
+          \rho^3 - \rho^4\\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}[c]
+          7/8\\
+          7/64\\
+          7/512\\
+          7/4096\\
+        \end{pmatrix}
+        $$
+        And so the blocking probability is $\frac{7}{4096}$.
+
+      \item [4.5] Looking at the invariant distribution, they should subscribe to at least two phone lines, since the blocking probability at just one phone line is slightly over $10\%$.
+    \end{enumerate}
+
+  \item 
+    \begin{itemize}
+      \item [5.1] Again, using the $\rho$ formula above, it's the probability of $\pi_1(2)\pi_2(3)$. This is just $(1-\frac{\lambda_1}{\mu_1})^n(\frac{\lambda_1}{\mu_1})^n * (1-\frac{\lambda_2}{\mu_2})^n(\frac{\lambda_2}{\mu_2})^n$, with $\lambda_1 = \lambda_2 = \frac{1}{6}$ customers per minute, $\mu_1 = 2$ minutes, and $\mu_2 = 4$ minutes.
+
+
+      \item [5.2] Using Little's Law again, we know the average occupancy is $2+4 = 6$ minutes. And the arrival rate is $10$ customers per hour, or $\frac{1}{6}$ customers per minute. So then the average delay is $6*6 = 36$ minutes.
+
+      \item [5.3] We can treat this problem as an M/M/1 of arrival rate $\frac{1}{6}$ customers per minute, and average service time of $6$ minutes. Then, $\pi(4) = (1-\frac{1}{36})^n(\frac{1}{36})^n = .000000532$
+    \end{itemize}
+
+
+  \item 
+    \begin{itemize}
+      \item [6.1] Yes, we could still possibly transmit high-fidelity radio. If we increase the power of the signal, we may be able to achieve a high enough SNR.
+
+      \item [6.2] Under Shannon's Theorem: $C = Wlog_2(1 + \frac{S}{N})$. Plugging in, we get:
+        $$270880 = 200000log_2(1 + SNR)$$
+        $$SNR = 1.5569$$
+
+        With an $SNR$ of $10$, we get:
+        $$C = 200000log_2(1 + 10) = 691.88 \text{ Kbps}$$
+    \end{itemize}
+\end{enumerate}
+
+\end{document}

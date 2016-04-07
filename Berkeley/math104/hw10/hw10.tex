@@ -1,0 +1,71 @@
+\input{../math104.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#10}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [18.1]
+    Let $f$ be as in Theorem 18.1. Show that if $-f$ assumes its maximum at $x_0 \in [a,b]$, then $f$ assumes its minimum at $x_0$.\\\\
+
+    Trivially, we know that if $f$ is bounded, then $-f$ is bounded, since $\abs{-f(x)} = \abs{f(x)}$.\\
+
+    Say $M_0 = \sup \{f(x) : x \in [a,b]$ is the maximum value of the function. Then we know that $-M_0 = \inf \{-f(x) : x \in [a,b]$, which we proved from the Practice Midterm.\\
+
+    For each $n \in \mathds{N}$ there exists $y_n \in [a,b]$ such that $M < f(y_n) < M + \frac{1}{n}$, and so $\lim_{} f(y_n) = M$. Since $(y_n)$ must contain a subsequence $(y_{n_k})$ converging to some $y_0 \in [a,b]$ by the Bolzano-Weierstrass theorem. We also know that $\lim_{k \to\ \infty} f(y_{n_k}) = \lim_{n \to\ \infty} f(y_n) = M$, and so $f(y_0) = M$. Since it was the infimum, we know the minimum is at $y_0$.
+  \item [18.2]
+    Reread the proof of Theorem 18.1 with $[a,b]$ replaced by $(a,b)$. Where does it break down? Discuss.\\\\
+
+    The proof depends on the fact that an infinitely many $s_n$ in $[a,b]$ means that $\lim s_n$ is in $[a,b]$. However, this is not true for $(a,b)$. For example, every $s_n = \frac{1}{n+1} \in (0,1)$. However, $\lim s_n = 0$, which is not in $(0,1)$. This was needed to show that $f$ is bounded. This property is explored in the next question, 18.4. Since there exists an unbounded continuous function on $(a,b)$, we don't know if our function is bounded or not, and that a maximum or minimum even exists.
+  \item [18.4]
+    Let $S \subseteq \mathds{R}$ and suppose that there exists a sequence $(x_n)$ in $S$ converging to a number $x_0 \subsetneq S$. Show there exists an unbounded continuous function on $S$.\\\\
+
+    We can disprove by example that all functions over non-closed sets are bounded. Take $S = (0,+\infty)$. Then the sequence $s_n = \frac{1}{n}$ is in the sequence, but the limit, $0$, is not in the sequence. And the function $f(x) = \frac{1}{x}$ is in $S$, but is clearly unbounded (as we approach $0$ from either side).
+
+    Since not all functions over non-closed sets are bounded, there must exist a function over a non-closed set that is unbounded.
+  \item [18.5]
+    \begin{enumerate}
+      \item Let $f$ and $g$ be continuous functions on $[a,b]$ such that $f(a) \geq g(a)$ and $f(b) \leq g(b)$. Prove $f(x_0) = g(x_0)$ for at least one $x_0$ in $[a,b]$.\\\\
+
+        Since $f(a) \geq g(a)$, $f(a) - g(a) \geq 0$. Similarly, $f(b) - g(b) \leq 0$. Since continuous functions are closed under addition and subtraction, $f-g$ is a continuous function as well. So then, from the Intermediate Value Theorem, there exists an $a < x < b$ such that $f(x) - g(x) = 0$, since it is inbetween the two values $f(b)-g(b)$ and $f(a)-g(a)$. So then at $x$, $f(x) = g(x)$.
+      \item Show Example 1 can be viewed as a special case of part (a).\\\\
+
+        Example 1 is the same as part (a), except with $g(x) = x$, and with $a = 0$, and $b = 1$.
+    \end{enumerate}
+  \item [18.7]
+    Prove $xe^x = 2$ for some $x \in (0,1)$.\\\\
+
+    Call the function $f(x) = xe^x$. Then, $f(0) = 0$, and $f(1) = e^1 > 2.7$. Since $f(x)$ is continuous, by the Intermediate Value Theorem, there must be an $0 < x < 1$ such that $f(x) = 2$, since $0 < 2 < e$.
+  \item [18.8]
+    Suppose $f$ is a real-valued continuous function on $\mathds{R}$ and $f(a)f(b) < 0$ for some $a,b \in \mathds{R}$. Prove there exists $x$ between $a$ and $b$ such that $f(x) = 0$.\\\\
+
+    Since $f(a)f(b) < 0$, either $f(a)$ is negative and $f(b)$ is positive, or vice versa. This is because the multiplication of two positive numbers is a positive number, and the multiplication of two negative numbers is a positive number. If either $f(a) < 0$ and $f(b) > 0$, or $f(a) > 0$ and $f(b) < 0$, then by the Intermediate Value Theorem, there exists an $a < x < b$ such that $f(x) = 0$. This is because either $f(a) < f(x) < f(b)$ or $f(b) < f(x) < f(a)$. Note that neither $f(a)$ nor $f(b)$ can be $0$, since this would mean the product of the two would be $0$.
+  \item [18.9]
+    Prove that a polynomial function $f$ of odd degree has at least one real root. Hint: It may help to consider first the case of a cubic, i.e., $f(x) = a_0 + a_1x + a_2x^2 + a_3x^3$ where $a_3 \neq 0$.\\\\
+
+    Let our polynomial be $f(x) = a_0 + a_1x + \cdots + a_{2n+1}x^{2n+1}$, for some $n \in (\mathds{N} \cup {0})$. Since $a_{2n+1}$ is nonzero, it is either positive or negative. In the limit, we know that the $x^{2n+1}$ term dominates, and so: if $a_{2n+1} > 0$, then $\lim_{x \to\ + \infty} f(x) = +\infty$, and if $a_{2n+1} < 0$, then $\lim_{x \to\ + \infty} f(x) = - \infty$. Additionally, since we have an odd degree polynomial : if $a_{2n+1} > 0$, then $\lim_{x \to\ - \infty} f(x) = - \infty$, and if $a_{2n+1} < 0$, then $\lim_{x \to\ - \infty} f(x) = + \infty$.\\
+
+    If the limit is $+ \infty$, from the definition, there must be some number $N$ such that for all $n > N$, $f(x_n) > 0$, for all real sequences of $x$ values. Similarly, if the limit is $- \infty$, there must be a number $N$, such that for all $n > N$, $f(x_n) < 0$. (This is further discussed in section 20, and we can treat the sequences as $\mathds{N}$ or $-\mathds{N}$ respectively, since all sequences in the domain of reals should diverge.)\\
+
+    Since our function diverges in the limit to $+\infty$ one one end, and $-\infty$ on the other, there must exist a value in the function that is less than 0, and there must exist a value in the function that is greater than 0. Since this is the case, from the Intermediate Value Theorem, there must be a value in the function that is equal to 0, meaning that at least one real root must exist. 
+  \item [18.10]
+    Suppose $f$ is continuous on $[0,2]$ and $f(0) = f(2)$. Prove there exist $x,y$ in $[0,2]$ such that $\abs{y-x} = 1$ and $f(x) = f(y)$. Hint: Consider $g(x) = f(x+1) - f(x)$ on $[0,1]$.\\\\
+
+    Looking at $g(x) = f(x+1) - f(x)$, notice that if $g(x) = 0$, then we've satisfied the condition that $\abs{x+1 - x} = 1$, and $f(x) = f(x+1)$. So if there's an $x$ such that $0 \leq x \leq 1$ and $g(x) = 0$, then we've proved the theorem for $x=x, y=x+1$.\\
+
+    $g(0) = f(1) - f(0)$, and $g(1) = f(2) - f(1) = f(0) - f(1)$. So then we know that $g(0) = -g(1)$. If either $g(0)$ or $g(1)$ are 0 (if one is 0, the other clearly is 0 as well), then we've proven the theorem. So let's suppose that neither are 0. Then one must be a positive number, and the other must be a negative number. Then, by the Intermediate Value Theorem, there must be an $x$ such that $0 < x < 1$ and $g(x) = 0$, since $0$ is inbetween all pairs of positive/negative numbers.\\\\
+    Since we've shown the existance of an $0 \leq x \leq 1$ such that $g(x) = 0$, we've proven the theorem.
+\end{enumerate}
+
+\end{document}

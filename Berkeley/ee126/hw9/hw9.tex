@@ -1,0 +1,73 @@
+\input{../ee126.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW7}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item 
+  \item The random variable $X$ is exponentially distributed with mean $1$. Given $X$, the random variable $Y$ is exponentially distributed with rate $X$.
+    \begin{enumerate}
+      \item Find $MLE[X|Y]$.\\\\
+
+        MLE should just be $\argmax_x P(X=x|Y=y) = \argmax_x P(Y=y|X=x)$, since all priors are equall likely. So we have:
+        $$\argmax_x xe^{-xy}$$
+        =$$\argmax_x \ln(x) - xy$$
+        Taking the partial derivative we get:
+        $$\frac{\partial}{\partial x} \ln(x) - xy = \frac{1}{x} - y$$
+        Settng it to $0$ and solving for $x$, we have:
+        $$\frac{1}{x} - y = 0 \implies x = \frac{1}{y}$$
+      \item Find $MAP[X|Y]$.\\\\
+
+        Again, we have $\argmax_x P(X=x|Y=y) = \argmax_x P(Y=y|X=x)P(X=x)$. Plugging in the actual distributions, we get:
+        $$=\argmax_x e^{-x}(xe^{-xy})$$
+        $$=\argmax_x \ln(x) - x(y+1)$$
+        Taking the partial derivative and setting to $0$, we have:
+        $$\frac{\partial}{\partial x} \ln(x) - x(y+1) = 0$$
+        $$\frac{1}{x} - y - 1 = 0$$
+        $$x = \frac{1}{y+1}$$
+    \end{enumerate}
+
+  \item The stochastic block model (SBM) as defined in Lab 9 is a random graph $G(n,p,q)$ consisting of two communities of size $\frac{n}{2}$ each such that the probability an edge exists between two nodes of the same community is $p$ and the probability an edge exists between two nodes in different communities is $q$, where $p > q$. The goal of the problem is to exactly determine the two communities given only the graph. Show that the MAP-decision rule is equivalent to finding the min-bisection of the graph.
+  \item In this problem, we use similar settings which were considered in HW2. Consider a random bipartite graph, $G_1$, with $K$ left nodes, and $M$ right nodes. Each of the $KM$ possible edges of this graph is connected with probability $p$ independently. In the following problems, we consider the situations when $M$ and $K$ are large and $Mp$ and $Kp$ are constants. Hint : Use the Poisson distribution to approximate binomial distribution and apply law of large numbers.
+    \begin{enumerate}
+      \item A singleton is a right node of degree one. As $M$ and $K$ get large, how many left nodes are connected to right nodes which are singletons?
+      \item A doubleton is a right node of degree two. As $M$ and $K$ get large, how many doubletons do we have?
+      \item We call 2 doubletons distinct, if they are not connected to the same 2 left nodes. As $k$ and $M$ get large, what is the probability that two doubletons are distinct?
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
