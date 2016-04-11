@@ -1,0 +1,152 @@
+\input{../math104.tex}
+\usepackage{amsmath, amssymb, dsfont}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#11}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [19.1]
+    Which of the following continuous functions are uniformly continuous on the specified set? Justify your answers. Use any theorems you wish.
+    \begin{enumerate}
+      \item $f(x) = x^{17}\sin(x) - e^x \cos(3x)$ on $[0,\pi]$\\
+
+        \textbf{Uniformly continuous}. Since the function is continuous on the closed interval, by Theorem 19.2, it's uniformly continuous on the closed interval.
+      \item $f(x) = x^3$ on $[0,1]$\\
+
+        \textbf{Uniformly continuous}. Again, since $x^3$ is continuous on $[0,1]$, it is uniformly continuous on the interval.
+      \item $f(x) = x^3$ on $(0,1)$\\
+        \textbf{Uniformly continuous}. Since it can be extended to $\tilde{f} = x^3$ which is continuous on $[0,3]$, by Theorem 19.5, $f$ is uniformly continuous.
+      \item $f(x) = x^3$ on $\mathds{R}$\\
+        \textbf{Not uniformly continuous}. Say that $\epsilon = 1$. Then for all $\delta > 0$, we want to show that $\abs{x-y} < \delta$ but $\abs{x^3 - y^3} \geq \epsilon$. Say that we have a sequence of $\delta$ like $\delta_n = \frac{1}{n}$, and a sequence of $x$ and $y$ values like $x_n = n$, and $y_n = n + \frac{1}{n+1}$. Then, for any $n \in \mathds{N}$, we know that $\abs{x_n - y_n} < \delta_n$. However, $\abs{x_n^3 - y_n^3} = \abs{n^3 - (n^3 + \frac{3n^2}{n+1} + \frac{3n}{(n+1)^2} + \frac{1}{(n+1)^3})}$, which clearly exceeds $1$, for all $n \in \mathds{N}$. So $f$ cannot be uniformly continuous on $\mathds{R}$.
+        
+      \item $f(x) = \frac{1}{x^3}$ on $(0,1]$\\
+        Take the Cauchy sequence $s_n = \frac{1}{n}$. Clearly, it's in the domain $(0,1]$. However, $(f(s_n)) = n^3$ is not a Cauchy sequence. And so by Theorem 19.4, \textbf{$f$ cannot be uniformly continuous} on $(0,1]$.
+      \item $f(x) = \sin \frac{1}{x^3}$ on $(0,1]$\\
+
+        Again, take the Cauchy sequence $s_n = \frac{1}{n}$. Since $(f(s_n)) = \sin(n^3)$ doesn't have a limit, it cannot be a Cauchy sequence. And so by Theorem 19.4, \textbf{$f$ is not uniformly continuous} on $(0,1]$.
+      \item $f(x) = x^2 \sin \frac{1}{x}$ on $(0,1]$\\
+        Take $\tilde{f}(x) = x^2 \sin \frac{1}{x}$ on $(0,1]$, and $\tilde{f}(0) = 0$. We just need to show that $\tilde{f}$ is continuous at $0$, since it is continuous in $(0,1]$.\\
+
+        Let $\epsilon = 0$. We want to show that there exists some $\delta$ such that $\abs{x-0} < \delta \implies \abs{x^2 \sin \frac{1}{x}} < \epsilon$. Since $\sin$ is bound by $[0,1]$, if $x^2 < \epsilon$, trivially, $x^2 \sin(\frac{1}{x}) < \epsilon$. So if we let $\delta = \sqrt{\epsilon}$, then $x < \delta \implies x^2\abs{\sin \frac{1}{x}} < \epsilon$.\\
+
+        Since $\tilde{f}$ is continuous on all $[0,1]$, by Theorem 19.5, \textbf{$f$ is uniformly continuous.}
+    \end{enumerate}
+  \item [19.2]
+    Prove each of the following functions is uniformly continuous on the indicated set by directly veryfing the $\epsilon-\delta$ property in Definition 19.1
+    \begin{enumerate}
+      \item $f(x) = 3x+ 11$ on $\mathds{R}$.\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{3x + 11 - 3y - 11} < \epsilon$. If we let $\delta = \frac{1}{3} \epsilon$ note that:
+        $$\abs{x-y} < \delta \equiv \abs{x-y} < \frac{1}{3} \epsilon$$
+        Then:
+        $$\abs{x-y} < \frac{1}{3} \epsilon \implies 3 \abs{x-y} < \epsilon \implies \abs{3x-3y} < \epsilon$$
+        
+      \item $f(x) = x^2$ on $[0,3]$\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{x^2 - y^2} < \epsilon$. Note that since our domain is $[0,3]$, $\abs{x+y}$ is upper-bounded by $3+3=6$. So if we let $\delta = \frac{1}{6} \epsilon$:
+        $$\abs{x-y} < \frac{1}{6} \epsilon \implies \abs{x-y} \abs{x+y} < \epsilon \implies \abs{x^2 - y^2} < \epsilon$$
+      \item $f(x) = \frac{1}{x}$ on $[\frac{1}{2}, \infty)$\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{\frac{1}{x} - \frac{1}{y}} < \epsilon$. We know that:
+        $$\abs{\frac{1}{x} - \frac{1}{y}} = \abs{\frac{y-x}{xy}} = \abs{\frac{1}{y}} \abs{\frac{1}{x}} \abs{x-y}$$
+        And since $x,y \geq \frac{1}{2}$, we know $0 < \frac{1}{x}, \frac{1}{y} \leq 2$. So if we let $\delta = \frac{\epsilon}{4}$:
+        $$\abs{x-y} < \frac{\epsilon}{4} \implies \abs{\frac{1}{y}} \abs{\frac{1}{x}} \abs{x-y} < 2*2*\frac{\epsilon}{4} \implies \abs{\frac{1}{x} - \frac{1}{y}} < \epsilon$$
+    \end{enumerate}
+  \item [19.3]
+    Repeat Exercise 19.2 for the following:
+    \begin{enumerate}
+      \item $f(x) = \frac{x}{x+1}$ on $[0,2]$\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{\frac{x}{x+1} - \frac{y}{y+1}} < \epsilon$. We know that:
+        $$\abs{\frac{x}{x+1} - \frac{y}{y+1}} = \abs{\frac{xy+x-xy-y}{(x+1)(y+1)}} = \abs{x-y} \abs{\frac{1}{x+1}} \abs{\frac{1}{y+1}}$$
+        And since $0 \leq x,y \leq 2$, we know $\frac{1}{3} < \frac{1}{x}, \frac{1}{y} \leq 1$. So if we let $\delta = \epsilon$:
+        $$\abs{x-y} < \epsilon \implies \abs{x-y} \abs{\frac{1}{x+1}} \abs{\frac{1}{y+1}} < \epsilon * 1 * 1 \implies \abs{\frac{x}{x+1} - \frac{y}{y+1}} < \epsilon$$
+        
+      \item $f(x) = \frac{5x}{2x-1}$ on $[1,\infty)$\\\\
+
+        Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{\frac{5x}{2x-1} - \frac{5y}{2y-1}} < \epsilon$. We know that:
+        $$\abs{\frac{5x}{2x-1} - \frac{5y}{2y-1}} = \abs{\frac{10xy-5x-10xy+5y}{(2x-1)(2y-1)}} = 5 \abs{x-y} \abs{\frac{1}{2x-1}} \abs{\frac{1}{2y-1}}$$
+        And since $1 \leq x,y$, we know $\frac{1}{2x-1}, \frac{1}{2y-1} \leq 1$. So if we let $\delta = \frac{\epsilon}{5}$:
+        $$\abs{x-y} < \frac{\epsilon}{5} \implies 5 \abs{x-y} \abs{\frac{1}{2x-1}} \abs{\frac{1}{2y-1}} < 5 * \frac{\epsilon}{5} * 1 * 1 \implies \abs{\frac{5x}{2x-1} - \frac{5y}{2y-1}} < \epsilon$$
+
+    \end{enumerate}
+  \item [19.4]
+    \begin{enumerate}
+      \item Prove that if $f$ is uniformly continuous on a bounded set $S$, then $f$ is a bounded function on $S$. Hint : Assume not. Use Theorems 11.5 and 19.4.\\\\
+
+        Assume not. Then there must exist a uniformly continuous function $f$ on a bounded set $S$ that is an unbounded function on $S$. Define some sequence $(x_n) \in S$, such that for some $n \in \mathds{N}$, $f(x_n) > n$ (since it is an unbounded function). From Bolzano-Weierstrass, there must be a Cauchy sequence $(x_{k_n})$, since $x_n$ is bounded (since $S$ is bounded). And since $(x_{k_n})$ is Cauchy, then $f(x_{k_n})$ is Cauchy as well from Theorem 19.4, and therefore bounded. However, by definition, $f(x_{k_n}) > k_n$ for all $n \in \mathds{N}$, meaning we have a contradiction. Therefore, if $f$ is uniformly continuous on a bounded set $S$, then $f$ is a bounded function on $S$.
+      \item Use (a) to give yet another proof that $\frac{1}{x^2}$ is not uniformly continuous on $(0,1)$.\\\\
+
+        Since $\frac{1}{x^2}$ is not bounded on the bounded set, $(0,1)$, it is unot uniformly continuous by 19.4(a).
+    \end{enumerate}
+  \item [19.6]
+    \begin{enumerate}
+      \item Let $f(x) = \sqrt{x}$ for $x \geq 0$. Show $f'$ is unbounded on $(0,1]$ but $f$ is nevertheless uniformly continuous on $(0,1]$. Compare with Theorem 19.6.\\\\
+
+        $f'(x) = \frac{1}{x}$ is unbounded on $(0,1]$. Let $\epsilon > 0$. We want to find a $\delta$ such that $\abs{x-y} < \delta \implies \abs{\sqrt{x} - \sqrt{y}} < \epsilon$. Note that for $0 < x,y \leq 1, \abs{\sqrt{x} - sqrt{y}} \leq \sqrt{\abs{x-y}}$. So if we let $\delta = \epsilon^2$:
+        $$\abs{x-y} < \epsilon^2 \implies \abs{\sqrt{x} - \sqrt{y}} \leq \sqrt{\abs{x-y}} < \epsilon$$
+        So $f$ is uniformly continuous on $(0,1]$.\\
+
+        This is in contrast to Theorem 19.6 since we have an unbounded $f'$ on the modified interval without endpoints. However, since the theorem is not a ``if and only if'' implication, we haven't disproven anything.
+      \item Show $f$ is uniformly continuous on $[1,\infty)$.\\\\
+
+        Proven in part (a).
+    \end{enumerate}
+  \item [19.7]
+    \begin{enumerate}
+      \item Let $f$ be a continuous function on $[0,\infty)$. Prove that if $f$ is uniformly continuous on $[k,\infty)$ for some $k$, then $f$ is uniformly continuous on $[0,\infty)$.\\\\
+
+        Let $\epsilon > 0$. Since $f$ is continuous on $[0,\infty]$, for all $y \in [0,\infty]$, there must exist a $\delta_C$ such that $\abs{x-y} < \delta_C \implies \abs{f(x) - f(y)} < \epsilon$.\\
+
+        Using the same $\epsilon$, since $f$ is uniformly continuous on $[k,\infty]$, there must exist a $\delta_U$ such that $\abs{x-y} < \delta_U \implies \abs{f(x) - f(y)} < \epsilon$.\\
+
+        So if we select $\delta = \min \{\delta_C, \delta_U, k \}$, then:
+        $x,y \in [0,\infty), \abs{x-y} < \delta \implies \abs{f(x) - f(y)} < \epsilon$, since we are always in the range of one of the original domains.
+      \item Use (a) and Exercise 19.6(b) to prove $\sqrt{x}$ is uniformly continuous on $[0,\infty)$.\\\\
+        
+        Since we showed that $\sqrt{x}$ is uniformly continuous on $[1,\infty)$, by 19.7(a), if we let $k=1$, then we know $\sqrt{x}$ is uniformly continuous on $[0,\infty)$, since $\sqrt{x}$ is continuous on $[0,\infty)$.
+    \end{enumerate}
+  \item [19.9]
+    Let $f(x) = x \sin(\frac{1}{x})$ for $x \neq 0$, and $f(0) = 0$.
+    \begin{enumerate}
+      \item Observe $f$ is continuous on $\mathds{R}$. See Exercises 17.3(f) and 17.9(c).\\\\
+
+        $f$ is clearly continuous for all $\mathds{R} \setminus \{0\}$. We can show its continuous at $0$ with a $\delta-\epsilon$ proof. Let $\epsilon > 0$. Then there must exist a $\delta$ such that:
+        $$\abs{x} < \delta \implies \abs{x \sin(\frac{1}{x})} < \epsilon$$
+        Since $\sin$ is bounded by $[-1,1]$, if we let $\delta = \epsilon$:
+        $$\abs{x} < \epsilon \implies \abs{x} \abs{\sin(\frac{1}{x})} < \epsilon$$
+        And so $f$ is continuous at $0$.
+      \item Why is $f$ uniformly continuous on any bounded subset of $\mathds{R}$?\\\\
+
+        Because $f$ is continuous on all closed intervals $[a,b]$, it is uniformly continuous on all $[a,b]$. Because all bounded subsets of $\mathds{R}$ are also subsets of closed intervals, we know that $f$ must be uniformly continuous on any bounded subset of $\mathds{R}$.
+      \item Is $f$ uniformly continuous on $\mathds{R}$?\\\\
+
+        Let's first show that $f$ is uniformly continuous on $[10,\infty)$. We know that $\abs{\sin x - \sin y} \leq \abs{x - y}$. We also know:
+        $$\abs{x \sin(\frac{1}{x}) - y \sin(\frac{1}{y})} = \abs{(x-y)\sin(\frac{1}{x}) + y(\sin(\frac{1}{y}) - \sin(\frac{1}{x}))} \leq \abs{x-y} \abs{\sin(\frac{1}{x})} + \abs{y} \frac{\abs{x-y}}{\abs{x} \abs{y}} \leq \frac{11}{10} \abs{x-y}$$
+        So letting $\delta = \frac{10}{11} \epsilon$, we find that the implication holds. Since we've shown that $f$ is continuous on all $\mathds{R}$, and its uniformly continuous on $[10,\infty)$, by 19.7(a) (with a slight addition to account for $(-\infty,k]$), we know that it is uniformly continuous on all $\mathds{R}$.
+    \end{enumerate}
+  \item [19.10]
+    Repeat Exercise 19.9 for the function $g$ where $g(x) = x^2 \sin(\frac{1}{x})$ for $x \neq 0$ and $g(0) = 0$.\\\\
+
+    \begin{enumerate}
+      \item Again, $g$ is clearly continuous for all $x \neq 0$. We can prove $g$ is continuous at $0$ with a $\delta-\epsilon$ proof. So for any $\epsilon > 0$, if we let $\delta = \sqrt{\epsilon}$:
+        $$\abs{x} < \sqrt{\epsilon} \implies \abs{x^2} \abs{\sin(\frac{1}{x})} < \epsilon$$
+        So $g$ is continuous for all $x \in \mathds{R}$.
+
+      \item Same explanation as 19.9(b)
+      \item Unlike 19.9, $x^2 \sin(\frac{1}{x})$ is \textbf{not uniformly continuous} on $\mathds{R}$.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
