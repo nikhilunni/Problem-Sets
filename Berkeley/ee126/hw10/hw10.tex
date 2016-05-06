@@ -1,0 +1,163 @@
+\input{../ee126.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+
+\newenvironment{amatrix}[1]{%
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand\given[1][]{\:#1\vert\:}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+
+\begin{document}
+
+\solution{Nikhil Unni}{HW10}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item Consider the following communication channel. There is an i.i.d. source that generates symbols $\{ 1,2,3,4 \}$ according to a prior distribution $\pi = [p_1,p_2,p_3,p_4]$. The symbols are modulated by QPSK scheme, i.e. they are mapped to constellation points $(\pm 1, \pm 1)$. The communication is on a baseband Gaussian channel, i.e. if the sent signal is $(x_1,x_2)$, $x_i \in \{-1, -1\}$, the received signal is
+    $$y_1 = x_1 + z_1$$
+    $$y_2 = x_2 + z_2$$
+    where $z_1$ and $z_2$ are independent $N(0,\sigma^2)$ random variables. We let the symbols $\{1,2,3,4\}$ correspond to $(1,1), (-1,1), (-1,-1), (1,-1)$, respectively. Find the MAP detector of this communication channel.\\\\
+
+    We want to find MAP[symbol $ | (y_1,y_2)$]. This is just : $\argmax_{\text{symbol}} P(y_1,y_2 | \text{symbol}) P(\text{symbol})$. The 4 probabilities that we want to take the argmax of are:
+    \begin{enumerate}
+      \item [1:]
+        $$P(z_1 = y_1-x_1, z_2=y_2-x_2 | x_1=1,x_2=1) * p_1$$
+        $$=P(z_1 = y_1-1)P(z_2 = y_2-1)p_1$$
+        $$=\frac{1}{2 \sigma^2 \pi} e^{-\frac{(y_1-1)^2}{\sigma^2}} e^{-\frac{(y_2-1)^2}{\sigma^2}} p_1$$
+        Logging, and removing the first fraction:
+        $$\implies \ln(p_1) - \frac{(y_1-1)^2}{\sigma^2} - \frac{(y_2-1)^2}{\sigma^2}$$
+      \item [2:]
+        $$P(z_1 = y_1-x_1, z_2=y_2-x_2 | x_1=-1,x_2=1) * p_1$$
+        $$=P(z_1 = y_1+1)P(z_2 = y_2-1)p_2$$
+        $$=\frac{1}{2 \sigma^2 \pi} e^{-\frac{(y_1+1)^2}{\sigma^2}} e^{-\frac{(y_2-1)^2}{\sigma^2}} p_2$$
+        Logging, and removing the first fraction:
+        $$\implies \ln(p_2) - \frac{(y_1+1)^2}{\sigma^2} - \frac{(y_2-1)^2}{\sigma^2}$$
+      \item [3:]
+        $$P(z_1 = y_1-x_1, z_2=y_2-x_2 | x_1=-1,x_2=-1) * p_1$$
+        $$=P(z_1 = y_1+1)P(z_2 = y_2+1)p_3$$
+        $$=\frac{1}{2 \sigma^2 \pi} e^{-\frac{(y_1+1)^2}{\sigma^2}} e^{-\frac{(y_2+1)^2}{\sigma^2}} p_3$$
+        Logging, and removing the first fraction:
+        $$\implies \ln(p_3) - \frac{(y_1+1)^2}{\sigma^2} - \frac{(y_2+1)^2}{\sigma^2}$$
+      \item [4:]
+        $$P(z_1 = y_1-x_1, z_2=y_2-x_2 | x_1=1,x_2=-1) * p_1$$
+        $$=P(z_1 = y_1-1)P(z_2 = y_2+1)p_4$$
+        $$=\frac{1}{2 \sigma^2 \pi} e^{-\frac{(y_1-1)^2}{\sigma^2}} e^{-\frac{(y_2+1)^2}{\sigma^2}} p_4$$
+        Logging, and removing the first fraction:
+        $$\implies \ln(p_4) - \frac{(y_1-1)^2}{\sigma^2} - \frac{(y_2+1)^2}{\sigma^2}$$
+    \end{enumerate}
+    Whichever is the max of the probabilities, we'll select the corresponding symbol as the most likely parameter.
+
+  \item Customers arrive to a store according to a Poisson process of rate $1$. The store manager learns of a rumor that one of the employees is sending $\frac{1}{2}$ of the customers to the rival store. Refer to hypothesis $X = 1$ as the rumor being true, that one of the employees is sending every other customer arrival to the rival store and hypothesis $X = 0$ as the rumor being false, where each hypothesis is equally likely. Assume that at time $0$, there is a successful sale. After that, the manager observes $S_1, S_2, \cdots, S_n$, where $S_i$ is the time of the $i$th subsequent sale. Derive the MAP rule to determine whether the rumor was true or not.\\\\
+
+    Because all hypotheses are equally likely, the MAP decision is equivalent to the MLE decision. If the rumor is true, we know that the Poisson process will split, and the observed customers will arrive according to a Poisson process of rate $\frac{1}{2}$. If the rumor is false, we should observe a Poisson process of rate $1$. Given $S_1,S_2,\cdots,S_n$, we can construct $T_1 = S_1, T_2 = S_2-S_1, T_3=S_3-S_2, \cdots, T_n = S_n - S_{n-1}$, which is a series of interarrival times, which should all be exponentially distibuted with the corresponding $\lambda$ rate. \\
+
+    So we want to find MLE[X $ | T_1,T_2, \cdots, T_n$ ]. This is just : \\
+    $\argmax_{X} P(T_1,T_2,\cdots,T_n | X) = \argmax_{X} P(T_1 | X) P(T_2 | X) \cdots P(T_n | X)$. The 2 probabilities we want to take the argmax of are:
+    \begin{enumerate}
+      \item [0:]
+        $$P(T_1 | X=0) P(T_2 | X=0) \cdots P(T_n | X=0)$$
+        $$=e^{-T_1}e^{-T_2} \cdots e^{-T_n}$$
+        Logging:
+        $$=-(T_1+T_2+\cdots+T_n)$$
+      \item [1:]
+        $$P(T_1 | X=1) P(T_2 | X=1) \cdots P(T_n | X=1)$$        
+        $$=0.5e^{-0.5T_1} 0.5e^{-0.5T_2} \cdots 0.5e^{-0.5T_n}$$
+        Logging:
+        $$n \ln(0.5) - 0.5(T_1 + T_2 + \cdots + T_n)$$
+    \end{enumerate}
+  \item You are testing a digital link that corresponds to a BSC with some error probability $\epsilon \in [0,0.5)$.
+    \begin{enumerate}
+      \item Assume you observe the input and output of the link. How do you find the MLE of $\epsilon$?\\\\
+
+        Just observe the proportion of ``flips'' of the bits (input is different bit than output), and call it $\hat{p}$. If $\hat{p} \geq 0.5$, then just round down.
+
+      \item You are told that the inputs are i.i.d. bits that are equal to $1$ with probability $0.6$ and to $0$ with probability $0.4$. You observe $n$ outputs. How do you calculate the MLE of $\epsilon$?.\\\\
+
+        Say we observe $k$ 0's in the output, and $n-k$ 1's in the output. Then we want to find:
+        $$MLE[\epsilon | k \text{ observed 0's}] = \argmax_{\epsilon} P(k \text{ observed 0's} | \epsilon)$$
+        Note that the probability of observing a $0$ is : $P(0) = 0.6 \epsilon + 0.4(1 - \epsilon) = 0.4 + 0.2 \epsilon$. So:
+        $$=\argmax_{\epsilon} \binom{n}{k} (0.4 + 0.2 \epsilon)^k (0.6 - 0.2 \epsilon)^{n-k}$$
+        $$=\argmax_{\epsilon} (0.4 + 0.2 \epsilon)^k (0.6 - 0.2 \epsilon)^{n-k}$$
+        We can log to get:
+        $$=\argmax_{\epsilon} k \log(0.4 + 0.2 \epsilon) + (n-k) \log(0.6 - 0.2 \epsilon)$$
+        To find $\epsilon$, we differentiate:
+        $$\frac{\partial}{\partial \epsilon} k \log(0.4 + 0.2 \epsilon) + (n-k) \log(0.6 - 0.2 \epsilon)$$
+        $$=\frac{k}{\epsilon + 2} - \frac{0.2(n-k)}{0.6 - 0.2 \epsilon} = \frac{5k - n \epsilon - 2n}{- \epsilon^2 + \epsilon + 6}$$
+        Setting to $0$ and solving for $\epsilon$, we get:
+        $$\frac{5k - n \epsilon - 2n}{- \epsilon^2 + \epsilon + 6} = 0 \implies \epsilon = \frac{5k-2n}{n}$$
+
+      \item The situation is as in the previous case, but you are told that $\epsilon$ has pdf $4 - 8x$ on $[0,0.5)$. How do you calculate the MAP of $\epsilon$ given $n$ outputs?\\\\
+
+        Again, say we observe $k$ 0's, and $n-k$ 1's in the output. So we want to find:
+        $$MAP[\epsilon | k \text{ observed 0's}] = \argmax_{\epsilon} P(k \text{ observed 0's} | \epsilon) P(\epsilon)$$
+        $$=\argmax_{\epsilon} \binom{n}{k} (0.4 + 0.2 \epsilon)^k (0.6 - 0.2 \epsilon)^{n-k} (4 - 8 \epsilon)$$
+        $$=\argmax_{\epsilon} (0.4 + 0.2 \epsilon)^k (0.6 - 0.2 \epsilon)^{n-k} (4 - 8 \epsilon)$$
+        We can log to get:
+        $$=\argmax_{\epsilon} k \log(0.4 + 0.2 \epsilon) + (n-k) \log(0.6 - 0.2 \epsilon) + \log(4 - 8 \epsilon)$$
+        To find $\epsilon$, we differentiate:
+        $$\frac{\partial}{\partial \epsilon} k \log(0.4 + 0.2 \epsilon) + (n-k) \log(0.6 - 0.2 \epsilon) + \log(4 - 8 \epsilon)$$
+        $$=-\frac{8}{4 - 8 \epsilon} - \frac{0.2(n-k)}{0.6 - 0.2 \epsilon} + \frac{0.2k}{0.4 + 0.2k}$$
+        Setting to $0$, and solving for $\epsilon$, we get:
+        $$\epsilon = \frac{k-2}{2k + 1}$$
+    \end{enumerate}
+  \item You are trying to detect whether voltage $V_1$ or voltage $V_2$ was sent over a channel with independent Gaussian noise $Z \sim N(V_3, \sigma^2)$. Assume that both voltages are equally likely to be sent.
+    \begin{enumerate}
+      \item Derive the MAP detector for this channel.\\\\
+
+        Because both voltages are equally likely to be sent, the priors of our hypotheses are the same, so the MAP decision is equivalent to the MLE decision. We want to find : MLE$[V | Y]$, where $Y = \{V_1,V_2\} + Z$. This is just:
+        $$\argmax_{V \in \{V_1,V_2\}} P(Y=Z+V | V)$$
+        $$=\argmax_{V \in \{V_1,V_2\}} P(Z = Y-V) = \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{(Y-V-V_3)^2}{2 \sigma^2}}$$
+        $$=\argmax_{V \in \{V_1,V_2\}} -(Y-V_3-V)^2$$
+        This intuitively makes sense, since this involves in picking the voltage that minimizes the distance from $Y-V_3$.
+
+      \item Using the Gaussian Q-function, determine the average error probability for the MAP detector.\\\\
+
+        An error occurs if $\hat{V} \neq V$. This is the same as:
+        $$P(V = V_1)P(\hat{V} = V_2 | V = V_1) + P(V = V_2)P(\hat{V} = V_1 | V = V_2)$$
+        Depending on which $Y$ is closer to $V_1+V_3$ or $V_2+V_3$, we pick $V_1$ or $V_2$ respectively. The ``border'' for this decision is at the halfway point, or $\frac{V_1+V_2+2V_3}{2}$. So we have (assuming $V_1 < V_2$ arbitrarily):
+        $$=0.5P(N(V_1+V_3, \sigma^2) > \frac{V_1+V_2+2V_3}{2}) + 0.5P(N(V_2+V_3, \sigma^2) < \frac{V_1+V_2+2V_3}{2})$$
+        $$=0.5(1 - \phi(\frac{V_2-V_1}{2 \sigma})) + 0.5 \phi(\frac{V_1-V_2}{2 \sigma})$$
+
+      \item Suppose that the average transmit energy is $\frac{V_1^2 + V_2^2}{2}$ and that the average transmit energy is contrained such that it cannot be more than $E$. What voltage levels $V_1,V_2$ should you choose to meet this energy constraint but still minimize the average error probability?
+
+    \end{enumerate}
+  \item Consider a hypothesis testing problem that if $X = 0$, you observe a sample of $N(\mu_0, \sigma^2)$, and if $X = 1$, you observe a sample of $N(\mu_1, \sigma^2)$. Find the Neyman-Pearson test for false alarm $\alpha$, i.e. $P(\hat{X} = 1 | X = 0) \leq \alpha$.\\\\
+
+    This problem is equivalent to a parameter $X \in \{\mu_0, \mu_1\}$, $Z \sim N(0, \sigma^2)$, with observation $Y = X+Z$. Then we have likelihood function:
+    $$L(Y) = \frac{f_{Y|X}(y | \mu_1)}{f_{Y|X}(y | \mu_0)} = \frac{e^{-\frac{(y-\mu_1)^2}{2 \sigma^2}}}{-\frac{(y-\mu_0)^2}{2 \sigma^2}}$$
+    $$=e^{\frac{\mu_1^2 + 2 \mu_1 y - \mu_0^2 + 2 \mu_0 y}{2 \sigma^2}}$$
+    Since the likelihood function is monotonically increasing in $y$, the test is similar to testing for some threshold $y_0$ value. If $L(y) > y_0$, we pick $\mu_1$, and if $L(y) < y_0$, we pick $\mu_0$. We must pick $y_0$ such that:
+    $$P(N(\mu_0, \sigma^2) \geq y_0) = \alpha$$
+    $$\implies P(N(0,1) \geq \frac{y_0 - \mu_0}{\sigma}) = \alpha$$
+    $$1 - \phi(\frac{y_0 - \mu_0}{\sigma}) = \alpha$$
+    $$y_0 = \sigma \phi^{-1}(1 - \alpha) + \mu_0$$
+
+    Since we've found $y_0$, we have all the information we need for the test.
+\end{enumerate}
+
+\end{document}

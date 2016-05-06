@@ -1,0 +1,138 @@
+\input{../math104.tex}
+\usepackage{amsmath, amssymb, dsfont, mathtools}
+\usepackage{graphicx}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#14}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [25.7]
+    Show $\sum_{n=1}^{\infty} \frac{1}{n^2} \cos nx$ converges uniformly on $\mathds{R}$ to a continuous function.\\\\
+
+    Since $\abs{\cos(nx)}$ is bounded by $1$, we know that $\abs{\frac{1}{n^2} \cos(nx)} = \frac{1}{n^2} \abs{\cos(nx)} \leq \frac{1}{n^2}$ for all $x \in \mathds{R}$. Since $\sum_{n=1}^\infty \frac{1}{n^2}$ converges, by the Weierstrass M-test, $\sum_{n=1}^{\infty} \frac{1}{n^2} \cos nx$ converges uniformly on $\mathds{R}$.
+  \item [25.10]
+    \begin{enumerate}
+      \item Show $\sum \frac{x^n}{1 + x^n}$ converges for $x \in [0,1)$.\\\\
+
+        We already know that $\sum x^n$ has an interval of convergence of $(-1,1)$. And for all $x \in (-1,1)$, we know that $\abs{\frac{x^n}{1+x^n}} \leq \abs{x^n}$, so it follows that $\sum \frac{x^n}{1+x^n}$ point-wise converges in $(-1,1)$, and, trivially, in $[0,1)$.
+      \item Show that the series converges uniformly on $[0,a]$ for each $a$, $0 < a < 1$.\\\\
+
+        Since $a < 1$, we know that $\sum a^n$ converges (since it's a Geometric Series). We know that $\frac{x^n}{1 + x^n} \leq a^n$ for all $x \in [0,a]$, so by the Weierstrass M-test, the series converges uniformly on $[0,a)$.
+      \item Does the series converge uniformly on $[0,1)$.\\\\
+
+        \textbf{No}. It was shown in example 5 that if a series $\sum g_n$ converges uniformly on S, then:
+        $$\lim_{n \to\ \infty} \sup \{ \abs{g_n(x)} : x \in S \} = 0$$
+        Looking at our series, $\sum \frac{x^n}{1 + x^n}$, we know that $\frac{x^n}{1 + x^n}$ is a strictly decreasing function in $n$, and a strictly increasing function in $x$. So it follows that the $\lim_{} \sup$ is obtained at $n=1, x=1$, meaning:
+        $$\lim_{} \sup \{ \abs{\frac{x^n}{1 + x^n}} : x \in S \} = \frac{1}{2} \neq 0$$
+        So the series cannot converge uniformly on $[0,1)$.
+    \end{enumerate}
+  \item [25.12]
+    Suppose $\sum_{k=1}^\infty g_k$ is a series of continuous functions $g_k$ on $[a,b]$ that converges uniformly to $g$ on $[a,b]$. Prove:
+    $$\int_{a}^b g(x) dx = \sum_{k=1}^\infty \int_a^b g_k(x) dx$$\\\\
+
+    We can express $g(x)$ as the limit of partial sums : 
+    $$g(x) = \lim_{n \to\ \infty} \sum_{k=1}^n g_k(x)$$
+    Then, from Theorem 25.2, we know that:
+    $$\int_a^b g(x) dx = \lim_{n \to\ \infty} \int_a^b (\sum_{k=1}^n g_k(x)) dx$$
+    Since the integral of a (finite) sum is the sum of integrals:
+    $$= \lim_{n \to\ \infty} \sum_{k=1}^n \int_a^b g_k(x) dx$$
+    And since the limit of partial sums is the series:
+    $$=\sum_{k=1}^\infty \int_a^b g_k(x) dx$$
+  \item [25.15]
+    Let $(f_n)$ be a sequence of continuous functions on $[a,b]$.
+    \begin{enumerate}
+      \item Suppose that, for each $x$ in $[a,b]$, $(f_n(x))$ is a decreasing sequence of real numbers. Prove that if $f_n \rightarrow 0$ pointwise on $[a,b]$, then $f_n \rightarrow 0$ on $[a,b]$. Hint: If not, there exists $\epsilon > 0$ and a sequence $(x_n)$ in $[a,b]$ such that $f_n(x_n) \geq \epsilon$ for all $n$. Obtain a contradiction.\\\\
+
+        Following the hint, suppose not. Then there exists some $\epsilon > 0$ and a sequence $(x_n)$ in $[a,b]$ such that $f_n(x_n) \geq \epsilon$ for all $n$. From Bolzano-Weierstrass, we know that there exist a convergent subsequence $(x_{n_k})$ of $(x_n)$. Lets call that limit $L$.\\
+
+        Since $f_n(x)$ pointwise converges to $0$, we know that $\lim_{n \to\ \infty} f_n(L) = 0$. This implies that there exists an $N$ where:
+        $$f_{n \geq N}(L) < \epsilon$$
+
+        Since $(x_{n_k}) \rightarrow L$ and $f_N(L) < \epsilon$, there must exist some $K$ such that:
+        $$f_N(x_{n_{k \geq K}}) < \epsilon$$
+
+        If we choose some $k > \max (N,K)$, and since $n_k \geq k$ (property of sequences and subsequences), we know that:
+        $$n_k \geq k > N$$
+
+        And since $(f_n(x))$ is a decreasing sequence, we know that $f_{n_k}(x_{n_k}) < f_N(x_{n_k})$. And since $k > K$, we know:
+        $$f_{n_k}(x_{n_k}) < f_N(x_{n_k}) < \epsilon$$
+        However, our original supposition was that $f_n \geq \epsilon$ for all $n$, so we have a contradiction. Thus, we know that $f_n \rightarrow 0$ on $[a,b]$.                
+
+      \item Suppose that, for each $x$ in $[a,b]$, $(f_n(x))$ is an increasing sequence of real numbers. Prove that $f_n \rightarrow f$ pointwise on $[a,b]$ and if $f$ is continuous on $[a,b]$, then $f_n \rightarrow f$ uniformly on $[a,b]$. This is Dini's Theorem.\\\\
+
+        Let $g_n = f - f_n$. Since $(f_n(x))$ is an increasing sequence, we know that $(g_n(x))$ must be a decreasing sequence (negative of an increasing sequence is a decreasing sequence, as we've proven in class before). We also know that $g_n \rightarrow f - f = 0$ pointwise. From part (a), we know this means that $g_n \rightarrow 0$ uniformly on $[a,b]$. And this is equivalent to saying that $f_n \rightarrow f$ uniformly on $[a,b]$, by definition.
+    \end{enumerate}
+  \item [26.2]
+    \begin{enumerate}
+      \item Observe $\sum_{n=1}^\infty nx^n = \frac{x}{(1-x)^2}$ for $\abs{x} < 1$; see Example 1.\\\\
+
+        We can factor out $x$ from the summation, giving us $x \sum_{n=1}^\infty nx^{n-1}$. As shown in Example 1, $\sum_{n=1}^\infty nx^{n-1} = \frac{1}{(1-x)^2}$, so the actual summation is clearly $\frac{x}{(1-x)^2}$.
+      \item Evaluate $\sum_{n=1}^\infty \frac{n}{2^n}$. Compare with Exercise 14.13(d).\\\\
+
+        Suppose $x = \frac{1}{2}$. Then, our summation can be expressed as:
+        $$\sum_{n=1}^\infty \frac{n}{2^n} = \sum_{n=1}^\infty nx^n = \frac{x}{(1-x)^2} = \frac{0.5}{0.5^2} = 2$$
+      \item Evaluate $\sum_{n=1}^\infty \frac{n}{3^n}$ and $\sum_{n=1}^\infty \frac{(-1)^n n}{3^n}$.\\\\
+
+        We can repeat the same trick as part (b). The first summation is $x = \frac{1}{3}$, and the second summation is $x = -\frac{1}{3}$. The first summation is then:
+        $$\frac{x}{(1-x)^2} = \frac{1/3}{(2/3)^2} = \frac{3}{4}$$
+        And the second summation is:
+        $$\frac{x}{(1-x)^2} = \frac{-1/3}{(4/3)^2} = -\frac{3}{16}$$
+    \end{enumerate}
+  \item [26.4]
+    \begin{enumerate}
+      \item Observe $e^{-x^2} = \sum_{n=0}^\infty \frac{(-1)^n}{n!} x^{2n}$ for $x \in \mathds{R}$, since we have $e^x = \sum_{n=1}^\infty \frac{1}{n!} x^n$ for $x \in \mathds{R}$.\\\\
+
+        First of all, we know that:
+        $$e^x = \sum_{n=1}^\infty \frac{1}{n!} x^n = x + \frac{1}{2!}x^2 + \cdots$$
+        So we know that:
+        $$e^x = \frac{d}{dx} e^x = 1 + \frac{1}{1!}x + \cdots = \sum_{n=0}^\infty \frac{1}{n!} x^n$$
+        
+
+        Since we have:
+        $$e^x = \sum_{n=0}^\infty \frac{1}{n!} x^n$$
+        We know that:
+        $$e^{-x^2} = \sum_{n=0}^\infty \frac{1}{n!} (-x^2)^n$$
+        The term $(-x^2)^n$ is positive and equal to $x^{2n}$ if $n$ is even (since we can factor out a $2$ which will negate the negative sign), and it's negative and equal to $-x^{2n}$ if $n$ is odd. We can factor out this negative-or-not property with $(-1)^n$, which has the same property of its sign -- leaving just $(-1)^n x^{2n}$. So then we have:
+        $$=\sum_{n=0}^\infty \frac{(-1)^n}{n!} x^{2n}$$
+
+      \item Express $F(x) = \int_{0}^x e^{-t^2} dt$ as a power series.\\\\
+
+        We have:
+        $$F(x) = \int_0^x e^{-t^2} dt = \lim_{n \to\ \infty} \int_0^x [\sum_{k=1}^n \frac{(-1)^k}{k!} t^{2k}] dt$$
+        $$=\lim_{n \to\ \infty} \sum_{k=1}^n \frac{(-1)^k}{k!} \int_0^x t^{2k} dt$$
+        $$=\lim_{n \to\ \infty} \sum_{k=1}^n \frac{(-1)^k}{k!} [\frac{x^{2k+1} - 0^{2k+1}}{2k+1}]$$
+        $$=\sum_{k=1}^\infty \frac{(-1)^k}{k! (2k+1)} x^{2k+1}$$
+    \end{enumerate}
+  \item [26.6]
+    Let $s(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots$ and $c(x) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots$ for $x \in \mathds{R}$.
+    \begin{enumerate}
+      \item Prove $s' = c$ and $c' = -s$.\\\\
+
+        $$s' = 1 - 3(\frac{x^2}{3!}) + 5(\frac{x^4}{5!}) + \cdots = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} + \cdots = c$$
+        Proving $c' = -s$ is equivalent to proving $-(c') = s$. With this:
+        $$-(c') = -[-2(\frac{x}{2!}) + 4(\frac{x^3}{4!}) - \cdots] = -[-\frac{1}{1!}x + \frac{x^3}{3!} - \cdots] = x - \frac{x^3}{3!} - \cdots = s$$
+      \item Prove $(s^2+c^2)' = 0$.\\\\
+
+        First, we have:
+        $$\frac{d}{dx} (s(x)^2 + c(x)^2) = \frac{d}{dx} s(x)^2 + \frac{d}{dx} c(x)^2 = 2s(x)s'(x) + 2c(x)c'(x)$$
+        The last equality comes from the chain rule. Then, from part (a) we have:
+        $$=2sc + 2c(-s) = 0$$
+      \item Prove $s^2 + c^2 = 1$.\\\\
+
+        First of all, we know that $s^2 + c^2$ is a function. We also know that its derivative is $0$, meaning that $s^2 + c^2$ is a constant function. Trivally plugging in $0$ into $(s^2+c^2)(x)$ gives us $0^2 + 1^2 = 1$. Since its a valid constant function, it cannot represent more than one value, and so it follows that all values of $(s^2+c^2)(x)$ must also be $1$.
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}

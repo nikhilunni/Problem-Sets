@@ -1,0 +1,146 @@
+\input{../math104.tex}
+\usepackage{amsmath, amssymb, dsfont, mathtools}
+\usepackage{graphicx}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#13}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item [23.2]
+    Repeat Exercise 23.1 for the following:
+    \begin{enumerate}
+      \item $\sum \sqrt{n} x^n$\\\\
+
+        We know $\abs{a_n} = \sqrt{n}$, so $\abs{a_n}^{1/n} = n^{1/2n}$. We can simplify (in a manner of speaking) like:
+        $$y = n^{1/2n} \implies \ln(y) = \frac{1}{2n} \ln(n) \implies y = e^{\frac{\ln n}{2n}}$$
+        Then:
+        $$\lim_{n \to\ \infty} e^{\frac{\ln n}{2n}} = e^0 = 1$$
+
+        So since $\lim \abs{a_n}^{1/n}$ exists, we know that the lim sup must be $1$ as well, meaning $\beta = 1$ and $R = 1$. So we just need to test whether $x=-1$ and $x=1$ converge or not.\\
+
+        For $x=1$, we have $\sum \sqrt{n}$, and for $x=-1$, we have $\sum \sqrt{2n}$ which both clearly diverge, since the square root function is increasing and unbounded. So our interval of convergence is $(-1,1)$.
+      \item $\sum \frac{1}{n^{\sqrt{n}}} x^n$\\\\
+
+        Using the same trick as part a, we have:
+        $$\abs{a_n}^{1/n} = n^{- \sqrt{n}/n} = e^{\frac{- \sqrt{n} \ln n}{n}}$$
+        Taking the limit, we see that the exponent goes to $0$, so we have
+        $$\lim_{} \abs{a_n}^{1/n} = \lim_{} \sup \abs{a_n}^{1/n} = 1$$
+
+        So then $\beta = 1$ and $R=1$. So we just need to test whether $x=-1$ and $x=1$ converge or not:
+        
+        For $x=1$, we have $\sum \frac{1}{n^{\sqrt{n}}}$, which converges, since $\sqrt{n} \geq 1$ for all $n$. And for $x=-1$, by the alternating series test, we see it converges as well. So we have an interval of convergence of $[-1,1]$.
+
+      \item $\sum x^{n!}$\\\\
+
+        For $\abs{x} \geq 1$, the series clearly diverges, since the individual terms are monotonically increasing with $n$. But for $\abs{x} < 1$, we know that the series will always be less than $\sum_{m=1}^\infty x^m$, since the terms of the former are a subset of the terms of the latter (the set of all factorial numbers is a subset of the natural numbers). So we have a radius of convergence of $1$, and the interval of convergence is $(-1,1)$.
+      \item $\sum \frac{3^n}{\sqrt{n}} x^{2n+1}$\\\\
+
+        $$\beta = \lim_{} \abs{a_n}^{1/n} = \lim_{} (\frac{3^n}{\sqrt{n}})^{\frac{1}{2n+1}}$$
+        $$=\lim_{} \frac{3^{\frac{n}{2n+1}}}{n^{\frac{1}{4n+2}}}$$
+        The numerator's exponent tends to $\frac{1}{2}$, and the denominator's exponent tends to $0$, so we end up with the limit being $\frac{\sqrt{3}}{1}$. So then $R = \frac{1}{\sqrt{3}}$. At $x = \frac{1}{\sqrt{3}}$, we end up with:
+        $$\sum \frac{3^n}{\sqrt{n}} (\frac{1}{3^{n + 0.5}}) = \sum \frac{1}{\sqrt{3n}}$$
+        which we know diverges. And at $x = - \frac{1}{\sqrt{3}}$, we end up with:
+        $$\sum - \frac{1}{\sqrt{3n}}$$
+        which we also know diverges. So our interval of convergence becomes $(- \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}})$.
+    \end{enumerate}
+  \item [23.5]
+    Consider a power series $\sum a_n x^n$ with radius of convergence $R$.
+    \begin{enumerate}
+      \item Prove that if all the coefficients $a_n$ are integers and if infinitely many of them are nonzero, then $R \leq 1$.\\\\
+
+        Since all $a_n$ are integers, then there are an infinite number of $\abs{a_{n > N}} \geq 1$, for any finite $N \in \mathds{N}$. So it follows that $\lim_{} \sup \abs{a_n}^{1/n} \geq 1$, so then $R \leq 1$.
+      \item Prove that if $\lim_{} \sup |a_n| > 0$, then $R \leq 1$.\\\\
+
+        Let $c$ be some real number such that $0 < c < \lim_{} \sup |a_n|$. We know that there must exist some subsequence $a_{n_k}$ converging to some real number greater than c. So there must be some $K$ such that $k > K \implies \abs{a_{n_k}} \geq c$. Then:
+        $$\abs{a_{n_k}}^{1/k} \geq c^{1/k}$$
+        $$\lim_{} \sup |a_{n_k}|^{1/k} > \lim_{} \sup c^{1/k} = 1$$
+        Since $\{ a_{n_k} \}, k \in \mathds{N}$ is a subset of $\{ a_n \}, n \in \mathds{N}$, we know that:
+        $$\abs{a_n}^{1/n} \geq 1$$
+        And so we have that $R \leq 1$.
+        
+    \end{enumerate}
+  \item [23.7]
+    For each $n \in \mathds{N}$, let $f_n(x) = (\cos x)^n$. Each $f_n$ is a continuous function. Nevertheless, show
+    \begin{enumerate}
+      \item $\lim_{} f_n(x) = 0$ unless $x$ is a multiple of $\pi$\\\\
+
+        If $x$ is not a multiple of $\pi$, then we know that $0 \leq \cos x < 1$. So then $\lim_{n \to\ \infty} (\cos x)^n = 0$.
+      \item $\lim_{} f_n(x) = 1$ if $x$ is an even multiple of $\pi$\\\\
+
+        If $x$ is an even multiple of $\pi$, then $\cos x = 1$, so then $f_n(x) = 1^n = 1$, and a sequence of $1$ will clearly have a limit of $1$.
+      \item $\lim_{} f_n(x)$ does not exist if $x$ is an odd multiple of $\pi$\\\\
+
+        If $x$ is an odd multiple of $\pi$, then $\cos x = -1$, so our sequence becomes $f_n(x) = (-1)^n$, which is an alternating series that does not converge, so the limit does not exist.
+    \end{enumerate}
+  \item [23.9]
+    Let $f_n(x) = nx^n$ for $x \in [0,1]$ and $n \in \mathds{N}$. Show
+    \begin{enumerate}
+      \item $\lim_{} f_n(x) = 0$ for $x \in [0,1)$.\\\\
+
+        Since $cx < c$ for any $x \in [0,1)$ and $c > 0$, we know that the limit of $x^n$ must be $0$. And since exponents grow faster than linear terms, we know that the limit of $nx^n$ must be $0$ for any $x \in [0,1)$.
+        
+      \item However, $\lim_{n \to\ \infty} \int_{0}^1 f_n(x) dx = 1$\\\\
+
+        $$\int_{0}^1 f_n(x) dx = \int_{0}^1 nx^n dx = n[\frac{x^{n+1}}{n+1}]_{0}^1 = \frac{n}{n+1}$$
+        And:
+        $$\lim_{n \to\ \infty} \frac{n}{n+1} = \lim_{n \to\ \infty} \frac{1}{1 + \frac{1}{n}} = 1$$
+    \end{enumerate}
+  \item [24.2]
+    For $x \in [0,\infty)$, let $f_n(x) = \frac{x}{n}$.
+    \begin{enumerate}
+      \item Find $f(x) = \lim_{} f_n(x)$.\\\\
+
+        Since $\frac{1}{n}$ converges to $0$, we know that any constant multiple $\frac{x}{n}$ will converge to $0$. So:
+        $$f(x) = \lim_{} f_n(x) = 0$$
+      \item Determine whether $f_n \rightarrow f$ uniformly on $[0,1]$\\\\
+
+        Let $\epsilon > 0$. If we pick $N = \ceil{\frac{1}{\epsilon}}$, then
+        $$n > N \implies \abs{f_n(x) - 0} = \frac{x}{n} < \epsilon$$
+        And this is because $n \epsilon > \frac{1}{\epsilon} \epsilon = 1$, and all $x \leq 1$. So then we know $f_n$ uniformly congerges to $0$ on $[0,1]$.
+      \item Determine whether $f_n \rightarrow f$ uniformly on $[0, \infty)$.\\\\
+
+        We can prove that $f_n$ does not uniformly converge to $0$ on $[0, \infty)$. Let $\epsilon = 1$. Then, for all $N$, if we choose $x=n$ for any $n > N$:
+        $$\abs{f_n(x) - 0} = \frac{n}{x} = 1 \geq 1$$
+        So $f_n$ does not converge uniformly to $0$.
+    \end{enumerate}
+  \item [24.11]
+    Let $f_n(x) = x$ and $g_n(x) = \frac{1}{n}$ for all $x \in \mathds{R}$. Let $f(x) = x$ and $g(x) = 0$ for $x \in \mathds{R}$.
+    \begin{enumerate}
+      \item Observe $f_n \rightarrow f$ uniformly on $\mathds{R}$ [obvious!] and $g_n \rightarrow g$ uniformly on $\mathds{R}$ [almost obvious].\\\\
+
+        For any $\epsilon > 0$, we can choose $N = 0$, and then $\abs{f_n(x) - f(x)} = 0 < \epsilon$ for all $x \in \mathds{R}$, and for all $n > N$.\\
+
+        For any $\epsilon > 0$, if we choose $N = \ceil{\frac{1}{\epsilon}}$, then $\abs{g_n(x) - g(x)} = \frac{1}{n} < \epsilon$, since $n \epsilon > \frac{1}{\epsilon} \epsilon = 1$. And this is true for all $x$, since the inequality doesn't depend on $x$.\\
+
+      \item Observe the sequence $(f_ng_n)$ does not converge uniformly to $fg$ on $\mathds{R}$. Compare Exercise 24.2.\\\\
+
+        $(f_ng_n)(x) = \frac{x}{n}$, and $fg(x) = 0$. We showed in 24.2 that this function does not converge uniformly on $[0, \infty)$. It's clear that the function does not conform uniformly on $\mathds{R}$ either, since the set of all $\abs{f_ng_n(x)}$ over $\mathds{R}$ is the same set as $\abs{\frac{x}{n}}$ over $[0,\infty)$. So it is the exact same proof as 24.2, with $\epsilon = 1$ and $x = n$, for all $n > N$, for any $N \in \mathds{N}$.
+    \end{enumerate}
+  \item [24.13]
+    Prove that if $(f_n)$ is a sequence of uniformly continuous functions on an interval $(a,b)$ and if $f_n \rightarrow f$ uniformly on $(a,b)$, then $f$ is uniformly continuous on $(a,b)$. Hint : Try an $\frac{\epsilon}{3}$ argument as in the proof of Theorem 24.3.\\\\
+
+    Using the same $\frac{\epsilon}{3}$ argument as 24.3, we note that:
+    $$\abs{f(x) - f(y)} \leq \abs{f(x) - f_n(x)} + \abs{f_n(x) - f_n(y)} + \abs{f_n(y) - f(y)}$$
+
+    Then, since $f_n \rightarrow f$ uniformly, then there must exist some $N$ such that:
+    $$\abs{f_n(x) - f(x)} < \frac{\epsilon}{3}$$
+    for all $x \in (a,b), n > N$. Similarly, since all $(f_n)$ are uniformly continuous, for a given $n$, there must exist some $\delta_n > 0$ such that:
+    $$\abs{x-y} < \delta_n \implies \abs{f_n(x) - f_n(y)} < \frac{\epsilon}{3}$$
+
+    Finally, let $\epsilon > 0$. Then there must exist a sequence of $(\delta_n)$ values and a number $N$, such that $\delta = \min{(\delta_{n>N})}$ implies:
+    $$\abs{f(x) - f(y)} \leq \abs{f_{n>N}(x) - f(x)} + \abs{f_{n>N}(x) - f_{n>N}(y)} + \abs{f_{n>N}(y) - f(y)} < \epsilon$$
+\end{enumerate}
+
+\end{document}
