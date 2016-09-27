@@ -1,0 +1,128 @@
+\input{../phil140b.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#1}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+    \begin{question}
+      Let $L^* = $ \{0, ', +, ., $<$ \}. Taking for granted the inductive definition of the terms of $L^*$ provided in class, define the atomic formulas of $L^*$ as follows:\\
+      Atomic formulas: if $t_1, t_2$ are terms of $L^*$ then $=(t_1,t_2)$ and $<(t_1,t_2)$ are atomic formulas. Now define inductively the class of well formed formulas of $L^*$ as follows:\\
+      Basis: all atomic formulas are well formed formulas;\\
+      Inductive clause: if A and B are well formed formulas, so are $(A\&B), \neg A$, and $\forall xA$;\\
+      External clause: nothing else is a well formed formula
+    \end{question}
+
+    \begin{enumerate}
+      \item [a.]
+        \begin{question}
+          Show by induction on the construction of the set of well formed formulas that all well formed formulas have the same number of left and right parentheses. [You can assume in your proof that all terms of $L^*$ have the same number of left and right parentheses ]\\
+        \end{question}
+
+        Base Case: all atomic formulas are of the form: $=(t_1,t_2)$ or $<(t_1,t_2)$. Since it is assumed that all terms of $L^*$ have balanced parentheses, all atomic formulas must be balanced as well, since they just add a single left paren and right paren to the expression.\\
+
+        Inductive Case: Assuming that well-formed formulas $A$ and $B$ have balanced parentheses, then:\\
+        \begin{itemize}
+          \item $(A\&B)$ must have balanced parentheses, since it adds a single left and right paren to the already balanced expression (and the ampersand doesn't change anything).
+          \item $\neg A$ must have balanced parentheses, since it doesn't add any left or right parentheses to the expression.
+          \item $\forall x A$ must have balanced parentheses as well, since it doesn't add any left or right parentheses.
+        \end{itemize}
+
+         Since well-formed formulas are inductively defined this way, by induction we have shown that all possible well-formed expressions have balanced parentheses.
+        
+      \item [b.]
+        \begin{question}
+          Following the outline of the proof we did in class for terms of $L^*$, define a numerical measure of complexity for the well formed formulas $(f(w) = n)$ and prove by induction on the natural numbers that ``for all $n$, for all well formed formulas $w$, if $\text{comp}(w) = n$, then $w$ has the same number of left and right parentheses''.\\
+        \end{question}
+
+        We define a ``complexity'' function $f: \text{well formed formulas} \rightarrow \mathds{N}$, which just maps a well formed formula to the maximum recursive depth to atomic formulas. Concretely:
+        $$f(=(t_1,t_2)) = f(<(t_1,t_2)) = 0$$ 
+        $$f((A\&B)) = \max(f(A), f(B)) + 1$$
+        $$f(\neg A) = f(A) + 1$$
+        $$f(\forall x A) = f(A) + 1$$
+
+        Assuming all well-formed formulas are finitely long, they must have a finite complexity, and so for all $x \in \text{well formed formulas}$, $f(x) = n \in \mathds{N}$.\\
+
+        Base Case: All formulas of complexity 0 are atomic formulas. Since it's assumed that all terms in $L^*$ have equal parentheses, we know all atomic formulas have balanced left and right parentheses, since they just add a single left and a single right. In other words, if $t_1$ has $n$ of both ($\#_L(t_1) = \#_R(t_1) = n$), and $t_2$ has $m$ of both ($\#_L(t_2) = \#_R(t_2) = m$), then:
+        $$\#_L(=(t_1,t_2)) = \#_L(<(t_1,t_2)) = n + m + 1 = \#_R(=(t_1,t_2)) = \#_R(<(t_1,t_2))$$
+
+        Inductive Case: Assuming that all formulas of complexity $\leq n$ have balanced parentheses, then we can show that all formulas of complexity $n+1$ have balanced parentheses. Say we have two well-formed formulas of complexity $<= n$ : A and B, where $\#_L(A) = \#_R(A) = x$, and $\#_L(B) = \#_R(B) = y$. Then:
+        $$\#_L((A\&B)) = 1 + x + y = \#_R((A\&B))$$
+        $$\#_L(\neg A) = x = \#_R(\neg A)$$
+        $$\#_L(\forall x A) = x = \#_R(\forall x A)$$
+
+        So by induction, all well-formed formulas of complexity $n \geq 0$ have balanced parentheses, and so all well-formed formulas must have balanced parentheses
+
+    \end{enumerate}
+
+
+  \item 
+    \begin{question}
+      Show that:
+    \end{question}
+
+    \begin{enumerate}
+      \item
+        \begin{question}
+          If the sentence E is implied by the set of sentences $\Delta$ and every sentence $D$ in $\Delta$ is implies by the set of sentences $\Gamma$, then $E$ is implied by $\Gamma$.
+        \end{question}
+
+      \item 
+        \begin{question}
+          \item If the sentence $E$ is implied by the set of sentences $\Gamma \cup \Delta$ and every sentence $D$ in $\Delta$ is implied by the set of sentences $\Gamma$, then $E$ is implied by $\Gamma$.
+        \end{question}
+    \end{enumerate}
+
+  \item 
+    \begin{question}
+      Let $L = $ \{0, ', +, * \}. Give an interpretation of $L$ with a finite domain that makes the sentences:
+      $$\neg \forall x \forall y (x * y = y * x)$$
+      $$\neg \forall x \forall y (x+y = y+x)$$
+    \end{question}
+
+  \item
+    \begin{question}
+      Show that the following sentences are invalid:
+    \end{question}
+    \begin{enumerate}
+      \item 
+        \begin{question}
+          $$\forall x \exists y Q(x,y) \rightarrow \exists x \forall y Q(x,y)$$
+        \end{question}
+
+      \item 
+        \begin{question}
+          $$(\forall x Q(x,x) \& \forall x \forall y (Q(x,y) \implies Q(y,x))) \implies \forall x \forall y \forall z ((Q(x,y) \& Q(y,z) \implies Q(x,z))$$
+        \end{question}
+    \end{enumerate}
+
+  \item 
+    \it{Show that:}
+
+    \begin{enumerate}
+      \item
+        \begin{question}
+          If $\Gamma \cup \{\sim (B \& C)\}$ is satisfiable, then either $\Gamma \cup \{\sim B \}$ is satisfiable or $\Gamma \cup \{\sim C\}$ is satisfiable.
+        \end{question}
+      \item
+        \begin{question}
+          If $\Gamma \cup \{\sim \forall x B(x) \}$ is satisfiable, then for any constant $c$ not occuring in $\Gamma$ or $\forall x B(x)$, $\Gamma \cup \{\sim B(c)\}$ is satisfiable.
+        \end{question}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
