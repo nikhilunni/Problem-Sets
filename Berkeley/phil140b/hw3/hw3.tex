@@ -1,0 +1,127 @@
+\input{../phil140b.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp, mathrsfs}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\?}{\stackrel{?}{=}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand{\sm}[2]{S_{#1}\text{#2}}
+\newcommand{\q}[2]{Q_{#1}\text{#2}}
+\newcommand{\s}[1]{\text{S#1}}
+\newcommand{\at}[1]{\text{@#1}}
+\newcommand{\m}[1]{\text{M#1}}
+
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#3}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+    \begin{question}
+      Write out the sentences G and the sentence D for the following machine (not pictured) with input $n=2$.
+    \end{question}
+    \begin{enumerate}
+      We have the same ``background information'':
+      \item[(1)]
+        $$\forall u \forall v \forall w (((\s{uv} \land \s{uw}) \implies v = w) \land ((\s{vu} \land \s{wu}) \implies v = w))$$
+      \item [(2)]
+        $$\forall u \forall v (\s{uv} \implies u < v) \land \forall u \forall v \forall w ((u < v \land v < w) \implies u < w)$$
+      \item [(3)]
+        $$\forall u \forall v (u < v \implies u \neq v)$$
+      \item [(4)]
+        $$\forall u \forall v \forall w (((\sm{m}{uv} \land \sm{m}{uw}) \implies v = w) \land ((\sm{m}{vu} \land \sm{m}{wu}) \implies v = w))$$
+      \item [(5)]
+        $$\forall u \forall v \forall w (((\sm{m}{uv} \implies u < v) \text{  if } m \neq 0$$
+      \item [(6)]
+        $$\forall u \forall v \forall w (((\sm{m}{uv} \implies u \neq v) \text{  if } m \neq 0$$
+      \item [(7)]
+        $$\forall u \forall v \forall w ((\sm{m}{wu} \land \s{uv}) \implies \sm{k}{wv}) \text{  if } k = m+1$$
+      \item [(8)]
+        $$\forall u \forall v \forall w ((\sm{k}{wv} \land \s{uv}) \implies \sm{m}{wu}) \text{  if } m = k-1$$
+      \item [(9)]
+        $$p \neq q \text{  if } p \neq q$$
+      \item [(10)]
+        $$\forall v (\s{mv} \implies v = k) \text{  where } k = m+1$$
+      \item [(11)]
+        $$\forall u (\s{uk} \implies u = m) \text{  where } m = k-1$$
+      Now, the initial state of our machine with input $n=2$ can be described as:
+      \item [(12)]
+        $$\q{1}{0} \land \at{00} \land \m{00} \land \m{01} \land \forall x ((x \neq 0 \land x \neq 1) \implies \neg \m{0x})$$
+      And, finally, the encoding of our instructions:
+      \item [(13)]
+        $$\forall t \forall x ((Q_1t \land \at{tx} \land M_1 \text{tx}) \implies \exists u (\s{tu} \land (\exists y (\s{xy} \land \at{uy})) \land Q_1u \land$$
+        $$\forall y (M_0 \text{ty} \implies M_0 \text{uy} \land M_1 \text{ty} \implies M_0 \text{uy})))$$
+      \item [(14)]
+        $$\forall t \forall x ((Q_1t \land \at{tx} \land M_0 \text{tx}) \implies \exists u (\s{tu} \land (\exists y (\sm{-1}{xy} \land \at{uy})) \land Q_2u \land$$
+        $$\forall y ((M_0 \text{ty} \implies M_0 \text{uy} \land M_1 \text{ty} \implies M_0 \text{uy}))))$$
+      \item [(15)]
+        $$\forall t \forall x ((Q_2t \land \at{tx} \land M_1 \text{tx}) \implies \exists u (\s{tu} \land (\at{ux} \land M_0 \text{ux}) \land Q_ju \land \forall y ((y \neq x \land M_1 \text{ty})$$
+        $$\implies M_1 \text{uy}) \land \forall y ((y \neq x \land M_0 \text{ty}) \implies M_0 \text{uy})))$$
+
+
+      Now for the parts of D:
+      \item [(16)]
+        $$\exists t \exists x (Q_2t \land \at{tx} \land M_0 \text{tx})$$
+
+     So then G consists of the set of equations (1) to (15), and D is just equation (16).
+      
+    \end{enumerate}
+    
+  \item
+    \begin{question}
+      Show that
+      $$\forall w \forall v (T \text{wv} \iff \exists y (R \text{wy} \land S \text{yv}))$$
+      and
+      $$\forall u \forall v \forall y ((S \text{uv} \land S \text{yv}) \implies u = y)$$
+      together imply
+      $$\forall u \forall v \forall w ((T \text{wv} \land S \text{uv}) \implies R \text{wu})$$
+    \end{question}
+
+    Assume that for some $u,v,w$, $T \text{wv}$ and $S \text{uv}$. Then, from the first formula, we know that there exists some $y$ such that $R \text{wy}$ and $S \text{yv}$. But now we have $S \text{uv}$ and $S \text{yv}$, so from the second formula, we know $y = u$. So then we know that since $R \text{wy}$ is true, $R \text {wu}$ is true as well.
+
+  \item 
+    \begin{question}
+      Show that
+      $$\forall x (\neg Ax \implies \neg \exists t (Bt \land R \text{tx}))$$
+      and
+      $$\neg \exists x (Cx \land Ax)$$
+      together imply
+      $$\neg \exists t \exists x (Bt \land Cx \land R \text{tx})$$
+    \end{question}
+
+    We can rephrase our assumptions as:
+    $$\forall x (\neg Ax \implies \forall t (\neg Bt \lor \neg R \text{tx}))$$
+    $$\forall x (\neg Cx \lor \neg Ax)$$
+    and the final implication as:
+    $$\forall t \forall x (\neg Bt \lor \neg Cx \lor \neg R \text{tx})$$
+
+    We know that, for some $x$, either $\neg Cx$ or $\neg A$. If we assume $\neg Cx$, then $\forall t \forall x (\neg Bt \lor \neg Cx \lor \neg R \text{tx})$ is trivially true, since $\neg Cx$ is true. So let's assume that $\neg A$ is true. Then, we know that $\forall t (\neg Bt \lor \neg R \text{tx})$. This makes $\forall t \forall x (\neg Bt \lor \neg Cx \lor \neg R \text{tx})$ true as well, since $\forall x (\forall t (\neg Bt \lor \neg R \text{tx}))$ is true.
+
+  \item
+    \begin{question}
+      Verify that $G \tarski D$ for $n = 2$ where G and D are as defined in exercise 1. (You can appeal to facts about S and $<$ that have been established in the book, i.e. equations (1) to (11).)
+    \end{question}
+
+    Let's start with the initial state of the machine, given by (12). From this, we know that at time $0$, we're at $Q_1$, and the only marked squares are at $x=0$ and $x=1$. So then from equation (13), we know that this together implies that there is a successor time (which can be expressed as $t=1$, thanks to our background formulae), and a successor square ($x=1$), such that at time $t=1$, we're at square $x=1$, and all of the squares' markings are unchanged. From equation (13) again, we move another square to the right, meaning we're at $x=2$ and $t=2$, and all squares remain unchanged. Now, from (12), we know that $\neg M \text{02}$, and since we know that the markings haven't changed from $t=0$ to $t=2$, we know that $\neg M \text{22}$. \\
+
+    So at this point, we have:
+    $$Q_12 \land \at{22} \land \m{20} \land \m{21} \land \forall x (x \neq 0 \land x \neq 1 \implies \neg M \text{2x})$$ 
+    Then, from (14), we move to the left by 1, move to state $Q_2$, and all the squares remain unchanged. This means we have:
+    $$Q_23 \land \at{31} \land \m{30} \land \m{31} \land \forall x (x \neq 0 \land x \neq 1 \implies \neg M \text{3x})$$
+    From equation (15), we know this all implies that there's a successor time $u=4=t+1$ such that $\at{41}$ with a blank square 1: $\neg M \text{41}$, with all other squares besides $x$ remaining unchanged. This leaves us at:
+    $$Q_24 \land \at{41} \land \m{40} \land \neg \m{41} \land \forall x (x \neq 0 \land x \neq 1 \implies \neg M \text{4x})$$
+
+    Since we have $Q_24 \land \at{41} \land \m{40} \land \neg \m{41}$, this makes statment (16) : $$\exists t \exists x (Q_2t \land \at{tx} \land M_0 \text{tx})$$ a true statement, with $t=4, x=1$ (since $M_0 \text{tx}$ is equivalent to $\neg M \text{tx}$).
+
+\end{enumerate}
+
+\end{document}

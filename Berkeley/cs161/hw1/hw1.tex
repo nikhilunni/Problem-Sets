@@ -91,7 +91,7 @@ print ''.join(hex(a)[2:] for a in new_iv)
         Then Eve can calculate $g^{rk} = M_1^{-1} * C_{1,2}$, by calculating the multiplicative inverse of $M_1$, since this is known. From that, she can find $M_2$ like:
         $$M_2 = C_{2,2} * (g^{rk})^{-1}$$
 
-      \item Say Mallory receives $C^* = (C_1^*, C_2^*) = (g^a, M * g^{ab})$ from Alice. Then, Mallory constructs a private key $x$, and public key $g^x$, and sends $(g^{ax}, M^x * g^{abx})$ it to Bob. Assuming that this is not a valid English sentence (and if it's not, Mallory can keep constructing new $x$ values until it's so), Bob will send back to Mallory the unencrypted message : $g^{-abx} * M^x * g^{abx} = M^x = M^x$. Since Mallory knows $x$, she can compute $M = (M^x)^{-x}$.
+      \item Say Mallory receives $C^* = (C_1^*, C_2^*) = (g^a, M * g^{ab})$ from Alice. Then, Mallory constructs a private key $x$, and public key $g^x$, and sends $(g^{ax}, M^x * g^{abx})$ it to Bob. Assuming that this is not a valid English sentence (and if it's not, Mallory can keep constructing new $x$ values until it's so), Bob will send back to Mallory the unencrypted message : $g^{-abx} * M^x * g^{abx} = M^x = M^x$. Since Mallory knows $x$, she can compute $M = (M^x)^{x^{-1}}$.
     \end{enumerate}
 
   \end{enumerate}

@@ -1,5 +1,5 @@
 \input{../phil140b.tex}
-\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp, mathrsfs}
 
 \usetikzlibrary{arrows,automata}
 
@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\solution{Nikhil Unni}{Assignment \#1}{Spring 2016}
+\solution{Nikhil Unni}{Assignment \#2}{Spring 2016}
 \pagestyle{myheadings}
 
 \begin{enumerate}
@@ -23,7 +23,7 @@
       Let $L^* = $ \{0, ', +, ., $<$ \}. Taking for granted the inductive definition of the terms of $L^*$ provided in class, define the atomic formulas of $L^*$ as follows:\\
       Atomic formulas: if $t_1, t_2$ are terms of $L^*$ then $=(t_1,t_2)$ and $<(t_1,t_2)$ are atomic formulas. Now define inductively the class of well formed formulas of $L^*$ as follows:\\
       Basis: all atomic formulas are well formed formulas;\\
-      Inductive clause: if A and B are well formed formulas, so are $(A\&B), \neg A$, and $\forall xA$;\\
+      Inductive clause: if A and B are well formed formulas, so are $(A \land B), \neg A$, and $\forall xA$;\\
       External clause: nothing else is a well formed formula
     \end{question}
 
@@ -37,7 +37,7 @@
 
         Inductive Case: Assuming that well-formed formulas $A$ and $B$ have balanced parentheses, then:\\
         \begin{itemize}
-          \item $(A\&B)$ must have balanced parentheses, since it adds a single left and right paren to the already balanced expression (and the ampersand doesn't change anything).
+          \item $(A \land B)$ must have balanced parentheses, since it adds a single left and right paren to the already balanced expression (and the ampersand doesn't change anything).
           \item $\neg A$ must have balanced parentheses, since it doesn't add any left or right parentheses to the expression.
           \item $\forall x A$ must have balanced parentheses as well, since it doesn't add any left or right parentheses.
         \end{itemize}
@@ -51,7 +51,7 @@
 
         We define a ``complexity'' function $f: \text{well formed formulas} \rightarrow \mathds{N}$, which just maps a well formed formula to the maximum recursive depth to atomic formulas. Concretely:
         $$f(=(t_1,t_2)) = f(<(t_1,t_2)) = 0$$ 
-        $$f((A\&B)) = \max(f(A), f(B)) + 1$$
+        $$f((A \land B)) = \max(f(A), f(B)) + 1$$
         $$f(\neg A) = f(A) + 1$$
         $$f(\forall x A) = f(A) + 1$$
 
@@ -61,7 +61,7 @@
         $$\#_L(=(t_1,t_2)) = \#_L(<(t_1,t_2)) = n + m + 1 = \#_R(=(t_1,t_2)) = \#_R(<(t_1,t_2))$$
 
         Inductive Case: Assuming that all formulas of complexity $\leq n$ have balanced parentheses, then we can show that all formulas of complexity $n+1$ have balanced parentheses. Say we have two well-formed formulas of complexity $<= n$ : A and B, where $\#_L(A) = \#_R(A) = x$, and $\#_L(B) = \#_R(B) = y$. Then:
-        $$\#_L((A\&B)) = 1 + x + y = \#_R((A\&B))$$
+        $$\#_L((A \land B)) = 1 + x + y = \#_R((A \land B))$$
         $$\#_L(\neg A) = x = \#_R(\neg A)$$
         $$\#_L(\forall x A) = x = \#_R(\forall x A)$$
 
@@ -78,21 +78,53 @@
     \begin{enumerate}
       \item
         \begin{question}
-          If the sentence E is implied by the set of sentences $\Delta$ and every sentence $D$ in $\Delta$ is implies by the set of sentences $\Gamma$, then $E$ is implied by $\Gamma$.
+          If the sentence E is implied by the set of sentences $\Delta$ and every sentence $D$ in $\Delta$ is implied by the set of sentences $\Gamma$, then $E$ is implied by $\Gamma$.
         \end{question}
+
+        Without loss of generation, let $\gamma$ be an arbitrary interpretation of the language. By definition, we know:
+        $$(\forall D \in \Delta (\gamma \tarski D)) \implies (\gamma \tarski E)$$
+        $$\forall D \in \Delta ((\forall G \in \Gamma (\gamma \tarski G) \implies (\gamma \tarski D))$$
+
+        So then we know that:
+        $$\forall D \in \Delta, \forall G \in \Gamma ((\gamma \tarski G) \implies (\gamma \tarski D) \implies (\gamma \tarski E))$$
+        which means that:
+        $$(\forall G \in \Gamma (\gamma \tarski G)) \implies (\gamma \tarski E)$$
+        Meaning that $\Gamma \tarski E$.\\
+        
 
       \item 
         \begin{question}
           \item If the sentence $E$ is implied by the set of sentences $\Gamma \cup \Delta$ and every sentence $D$ in $\Delta$ is implied by the set of sentences $\Gamma$, then $E$ is implied by $\Gamma$.
         \end{question}
+
+
+        For future shorthand, say that for interpretation $\gamma$ and set of sentences $\chi$, $\gamma \tarski \chi$ means $\forall x \in \chi (\gamma \tarski x)$.\\
+
+        Without loss of generlization, let $\gamma$ be an arbitrary interpretation of the language. We know: 
+        $$((\gamma \tarski \Gamma) \land (\gamma \tarski \Delta)) \implies (\gamma \tarski E)$$
+        $$\forall D \in \Delta ((\gamma \tarski \Gamma) \implies (\gamma \tarski D))$$
+
+        So then we know:
+        $$(\gamma \tarski \Gamma) \implies (\gamma \tarski \Gamma) \land (\forall D \in \Delta (\gamma \tarski D)) \implies (\gamma \tarski \Gamma) \land (\gamma \tarski \Delta) \implies (\gamma \tarski E)$$
+        
     \end{enumerate}
 
   \item 
     \begin{question}
-      Let $L = $ \{0, ', +, * \}. Give an interpretation of $L$ with a finite domain that makes the sentences:
+      Let $L = $ \{0, ', +, * \}. Give an interpretation of $L$ with a finite domain that makes the following sentences true:
       $$\neg \forall x \forall y (x * y = y * x)$$
       $$\neg \forall x \forall y (x+y = y+x)$$
     \end{question}
+
+    This is equivalent to the two statements:
+    $$\exists x \exists y (x * y \neq y * x)$$
+    $$\exists x \exists y (x + y \neq y + x)$$
+
+    So let's define an interpretation $\gamma$ with finite set-theoretic domain $\{0,1\}$, where $0^{\gamma} = 0$, and $(0')^{\gamma} = 1$, $(0'')^{\gamma} = 0$, etc. And we define our operators as:
+    $$*^{\gamma} = \{(0,0,0), (0,1,1), (1,0,0), (1,1,1)$$
+    $$+^{\gamma} = \{(0,0,1), (0,1,0), (1,0,1), (1,1,0)\}$$
+
+    Then, we have $x = 0$ and $y=1$ as examples where $(x*y \neq y*x) \land (x+y \neq y+x)$.
 
   \item
     \begin{question}
@@ -101,27 +133,45 @@
     \begin{enumerate}
       \item 
         \begin{question}
-          $$\forall x \exists y Q(x,y) \rightarrow \exists x \forall y Q(x,y)$$
+          $$\forall x \exists y Q(x,y) \implies \exists x \forall y Q(x,y)$$
         \end{question}
 
+        Let's use $\mathcal{Z}$ to be the interpretation of the symbols as integers, and define:
+        $$Q(x,y) \iff x < y$$
+        Then, the left side of the implication always holds, but the right side of the implication never holds, meaning that the sentence is invalid.
       \item 
         \begin{question}
-          $$(\forall x Q(x,x) \& \forall x \forall y (Q(x,y) \implies Q(y,x))) \implies \forall x \forall y \forall z ((Q(x,y) \& Q(y,z) \implies Q(x,z))$$
+          $$(\forall x Q(x,x) \land \forall x \forall y (Q(x,y) \implies Q(y,x))) \implies \forall x \forall y \forall z (Q(x,y) \land Q(y,z) \implies Q(x,z))$$
         \end{question}
+
+        Let's use $\mathcal{N}$ to be the interpretation of the symbols as natural numbers, and define:
+        $$Q(a,b) \iff (a=b) \lor (a+b < 100)$$
+
+        Then, we just need to show that:
+        $$(\forall x Q(x,x) \land \forall x \forall y (Q(x,y) \implies Q(y,x))) \land (\exists x \exists y \exists z (Q(x,y) \land Q(y,z) \land \neg Q(x,z)))$$
+
+        The left side clearly holds for our defined function (by construction), and if we define $x=0, y=150, z=50$, then the right side is also true, since:
+        $$Q(0,150) \land Q(150,50) \land \neg Q(0,50)$$
+
     \end{enumerate}
 
   \item 
-    \it{Show that:}
+    Show that:
 
     \begin{enumerate}
       \item
         \begin{question}
-          If $\Gamma \cup \{\sim (B \& C)\}$ is satisfiable, then either $\Gamma \cup \{\sim B \}$ is satisfiable or $\Gamma \cup \{\sim C\}$ is satisfiable.
+          If $\Gamma \cup \{\neg (B \land C)\}$ is satisfiable, then either $\Gamma \cup \{\neg B \}$ is satisfiable or $\Gamma \cup \{\neg C\}$ is satisfiable.
         \end{question}
+
+        If $\Gamma \cup \{\neg (B \land C)\}$ is satisfiable, then we know that $\Gamma \cup \{\neg B \lor \neg C\}$ is satisfiable. This denotes adding either $\neg B$ or $\neg C$ to $\Gamma$. This means that either $\Gamma \cup \{\neg B \}$ is satisfiable or $\Gamma \cup \{\neg C\}$ is satisfiable (from (a) of the satisfiability principles from the textbook).
+
       \item
         \begin{question}
-          If $\Gamma \cup \{\sim \forall x B(x) \}$ is satisfiable, then for any constant $c$ not occuring in $\Gamma$ or $\forall x B(x)$, $\Gamma \cup \{\sim B(c)\}$ is satisfiable.
+          If $\Gamma \cup \{\neg \forall x B(x) \}$ is satisfiable, then for any constant $c$ not occuring in $\Gamma$ or $\forall x B(x)$, $\Gamma \cup \{\neg B(c)\}$ is satisfiable.
         \end{question}
+
+         If $\Gamma \cup \{\neg \forall x B(x) \}$ is satisfiable, then $\Gamma \cup \{\exists x \neg B(x) \}$ is satisfiable. This means that for any constant $c$ not occuring in $\Gamma$ or $\forall x B(x)$, $\Gamma \cup \{\neg B(c)\}$ is satisfiable (from (b) of the satisfiability principles).
     \end{enumerate}
 \end{enumerate}
 
