@@ -1,0 +1,129 @@
+\input{../phil140b.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp, mathrsfs}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+
+
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#3}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item 
+    \begin{question}
+      Show that the function $f(x)$ defined by:
+      \[ \begin{cases} 
+        x^2 & x \text{  is even}\\
+        x+1 & x \text{  is odd}\\
+      \end{cases}
+      \]
+      is primitive recursive.
+    \end{question}
+
+    First, let's define the (characteristic function of a) relation $R(x)$ to see if a number is odd. We can define it as:
+    $$R(x') = 1 - R(x)$$
+    $$R(z(x)) = 0$$
+
+    So $R(x)$ is primitive recursive.
+
+    Then, we can simply define an $f(x)$ that is primitive recursive:
+    $$f(x) = R(x)(x+1) + (1 - R(x))(x*x)$$
+    Since $f$ was constructed with only primitive recursive functions, it is also primitive recursive.
+  \item
+    \begin{question}
+      Let $f(x_1,\cdots,x_n,y)$ be a function. Define $\sum_{y < z} f(x_1,\cdots,x_n,y)$ to be $f(x_1,\cdots,x_n,0) + \cdots + f(x_1,\cdots,x_n,z-1)$ if $z \neq 0$ and $0$ if $z=0$. Morover, define $\Pi_{y<z} f(x_1,\cdots,x_n,y)$ to be equal to $f(x_1,\cdots,x_n,0) \cdots f(x_1,\cdots,x_n,z-1)$ if $z \neq 0$ and equals $1$ if $z=0$.\\
+      The class of elementary functions is the smallest class which contains $x+y$, $xy$, $\abs{x-y}$, $id^{n}_{i}(x_1,\cdots,x_n)$, $x/y$, and is closed under composition, bounded sums, and bounded products.\\
+      Show that the following functions are elementary:
+    \end{question}
+
+    \begin{enumerate}
+      \item [(i)]
+        \begin{question} $z(x)$ \end{question}
+        $$z(x) = \abs{x-x}$$
+      \item [(ii)]
+        \begin{question} $s(x)$ \end{question}
+        $$one(x) = \Pi_{y < 0} z(x)$$
+        $$s(x) = x + one(x)$$
+      \item [(iii)]
+        \begin{question} $sg(x)$ \end{question}
+        $$sg(0) = 0$$
+        $$sg(s(y)) = 1$$
+      \item [(iv)]
+        \begin{question} $sg^*(x)$ \end{question}
+        $$sg^*(x) = \abs{one(x) - sg(x)}$$
+      \item [(v)]
+        \begin{question} $C^n_k(x_1,\cdots,x_n)=k$ \end{question}
+        $$C^n_k(x_1,\cdots,x_n) = s(C^n_{\abs{k-1}}(x_1,\cdots,x_n))$$
+        $$C^n_0(x_1,\cdots,x_n) = 0$$
+      \item [(vi)]
+        \begin{question} $pred(x)$ \end{question}
+        $$pred(x) = sg(x)\abs{x - 1}$$
+        
+    \end{enumerate}
+
+
+  \item
+    \begin{question}
+      $R(x_1, \cdots, x_n)$ is elementary iff its characteristic function is elementary. Let $R_1(x_1, \cdots, x_n)$ and $R_2(x_1, \cdots, x_n)$ be elementary.
+    \end{question}
+
+    \begin{enumerate}
+      \item
+        \begin{question}
+          Construct the characteristic functions for $\neg R_1(x_1,\cdots,x_n)$ and $R_1(x_1,\cdots,x_n) \land R_2(x_1,\cdots,x_n)$.
+        \end{question}
+
+        $$C_{\neg R_1}(x_1, \cdots, x_n) = \abs{one(x) - C_{R_1}(x_1, \cdots, x_n)}$$
+        $$C_{R_1 \land R_2} = C_{R_1}(x_1, \cdots, x_n) C_{R_2}(x_1, \cdots, x_n)$$
+      \item
+        \begin{question}
+          Show that if $R(x)$ is an arbitrary numerical relation and $\{ x : R(x) \}$ is finite, then $R(x)$ is elementary.
+        \end{question}
+
+        $R(x)$ is elementary iff $C_R(x)$ is elementary. First let's construct a relation: $E_k(x)$ holds iff $x=k$. We define its characteristic function as:
+        $$C_{E_k}(x) = sg^*(\abs{x-k})$$
+        Since its characteristic function is elementary, $E_k$ is elementary.\\
+        Since there are a finite number of $x$ such that $R(x)$ holds, let's say, without loss of generalization, that they are: $x_1, \cdots, x_n$. First, we define:
+        $$R_1 \lor R_2 \iff \neg(\neg R_1 \land \neg R_2)$$
+        Finally, we can define $R(x)$ as follows:
+        $$R(x) \iff E_{x_1}(x) \lor E_{x_2}(x) \lor \cdots \lor E_{x_n}(x)$$
+        Since both $E_k$ and logical or are elementary, $R(x)$ must be elementary as well.
+        
+    \end{enumerate}
+  \item 
+    \begin{question}
+      Show that the function $J(a,b)$ given by $\frac{1}{2}(a+b)(a+b+1) + a$ is onto.
+    \end{question}
+
+    First, we can show that $J$ is one-to-one. Say we have some $(a,b)$ and $(c,d)$ such that $J(a,b) = J(c,d)$. We can partition the set of all $(a,b,c,d)$ into 3 cases: either $(a+b) < (c+d)$, or $(a+b) = (c,d)$ or $(a+b) > (c+d)$.\\
+
+    Let's examine the first case. Suppose that $(c+d)$ is $x$ larger than $(a+b)$. We can show that it's impossible that $J(a,b) = J(c,d)$ if $x > 0$:
+    $$\frac{1}{2}(a+b+x)(a+b+x+1) - \frac{1}{2}(a+b)(a+b+1)$$
+    $$= \frac{1}{2}x(2a + 2b + x + 1)$$
+    If $x > 0$, then there is no way that $a$ can be large enough to make $J(a,b) = J(c,d)$ because the difference of the first monomials includes $a$ itself (from the $\frac{1}{2}(2a + \cdots)$). Because we've hit a contradiction, there's no way that $(a+b) < (c+d)$. And through symmetry, this also means that there's no way that $(c+d) < (a+b)$. So we now know that:
+    $$J(a,b) = J(c,d) \implies (a+b) = (c+d)$$
+    And if the sums are equal, then the first monomials must be equal ($\frac{1}{2}(a+b)(a+b+1) = \frac{1}{2}(c+d)(c+d+1)$), which then means that $a = c$. And if $a = c$ and $a+b = c+d$, then $b = d$.\\
+    This means that $J(a,b) = J(c,d) \implies a=b \land c=d$, which is the definition of one-to-one functions.
+
+
+
+
+    Let's consider all the terms of the sequence $(\frac{1}{2}(n)(n+1))$. The first is $\frac{1}{2}(0)(1) = 0$. And the distance between subsequent terms is:
+    $$\frac{1}{2}(n+1)(n+2) - \frac{1}{2}(n)(n+1) = n + 1$$
+    So inbetween subsequent terms, we can fit $n+1$ varying values of $a$ so that no values inbetween are left out. $a = 0, \cdots, n$, and we can define $b = n-a$.
+\end{enumerate}
+
+\end{document}
