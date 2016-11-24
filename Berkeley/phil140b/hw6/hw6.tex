@@ -1,0 +1,176 @@
+\input{../phil140b.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp, mathrsfs, amssymb, centernot}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand{\s}[1]{\overbrace{0''^{\cdots}}^{\text{#1 times}}}
+\newcommand{\brak}[1]{\ulcorner #1 \urcorner}
+\newcommand{\Diag}[1]{\text{Diag}(#1)}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+
+
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#6}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+    \begin{question}
+      Suppose that $B(y)$ is a provability predicate for $T$, where $T$ is consistent. Let $D(y)$ be the formula:
+      $$B(y) \land y \neq \brak{0=1}$$
+      Show that $D(y)$ meets the third condition of the definition of a provability predicate but not the second.
+    \end{question}
+
+    The third provability condition of a provability predicate $D(y)$ is:
+    $$\tarski_T D(\brak{A}) \implies D(\brak{D(\brak{A})})$$
+    $$\tarski_T B(\brak{A}) \land \brak{A} \neq \brak{0=1} \implies D(\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}})$$
+    $$\tarski_T B(\brak{A}) \land \brak{A} \neq \brak{0=1} \implies B(\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}}) \land \brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}} \neq \brak{0=1}$$
+
+    Because of (P1), we know that:
+    $$\tarski_T B(\brak{A}) \land \brak{A} \neq \brak{0=1} \implies B(\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}})$$
+
+    And using the coding scheme discussed in class (and chapter 15), we know that since $\brak{0=1}$ is inside the sentence $B(\brak{A}) \land \brak{A} \neq \brak{0=1}$, we know that the number $\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}}$ must be some number where there are a sequence of digits on either side of $\brak{0=1}$, so we know that $\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}}$ can't be equal to $\brak{0=1}$. With this we have the third provability condition:
+    $$\tarski_T B(\brak{A}) \land \brak{A} \neq \brak{0=1} \implies B(\brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}}) \land \brak{B(\brak{A}) \land \brak{A} \neq \brak{0=1}} \neq \brak{0=1}$$
+
+    For the second provability condition of $D(y)$ to be incorrect would mean:
+    $$\tarski_T D(\brak{A_1 \implies A_2}) \centernot \implies (D(\brak{A_1}) \implies D(\brak{A_2}))$$
+    Replacing all of the negations:
+    $$\tarski_T B(\brak{A_1 \implies A_2}) \land \brak{A_1 \implies A_2} \neq \brak{0=1} \centernot \implies (B(\brak{A_1}) \land \brak{A_1} \neq \brak{0=1} \implies B(\brak{A_2}) \land \brak{A_2} \neq \brak{0=1})$$
+    $$\tarski_T B(\brak{A_1 \implies A_2}) \land \brak{A_1 \implies A_2} \neq \brak{0=1} \land \neg (B(\brak{A_1}) \land \brak{A_1} \neq \brak{0=1} \implies B(\brak{A_2}) \land \brak{A_2} \neq \brak{0=1})$$
+    $$\tarski_T B(\brak{A_1 \implies A_2}) \land \brak{A_1 \implies A_2} \neq \brak{0=1} \land (B(\brak{A_1}) \land \brak{A_1} \neq \brak{0=1} \land \neg (B(\brak{A_2}) \land \brak{A_2} \neq \brak{0=1}))$$
+    $$\tarski_T B(\brak{A_1 \implies A_2}) \land \brak{A_1 \implies A_2} \neq \brak{0=1} \land B(\brak{A_1}) \land \brak{A_1} \neq \brak{0=1} \land (\neg B(\brak{A_2}) \lor \brak{A_2} = \brak{0=1})$$
+    As discussed above, it should be clear that $\brak{A_1 \implies A_2} \neq \brak{0=1}$ is true by the construction of codes. So instead we can show the truth of:
+    $$\tarski_T B(\brak{A_1 \implies A_2}) \land B(\brak{A_1}) \land \brak{A_1} \neq \brak{0=1} \land (\neg B(\brak{A_2}) \lor \brak{A_2} = \brak{0=1})$$
+    If we have a consistent system and if $A_1$ is not $0 = 1$, which would imply \textbf{any} sentence, from (P2) we have:
+    $$\tarski_T B(\brak{A_1}) \land B(\brak{A_1 \implies A_2}) \implies B(\brak{A_2})$$
+
+    However, if $B(\brak{A_1}) \land B(\brak{A_1 \implies A_2}) \land \neg B(\brak{A_2})$, we have an inconsistency with our last property, and so we can prove anything, namely $\brak{A_2} = \brak{0 = 1}$.
+    So the statement \textbf{must} be true, meaning that the second provability predicate condition is false.
+  \item
+    \begin{question}
+      Let $B(y)$ be a provability predicate for $T$ (extending $Q$). Show that $T$ proves the following:
+    \end{question}
+
+    \begin{enumerate}
+      \item [(i)]
+        \begin{question}
+          $B(\brak{A \land C}) \iff (B(\brak{A}) \land B(\brak{C}))$
+        \end{question}
+
+        First we can show:
+        $$B(\brak{\neg A}) \iff \neg B(\brak{A})$$
+        We know that if you can prove $\neg A$, then there is no way to prove $A$, since this would introduce an inconsistency to the system. So we have:
+
+        $$B(\brak{A \land C})$$
+        $$\iff B(\brak{\neg (\neg A \lor \neg C)})$$
+        $$\iff B(\brak{\neg (A \implies \neg C)})$$
+        Using what we proved above:
+        $$\iff \neg B(\brak{A \implies \neg C})$$
+        And using (P2):
+        $$\iff \neg (B(\brak{A}) \implies B(\brak{\neg C}))$$
+        $$\iff \neg (B(\brak{A}) \implies \neg B(\brak{C}))$$
+        $$\iff \neg (\neg B(\brak{A}) \lor \neg B(\brak{C}))$$
+        $$\iff B(\brak{A}) \land B(\brak{C})$$
+      \item [(ii)]
+        \begin{question}
+          $B(\brak{0=1}) \implies B(\brak{A})$
+        \end{question}
+
+        Since $Q$ has $0 \neq 1$ as an axiom, T is consistent if and only if $\centernot \tarski_T B(\brak{0=1})$. So if $\tarski_T B(\brak{0=1})$, then T is inconsistent, and so for any sentence $A$:
+        $$\tarski_T A$$
+        And from (P1), we have $\tarski_T B(\brak{A})$.
+      \item [(iii)]
+        \begin{question}
+          $B(\brak{A}) \implies (B(\brak{\neg A}) \implies B(\brak{0=1}))$
+        \end{question}
+
+        This is equivalent to:
+        $$\neg B(\brak{A}) \lor (\neg B(\brak{\neg A}) \lor B(\brak{0=1}))$$
+        And using the negation property we showed in (i):
+        $$\neg B(\brak{A}) \lor B(\brak{A}) \lor B(\brak{0=1})$$
+        This is true simply because if we have a consistent system, then either $B(\brak{A})$ or $\neg B(\brak{A})$, and if we don't have a consistent system, then $B(\brak{0=1})$.
+    \end{enumerate}
+
+
+  \item
+    \begin{question}
+      Suppose $B(y)$ is a provability predicate for $T$. Use the existence of a sentence $G$ such that:
+      $$\tarski_T G \iff B(\brak{G})$$
+      to construct an ``alternative'' proof that if $T$ is consistent, then not:
+      $$\tarski_T \neg B(\brak{0=1})$$
+      Suggestion : show
+      $$\tarski_T B(\brak{B(\brak{G})}) \implies B(\brak{\neg G}),$$
+      $$\tarski_T B(\brak{G}) \implies B(\brak{\neg G}),$$ and
+      $$\tarski_T B(\brak{G}) \implies (B(\brak{\neg G}) \implies B(\brak{0=1}))$$
+      Conclude that if $\tarski_T \neg B(\brak{0=1})$, then:
+      $$\tarski_T \neg B(\brak{G}),$$
+      $$\tarski_T G,$$ and
+      $$\tarski_T B(\brak{G})$$
+    \end{question}
+
+    Assume:
+    $$(1) \tarski_T B(\brak{B(\brak{G})}) \implies B(\brak{\neg G})$$
+    Then, from (P3), we have:
+    $$(2) \tarski_T B(\brak{G}) \implies B(\brak{B(\brak{G})}) \implies B(\brak{\neg G})$$
+    Since $T$ is consistent, $\neg B(\brak{G}) \lor \neg B(\brak{\neg G}) \lor B(\brak{0=1})$ must be true, since you cannot prove both $G$ and $\neg G$ while still maintaining a consistent system. This is equivalent to:
+    $$(3) \tarski_T B(\brak{G}) \implies (B(\brak{\neg G}) \implies B(\brak{0=1}))$$
+
+    With this all in mind, suppose that $\tarski_T \neg B(\brak{0=1})$. Then if $\tarski_T B(\brak{G})$, then from (3), we know that $\tarski_T \neg B(\brak{\neg G})$. And from (2), we know that $\tarski_T \neg B(\brak{G})$, which is an inconsistency. But if $\tarski_T \neg B(\brak{G})$, then we get $\tarski_T G$ and $\tarski_T B(\brak{G})$, which is also inconsistent.\\
+
+    Since our assumption lead to an inconsistency, we know $\centernot \tarski_T \neg B(\brak{0=1})$
+
+
+  \item
+    \begin{question}
+      Suppose that $B(y)$ is a provability predicate for $T$ and that $\tarski_T B(\brak{A}) \implies C$ and that $\tarski_T B(\brak{C}) \implies A$. Show that $\tarski_T A$ and $\tarski_T C$.
+    \end{question}
+
+    Let $D(y)$ be the formula $B(y) \implies A$, and let $E(y)$ be the formula $B(y) \implies C$ and apply the diagonal lemma to obtain sentences $D, E$ such that:
+    $$(1) \tarski_T D \iff B(\brak{D}) \implies A$$
+    $$(2) \tarski_T E \iff B(\brak{E}) \implies C$$
+    By (P1), we have:
+    $$(3) \tarski_T B(\brak{D \iff B(\brak{D}) \implies A})$$
+    $$(4) \tarski_T B(\brak{E \iff B(\brak{E}) \implies C})$$
+
+    By (P2), we have:
+    $$(5) \tarski_T B(\brak{D}) \implies B(\brak{B(\brak{D}) \implies A})$$
+    $$(6) \tarski_T B(\brak{E}) \implies B(\brak{B(\brak{E}) \implies C})$$
+    $$(7) \tarski_T B(\brak{D}) \implies (B(\brak{B(\brak{D})}) \implies B(\brak{A}))$$
+    $$(8) \tarski_T B(\brak{E}) \implies (B(\brak{B(\brak{E})}) \implies B(\brak{C}))$$
+    From (P3) we have:
+    $$(9) \tarski_T B(\brak{D}) \implies B(\brak{B(\brak{D})})$$
+    $$(10) \tarski_T B(\brak{E}) \implies B(\brak{B(\brak{E})})$$
+    Combining (7) and (9) and (8) and (10) we get:
+    $$(11) \tarski_T B(\brak{D}) \implies B(\brak{A})$$
+    $$(12) \tarski_T B(\brak{E}) \implies B(\brak{C})$$
+
+    Combining (11) and (12) with the formulas stated in the problem:
+    $$(13) \tarski_T B(\brak{D}) \implies C$$
+    $$(14) \tarski_T B(\brak{E}) \implies A$$
+
+    Then combining (1) with (13) and (2) with (14) we get:
+    $$(15) \tarski_T D$$
+    $$(16) \tarski_T E$$
+
+    And with (P1):
+    $$(17) \tarski_T B(\brak{D})$$
+    $$(18) \tarski_T B(\brak{E})$$
+
+    And combining (13) with (17) and (14) with (18) we finally get:
+    $$\tarski_T C$$
+    $$\tarski_T A$$
+
+\end{enumerate}
+
+\end{document}

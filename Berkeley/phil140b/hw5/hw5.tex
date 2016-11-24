@@ -1,0 +1,117 @@
+\input{../phil140b.tex}
+\usepackage{amsmath, dsfont, mathtools, verbatim, tikz, float, textcomp, mathrsfs, amssymb}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\?}{\stackrel{?}{=}}
+\newcommand{\s}[1]{\overbrace{0''^{\cdots}}^{\text{#1 times}}}
+\newcommand{\brak}[1]{\ulcorner #1 \urcorner}
+\newcommand{\Diag}[1]{\text{Diag}(#1)}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+
+
+
+\begin{document}
+
+\solution{Nikhil Unni}{Assignment \#5}{Spring 2016}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+    \begin{question}
+      Consider the theory Q given in class (this is the theory called R in section 16.4 of the book). Show by metatheoretical induction that if $i*j = k$, then $\tarski_Q \textbf{i}*\textbf{j} = \textbf{k}$.
+    \end{question}
+    First, let's prove that $i+j=k \implies \s{i} + \s{j} = \s{i+j}$. We'll do this through induction:\\
+
+    Base Case: If $j=0$, then $i+j=k=i$, and by (Q3), we know that:
+    $$\textbf{i} + \textbf{0} = \textbf{i}$$
+    $$\textbf{i} + \textbf{j} = \textbf{k}$$
+
+    Inductive Case: Assume for all $n < j$ that $i+n = k \implies \s{i} + \s{n} = \s{k}$. Then from (Q4) we have:
+    $$\s{i} + (\s{j-1})' = (\s{i} + \s{j-1})'$$
+    Using our inductive hypothesis:
+    $$= (\s{i+j-1})' = \s{i+j}$$\\
+
+    Now we want to show that $\s{i} * \s{j} = \s{k}$. And we'll do this through induction:\\
+
+
+
+
+    Base Case : If $j=0$, then $i*j = k = 0$, and by (Q5), we know that:
+    $$\textbf{i} * \textbf{0} = \textbf{0}$$
+    $$\textbf{i} * \textbf{j} = \textbf{k}$$
+
+    Inductive Case : Assume for all $n < j$ that $i*n = k \implies \s{i} * \s{n} = \s{k}$. Then from (Q6) we have:
+    $$\s{i} * (\s{j-1})' = (\s{i} * \s{j-1}) + \s{i}$$
+    Using our inductive hypothesis:
+    $$= (\s{i(j-1)}) + \s{i} = \s{ij - i} + \s{i}$$
+    And using our last proof:
+    $$= \s{ij - i + i} = \s{ij}$$
+
+    \pagebreak
+  \item
+    \begin{question}
+      A formula $B(y)$ is called a truth-predicate for T if for any sentence G of the language T, $\tarski_T G \iff B(\brak{G})$. Show that if T is a consistent theory in which diag is representable, then there is no truth-predicate for T.
+    \end{question}
+
+    Assume there is such a truth-predicate, $B(y)$ in our consistent theory T. Let's construct a few preliminary sentences:
+    $$A(x) \iff \exists y (\Diag{x,y} \land \neg B(y))$$
+    $$a = \brak{A(x)}$$
+    (This is using Diag as the representation of diag in T, as per the book's convention.)
+    $$G \iff \exists x (x = \textbf{a} \land A(x))$$
+    $$g = \brak{G}$$
+    By construction $G$ is equivalent to:
+    $$\iff \exists x (x = \textbf{a} \land \exists y (\Diag{x,y} \land \neg B(y))) \iff \exists y (\Diag{\textbf{a},y} \land \neg B(y))$$
+    So then we have:
+    $$\tarski_T G \iff \exists y (\Diag{\textbf{a},y} \land \neg B(y))$$
+    And since $G$ is the diagonalization of $A(x)$ we also have:
+    $$\tarski_T \forall y (\Diag{\textbf{a},y} \iff y = \textbf{g})$$
+    Combining the last two formulas we get:
+    $$\tarski_T G \iff \exists y (y = \textbf{g} \land \neg B(y))$$
+    Or:
+    $$\tarski_T G \iff \neg B(\textbf{g}) \iff \neg B(\brak{G})$$
+    But this is a contradiction with the original definition of $B(y)$, meaning that no such truth-predicate can exist.
+
+  \item
+    \begin{question}
+      A set $S$ of natural numbers is called recursively enumerable (r.e.) if there is a two-place recursive relation R such that $S = \{ x : \exists y R x y \}$. Show that for any set $S$, $S$ is recursive iff both $S$ and its complement ($\mathds{N}-S$) are recursively enumerable.
+    \end{question}
+
+    If $S$ is recursive:\\
+    then it must have some recursive characteristic function $f_S$ s.t. $s \in S \iff f_S(s) = 1$ and $s \not \in S \iff f_S(s) = 0$. Then we can easily define our relations:
+    $$R_S x y \iff (f_S(x)=y) \land (y=1)$$
+    $$R_{\mathds{N}-S} x y \iff (f_S(x)=y) \land (y=0)$$\\
+
+    If $S$ and $\mathds{N} - S$ are r.e.:\\
+    then there must exist relations $R_S$ and $R_{\mathds{N}-S}$ as described above. We can construct a recursive characteristic function to show $S$ is recursive:
+    $$f_S(x) = f'_S(x,0)$$
+    $$f'_S(x,y) =
+    \begin{cases}
+      1 & R_S x y \\
+      0 & R_{\mathds{N}-S} x y\\
+      f'_S(x,y+1) & \text{else}
+    \end{cases}
+    $$
+    $f'_S(x,0)$ (and therefore $f_S$) is guaranteed to halt in a finite amount of time because for a given $x$ either $R_S$ or $R_{\mathds{N}-S}$ is guaranteed to be true for some $y$. This means we have an effective procedure, and so $f_S$ is a valid recursive characteristic function.
+
+
+
+
+  \item
+    \begin{question}
+      Show that all r.e. sets are definable in arithmetic (i.e. the theory consisting of $L(Q)$ that are true in $\mathds{N}$).
+    \end{question}
+
+    All r.e. sets have some two-place recursive relation R such that $S = \{x : \exists y R x y \}$. Furthermore, it was shown in the book (not the chapter PDFs) in Theorem 16.16 that every recursive relation is representable in Q. Say that $\phi(x,y,w)$ represents the recursive relation in Q. Then we can arithmetically define r.e. sets as:
+    $$F(x,y) \iff \phi(x,y,1)$$
+\end{enumerate}
+
+\end{document}
